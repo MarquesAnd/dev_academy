@@ -15,9 +15,10 @@ window.DA = (function(){
   }
   async function client(){
     if(sb) return sb;
-    if(!(window.SUPABASE_CONFIG && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey)) throw { code:'config' };
+    const CFG = (typeof SUPABASE_CONFIG !== 'undefined' && SUPABASE_CONFIG) ? SUPABASE_CONFIG : (window.SUPABASE_CONFIG || null);
+    if(!(CFG && CFG.url && CFG.anonKey)) throw { code:'config' };
     if(!await lib()) throw { code:'lib' };
-    sb = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+    sb = window.supabase.createClient(CFG.url, CFG.anonKey);
     return sb;
   }
   async function session(){
