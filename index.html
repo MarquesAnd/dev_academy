@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Academy · Equilibrium</title>
+<link rel="stylesheet" href="shared/dev-academy.css">
+</head>
+<body class="locked">
+
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-ast">✱</div>
+    <h1>Dev Academy</h1>
+    <div class="gate-sub">A escola de programação da Equilibrium. Entre com sua conta — seu progresso e seus certificados moram na nuvem. ✨</div>
+    <div id="gateForm">
+      <input id="gNome" type="text" placeholder="seu nome (para o certificado 🎓)" autocomplete="name" style="display:none">
+      <input id="gEmail" type="email" placeholder="seu e-mail" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+      <input id="gPass" type="password" placeholder="senha (mínimo 6 caracteres)" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="authbtns">
+        <button class="da-btn" onclick="doLogin()">🔓 Entrar</button>
+        <button class="da-btn outline" onclick="doSignup()">✨ Criar conta</button>
+      </div>
+    </div>
+    <div class="gate-msg" id="gateMsg"></div>
+  </div>
+</div>
+
+<div class="da-wrap" id="app" style="display:none">
+  <div class="da-hero">
+    <div class="bigast">✱</div>
+    <h1>Olá, <span id="heroNome">dev</span>! 👋</h1>
+    <p id="heroSub">Bem-vindo(a) de volta à sua jornada. Continue de onde parou — cada lição de 5 minutos te deixa mais dono(a) do seu próprio sistema.</p>
+    <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <a class="da-btn" href="curso-cortex.html" id="ctaCurso">▶ Continuar o curso</a>
+      <span class="da-pill" id="heroRank">🎖️ Estagiário(a) 🌱</span>
+      <span class="da-pill" id="heroXp">⚡ 0 XP</span>
+    </div>
+  </div>
+
+  <div class="da-grid">
+    <div class="da-card">
+      <div class="top g-blue"><span class="emo">🧠</span><div><h3>CORTEX Academy</h3><small>Programação do zero com o seu sistema</small></div></div>
+      <div class="body">
+        <div class="da-prog"><div id="pgBar" style="width:0%"></div></div>
+        <div class="da-note" id="pgTxt">Carregando progresso...</div>
+        <a class="da-btn" href="curso-cortex.html" style="margin-top:auto" id="btnCurso">▶ Abrir o curso</a>
+      </div>
+    </div>
+    <div class="da-card">
+      <div class="top g-purple"><span class="emo">📚</span><div><h3>Cursos</h3><small>Sua estante de conhecimento</small></div></div>
+      <div class="body">
+        <div class="da-note">Veja todos os cursos disponíveis e os próximos lançamentos da Academy.</div>
+        <a class="da-btn outline" href="cursos.html" style="margin-top:auto">Ver cursos →</a>
+      </div>
+    </div>
+    <div class="da-card">
+      <div class="top g-amber"><span class="emo">🎓</span><div><h3>Certificados</h3><small>Suas conquistas oficiais</small></div></div>
+      <div class="body">
+        <div class="da-note" id="certNote">Complete um curso para desbloquear seu primeiro certificado.</div>
+        <a class="da-btn outline" href="certificados.html" style="margin-top:auto">Meus certificados →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="shared/dev-academy.js"></script>
+<script>
+const gv = id => document.getElementById(id).value.trim();
+function gateMsg(t, ok){
+  const m = document.getElementById('gateMsg');
+  if(t === null){ m.style.display='none'; return; }
+  m.style.display='block'; m.innerHTML = (ok===true?'✅ ':ok===false?'⚠️ ':'')+t;
+}
+function gateFatal(t){ document.getElementById('gateForm').style.display='none'; gateMsg(t,false); }
+async function doLogin(){
+  const email = gv('gEmail'), pass = gv('gPass');
+  if(!email || !pass) return gateMsg('Preencha e-mail e senha.', false);
+  gateMsg('Conferindo o crachá na portaria... ⏳', true);
+  const r = await DA.login(email, pass);
+  if(r.error) return gateMsg(r.error, false);
+  entrar();
+}
+async function doSignup(){
+  const nomeEl = document.getElementById('gNome');
+  if(nomeEl.style.display === 'none'){
+    nomeEl.style.display = 'block'; nomeEl.focus();
+    return gateMsg('Digite seu <b>nome</b> (vai no certificado! 🎓) e toque em Criar conta de novo.', true);
+  }
+  const email = gv('gEmail'), pass = gv('gPass'), nome = gv('gNome');
+  if(!email || !pass) return gateMsg('Preencha e-mail e senha.', false);
+  gateMsg('Fabricando seu crachá... ⏳', true);
+  const r = await DA.signup(email, pass, nome);
+  if(r.error) return gateMsg(r.error, false);
+  if(r.confirmar) return gateMsg('Conta criada! 📧 Confirme no seu e-mail e depois toque em Entrar. (Dica de admin: dá pra desligar essa confirmação em Authentication → Providers → Email.)', true);
+  DA.confetti(); entrar();
+}
+async function entrar(){
+  document.getElementById('gate').style.display = 'none';
+  document.body.classList.remove('locked');
+  DA.nav('home');
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('heroNome').textContent = DA.nome();
+  const { rows, error } = await DA.listProgress();
+  if(error && /relation|schema cache/i.test(error)){
+    document.getElementById('pgTxt').innerHTML = '⚠️ Rode o SQL de instalação no Supabase (tabela <b>progresso_cursos</b>) e recarregue.';
+    return;
+  }
+  const cx = rows.find(r=>r.curso_id === 'cortex-fundamentos');
+  const estado = cx ? (cx.estado||{}) : {};
+  const total = 61;
+  const feitos = (estado.done||[]).length;
+  const pct = Math.min(100, Math.round(feitos/total*100));
+  document.getElementById('pgBar').style.width = pct+'%';
+  document.getElementById('pgTxt').textContent = pct===0 ? 'Você ainda não começou — bora? 🚀' : pct+'% concluído · '+feitos+' de '+total+' etapas · ⚡ '+(estado.xp||0)+' XP';
+  document.getElementById('heroXp').textContent = '⚡ '+(estado.xp||0)+' XP';
+  document.getElementById('heroRank').textContent = '🎖️ '+DA.rankFor(estado.xp||0);
+  document.getElementById('btnCurso').textContent = pct===0 ? '▶ Começar o curso' : (pct===100 ? '🏆 Revisitar o curso' : '▶ Continuar o curso');
+  document.getElementById('ctaCurso').textContent = document.getElementById('btnCurso').textContent;
+  if(estado.dip) document.getElementById('certNote').innerHTML = '🎉 Você tem um certificado esperando! <b>CORTEX Academy</b> concluído.';
+}
+(async function init(){
+  try{
+    const u = await DA.session();
+    if(u) entrar();
+    else{ document.body.classList.add('locked'); gateMsg(null); document.getElementById('gEmail').focus(); }
+  }catch(e){
+    if(e.code === 'config') gateFatal('Falta ligar a nuvem: abra o arquivo <b>config.js</b> e cole a URL e a anon key do projeto Supabase da Academy. ✱');
+    else if(e.code === 'lib') gateMsg('Não consegui carregar a biblioteca da nuvem. Confira a internet e recarregue.', false);
+    else gateMsg('A nuvem não respondeu ('+(e.message||'erro')+'). Recarregue e tente de novo.', false);
+  }
+})();
+</script>
+</body>
+</html>

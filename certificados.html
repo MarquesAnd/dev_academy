@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificados · Dev Academy</title>
+<link rel="stylesheet" href="shared/dev-academy.css">
+</head>
+<body class="locked">
+<div class="da-wrap">
+  <div class="da-hero no-print">
+    <div class="bigast">🎓</div>
+    <h1>Seus <span>certificados</span></h1>
+    <p>Conquistas oficiais da Dev Academy. Complete um curso inteiro (todas as lições + todos os quizzes) para emitir o seu.</p>
+  </div>
+  <div id="area"></div>
+</div>
+<script src="config.js"></script>
+<script src="shared/dev-academy.js"></script>
+<script>
+(async function(){
+  const u = await DA.requireAuth(); if(!u) return;
+  DA.nav('certificados');
+  const { rows } = await DA.listProgress();
+  const area = document.getElementById('area');
+  const NOMES = { 'cortex-fundamentos': 'CORTEX Academy — Programação do Zero ao Projeto Final' };
+  const certs = rows.filter(r => r.estado && r.estado.dip);
+  if(certs.length === 0){
+    const cx = rows.find(r=>r.curso_id==='cortex-fundamentos');
+    const feitos = cx ? ((cx.estado||{}).done||[]).length : 0;
+    area.innerHTML = '<div class="da-card"><div class="top g-navy"><span class="emo">🔒</span><div><h3>Nenhum certificado ainda</h3><small>Mas você está a caminho!</small></div></div>'+
+      '<div class="body"><div class="da-note">Progresso no CORTEX Academy: <b>'+feitos+' de 61 etapas</b>. Ao concluir 100%, seu certificado aparece aqui, com seu nome, pronto para imprimir ou salvar em PDF.</div>'+
+      '<a class="da-btn" href="curso-cortex.html" style="margin-top:auto">▶ Continuar o curso</a></div></div>';
+    return;
+  }
+  area.innerHTML = certs.map(c=>{
+    const e = c.estado||{};
+    const quando = e.dip_em ? new Date(e.dip_em) : new Date(c.atualizado_em);
+    const data = quando.toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+    return '<div class="cert">'+
+      '<div class="marca">✱</div>'+
+      '<div style="font-size:2.4rem">🎓</div>'+
+      '<h2>CERTIFICADO DE CONCLUSÃO</h2>'+
+      '<div class="sub">A <b>Dev Academy · Equilibrium</b> certifica que</div>'+
+      '<div class="nome">'+DA.nome()+'</div>'+
+      '<div class="sub">concluiu com êxito o curso<br><b>'+(NOMES[c.curso_id]||c.curso_id)+'</b><br>'+
+      'dominando HTML, CSS, JavaScript, SQL/Supabase e o protocolo profissional de manutenção — com <b>⚡ '+(e.xp||0)+' XP</b> conquistados.</div>'+
+      '<div class="selo">👑 Diretor(a) Clínico(a) do Código</div>'+
+      '<div class="sub" style="margin-top:14px">Uberlândia/MG · '+data+'</div>'+
+      '<div class="sub" style="margin-top:4px">✱ Prof. Asterisco · Dev Academy</div>'+
+      '<button class="da-btn no-print" style="margin-top:16px" onclick="window.print()">🖨️ Imprimir / salvar PDF</button>'+
+    '</div>';
+  }).join('<div style="height:20px"></div>');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursos · Dev Academy</title>
+<link rel="stylesheet" href="shared/dev-academy.css">
+</head>
+<body class="locked">
+<div class="da-wrap">
+  <div class="da-hero">
+    <div class="bigast">📚</div>
+    <h1>Sua estante de <span>cursos</span></h1>
+    <p>Cada curso usa um sistema REAL como material didático. Sem exemplos genéricos de apostila — aqui você aprende no código que paga as contas. 😄</p>
+  </div>
+  <div class="da-grid" id="lista"></div>
+</div>
+<script src="config.js"></script>
+<script src="shared/dev-academy.js"></script>
+<script>
+(async function(){
+  const u = await DA.requireAuth(); if(!u) return;
+  DA.nav('cursos');
+  const { rows } = await DA.listProgress();
+  const cx = rows.find(r=>r.curso_id==='cortex-fundamentos');
+  const estado = cx ? (cx.estado||{}) : {};
+  const pct = Math.min(100, Math.round(((estado.done||[]).length/61)*100));
+  const lista = document.getElementById('lista');
+  lista.innerHTML =
+    '<div class="da-card">'+
+      '<div class="top g-blue"><span class="emo">🧠</span><div><h3>CORTEX Academy</h3><small>Programação do zero ao projeto final</small></div></div>'+
+      '<div class="body">'+
+        '<div class="da-note">10 módulos · 61 etapas · HTML, CSS, JavaScript, SQL, Supabase e manutenção — tudo com exemplos reais do CORTEX.</div>'+
+        '<div class="da-prog"><div style="width:'+pct+'%"></div></div>'+
+        '<div class="da-note">'+(pct===0?'Ainda não iniciado':(pct===100?'🏆 100% concluído — Diretor(a) Clínico(a) do Código!':pct+'% concluído · ⚡ '+(estado.xp||0)+' XP'))+'</div>'+
+        '<a class="da-btn" href="curso-cortex.html" style="margin-top:auto">'+(pct===0?'▶ Começar':'▶ Continuar')+'</a>'+
+      '</div>'+
+    '</div>'+
+    [['🗄️','SQL Avançado na prática','Relatórios, índices e performance direto no banco do CORTEX.'],
+     ['🤖','Automação & IA na clínica','Edge Functions, integrações e assistentes para o dia a dia.'],
+     ['🚀','Git & Deploy profissional','Branches, versões e publicações sem medo.']]
+    .map(c=>'<div class="da-card" style="opacity:.75">'+
+      '<div class="top g-gray"><span class="emo">'+c[0]+'</span><div><h3>'+c[1]+'</h3><small>Próxima turma da Academy</small></div></div>'+
+      '<div class="body"><div class="da-note">'+c[2]+'</div>'+
+      '<button class="da-btn" disabled style="margin-top:auto">🔒 Em breve</button></div></div>').join('');
+})();
+</script>
+</body>
+</html>
