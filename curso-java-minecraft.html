@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Java no Minecraft · Dev Academy</title>
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#141F3C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dev Academy">
+<style>
+:root{--navy:#141F3C;--blue:#2F6FED;--purple:#7C4DFF;--amber:#F59E0B;--green:#22C55E;--red:#EF4444;--rosa:#EC4899;--teal:#0D9488;--bg:#ECEEF3;--ink:#1B2440;--line:#DCE1EC;--shadow:0 8px 22px rgba(20,31,60,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Verdana,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+body.locked header,body.locked main{display:none}
+body.locked::after{content:'✱';position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;background:linear-gradient(160deg,var(--navy),#23306B);z-index:70;animation:girar 1.6s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+body.dys{font-size:1.06rem;letter-spacing:.02em;word-spacing:.08em}
+body.dys .lesson p, body.dys .lesson li{line-height:2}
+header{position:sticky;top:0;z-index:50;background:linear-gradient(120deg,var(--navy) 0%,#1E2C5C 55%,#2A2560 100%);color:#fff;padding:12px 18px;box-shadow:var(--shadow);padding-top:calc(12px + env(safe-area-inset-top))}
+.hrow{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;cursor:pointer}
+.ast{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.5)}
+.hspace{flex:1}
+.pill{background:rgba(255,255,255,.13);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:800}
+.pill.xp{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.btn-ghost{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:7px 12px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;text-decoration:none}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-inset-bottom))}
+.screen{display:none;animation:pop .3s ease}
+.screen.active{display:block}
+.btn{border:none;font-family:inherit;font-weight:800;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:12px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 16px rgba(47,111,237,.35);transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn.small{padding:9px 14px;font-size:.85rem}
+.btn.green{background:linear-gradient(135deg,var(--green),#15803D);box-shadow:0 6px 16px rgba(34,197,94,.35)}
+.btn.amber{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00;box-shadow:0 6px 16px rgba(245,158,11,.35)}
+.btn.outline{background:#fff;color:var(--blue);border:2px solid var(--blue);box-shadow:none}
+/* hero + home */
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#14532D,#16A34A 55%,#84CC16);color:#fff;border-radius:22px;padding:32px 28px;margin-bottom:20px;box-shadow:0 18px 44px rgba(22,163,74,.4)}
+.hero .bigast{position:absolute;right:-26px;top:-40px;font-size:13rem;opacity:.10;transform:rotate(12deg)}
+.hero h1{font-size:2rem;line-height:1.25;font-weight:800;margin-bottom:8px}
+.hero h1 span{background:linear-gradient(90deg,#BBF7D0,#FDE68A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:660px;opacity:.94;margin-bottom:14px}
+.progresso{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:18px}
+.pbar{height:14px;background:#E7EAF3;border-radius:999px;overflow:hidden;margin:8px 0}
+.pbar>div{height:100%;background:linear-gradient(90deg,var(--amber),#EA580C,var(--purple));border-radius:999px;transition:width .5s}
+.rankline{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.rk{font-size:.75rem;font-weight:800;padding:5px 11px;border-radius:999px;background:#EEF1F8;color:#8A93AC}
+.rk.on{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mod-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.mod-head{padding:15px 17px;color:#fff;display:flex;gap:11px;align-items:center}
+.mod-head .memo{font-size:1.7rem;filter:drop-shadow(0 3px 5px rgba(0,0,0,.25))}
+.mod-head h3{font-size:.98rem}
+.mod-head small{opacity:.9;font-weight:600;font-size:.75rem}
+.hh1{background:linear-gradient(135deg,#F97316,#C2410C)}
+.hh2{background:linear-gradient(135deg,var(--blue),#1D4ED8)}
+.hh3{background:linear-gradient(135deg,var(--rosa),#BE185D)}
+.hh4{background:linear-gradient(135deg,var(--teal),#0F766E)}
+.hh5{background:linear-gradient(135deg,var(--purple),#5B21B6)}
+.hh6{background:linear-gradient(135deg,var(--green),#15803D)}
+.hh7{background:linear-gradient(135deg,#06B6D4,#0E7490)}
+.hh8{background:linear-gradient(135deg,#6366F1,#4338CA)}
+.mod-body{padding:10px 14px 14px}
+.les-btn{display:flex;align-items:center;gap:9px;width:100%;border:none;background:#F4F6FB;font-family:inherit;text-align:left;font-size:.86rem;font-weight:700;color:var(--ink);border-radius:11px;padding:11px 13px;margin-top:7px;cursor:pointer;transition:all .15s}
+.les-btn:hover{background:#EDF2FF;transform:translateX(3px)}
+.les-btn.done{background:#E9FBEF;color:#15803D}
+.les-btn .ic{font-size:1rem}
+/* lição */
+.lesson{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:28px 26px;max-width:820px;margin:0 auto}
+.crumb{margin-bottom:12px}
+.chip{display:inline-block;color:#fff;font-size:.72rem;font-weight:800;padding:5px 13px;border-radius:999px}
+.lesson h2{color:var(--navy);font-size:1.45rem;margin-bottom:12px}
+.lesson h4{color:var(--navy);margin:16px 0 8px}
+.lesson p{line-height:1.75;margin-bottom:12px}
+.lesson mark{background:linear-gradient(120deg,#FDE68A,#FCD34D);padding:1px 6px;border-radius:6px;font-weight:700}
+.lesson code{background:#EEF1F8;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;font-size:.88em;color:#B4308F}
+.tbl{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:.88rem}
+.tbl th{background:var(--navy);color:#fff;padding:9px 11px;text-align:left}
+.tbl td{padding:9px 11px;border-bottom:1px solid var(--line);line-height:1.5}
+.codebox{background:#0F1B3D;border-radius:13px;margin:12px 0;overflow:hidden}
+.cb-top{background:#1B2A55;color:#8FA3D8;font-size:.72rem;font-weight:800;padding:7px 13px}
+.codebox pre{padding:13px 15px;color:#D6E1FF;font-family:Consolas,monospace;font-size:.84rem;line-height:1.7;overflow-x:auto;white-space:pre-wrap}
+.tk-tag{color:#7DD3FC}.tk-attr{color:#FDE047}.tk-str{color:#86EFAC}.tk-com{color:#64748B;font-style:italic}
+.box{border-radius:13px;padding:13px 15px;margin:13px 0;font-size:.9rem;line-height:1.65}
+.box .bt{font-weight:800;margin-bottom:4px}
+.box.tip{background:#EDF2FF;border-left:5px solid var(--blue)}
+.box.warn{background:#FEF3C7;border-left:5px solid var(--amber)}
+.box.gold{background:linear-gradient(120deg,#FEF3C7,#FDE68A);border-left:5px solid #D97706}
+.box.danger{background:#FEE2E2;border-left:5px solid var(--red)}
+.prof{display:flex;gap:11px;margin:14px 0;align-items:flex-start}
+.prof .face{width:44px;height:44px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.4)}
+.prof .bubble{background:#F4F6FB;border-radius:4px 16px 16px 16px;padding:12px 15px;font-size:.9rem;line-height:1.65}
+.done-btn{margin-top:16px}
+.done-flag{display:none;margin-top:10px;font-weight:800;color:#15803D}
+.done-flag.show{display:block;animation:pop .3s ease}
+.lnav{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
+/* playground */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.pg-lab{font-size:.72rem;font-weight:800;color:#5A6482;margin-bottom:4px}
+.pg textarea{width:100%;min-height:170px;border:2px solid #C9D2E6;border-radius:12px;padding:11px;font-family:Consolas,monospace;font-size:16px;line-height:1.55;resize:vertical;background:#0F1B3D;color:#D6E1FF}
+.pg iframe{width:100%;min-height:170px;height:100%;border:2px solid var(--line);border-radius:12px;background:#fff}
+/* lacunas */
+.fill{background:#F4F6FB;border-radius:14px;padding:14px;margin:12px 0}
+.fill .fdesc{font-size:.88rem;font-weight:700;margin-bottom:8px}
+.fill pre{background:#0F1B3D;color:#D6E1FF;border-radius:11px;padding:13px;font-family:Consolas,monospace;font-size:.9rem;line-height:2.1;overflow-x:auto;white-space:pre-wrap}
+.lac{width:110px;border:none;border-bottom:3px solid var(--amber);background:#1B2A55;color:#FDE047;font-family:Consolas,monospace;font-size:16px;font-weight:700;padding:3px 8px;border-radius:8px 8px 0 0;text-align:center}
+.lac:focus{outline:none;border-color:var(--blue)}
+.lac.ok{border-color:var(--green);color:#86EFAC}
+.lac.err{border-color:var(--red);color:#FCA5A5;animation:treme .3s}
+@keyframes treme{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.fill-msg{margin-top:9px;font-weight:800;font-size:.88rem;display:none}
+.fill-msg.show{display:block}
+/* montagem (blocos) */
+.mt{background:#F4F6FB;border-radius:16px;padding:14px;margin:12px 0}
+.mt-obj{background:linear-gradient(120deg,#EDF2FF,#F3EDFF);border-radius:11px;padding:10px 13px;font-size:.88rem;font-weight:700;margin-bottom:10px;line-height:1.5}
+.mt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt-pilha{min-height:130px;background:#fff;border:2px dashed #C9D2E6;border-radius:13px;padding:9px}
+.mt-pilha .vazio{color:#8A93AC;font-weight:700;font-size:.82rem;text-align:center;padding:24px 8px}
+.mt iframe{width:100%;min-height:150px;height:100%;border:2px solid var(--line);border-radius:13px;background:#fff}
+.bloco{position:relative;border:none;font-family:Consolas,monospace;color:#fff;font-weight:700;font-size:.82rem;padding:11px 14px 10px;border-radius:9px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.22),0 6px 12px rgba(20,31,60,.15);transition:transform .12s;display:flex;width:fit-content;align-items:center;gap:7px;margin:7px 6px 3px 0}
+.bloco:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
+.bloco::before,.bloco::after{content:'';position:absolute;top:-6px;width:14px;height:6px;border-radius:4px 4px 0 0;background:inherit;filter:brightness(1.13)}
+.bloco::before{left:10px}.bloco::after{left:31px}
+.bloco .x{opacity:.75;font-size:.75rem}
+.bk-texto{background:linear-gradient(180deg,#3B82F6,#2563EB)}
+.bk-lista{background:linear-gradient(180deg,#22C55E,#16A34A)}
+.bk-midia{background:linear-gradient(180deg,#F59E0B,#D97706);color:#3B2A00}
+.bk-link{background:linear-gradient(180deg,#EC4899,#BE185D)}
+.bk-form{background:linear-gradient(180deg,#F97316,#C2410C)}
+.bk-estr{background:linear-gradient(180deg,#8B5CF6,#6D28D9)}
+.mt-caixa{border-left:9px solid #16A34A;border-radius:0 11px 11px 9px;background:#E9FBEF;padding:4px 8px 8px 11px;margin:6px 0;width:fit-content;min-width:190px}
+.mt-caixa.roxa{border-color:#6D28D9;background:#F3EDFF}
+.mt-solo{border:2px dashed #86EFAC;border-radius:9px;padding:5px 9px;margin-top:4px;font-size:.75rem;font-weight:800;color:#15803D;cursor:pointer;background:#fff;width:fit-content}
+.mt-solo.ativo{background:#FDE047;border-color:#EAB308;color:#713F12;animation:pulsar 1.1s ease infinite}
+@keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.mt-msg{margin-top:9px;border-radius:11px;padding:10px 12px;font-size:.87rem;font-weight:700;display:none;line-height:1.5}
+.mt-msg.show{display:block}
+.mt-msg.ok{background:#D1FAE5;color:#065F46}
+.mt-msg.err{background:#FEE2E2;color:#991B1B}
+/* quiz */
+.qq{background:#F4F6FB;border-radius:14px;padding:15px;margin:12px 0}
+.qq .qp{font-weight:800;margin-bottom:9px;line-height:1.5}
+.qopt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:11px;padding:11px 13px;margin-top:7px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
+.qopt:hover{border-color:var(--blue)}
+.qopt.certa{border-color:var(--green);background:#E9FBEF}
+.qopt.errada{border-color:var(--red);background:#FEE2E2}
+.qwhy{display:none;margin-top:9px;font-size:.85rem;background:#EDF2FF;border-radius:10px;padding:10px 12px;line-height:1.6}
+.qwhy.show{display:block}
+/* modais */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:70;padding:18px}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:22px;padding:30px 26px;text-align:center;width:min(430px,94vw);animation:pop .35s ease;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modal .me{font-size:2.8rem}
+.modal h3{color:var(--navy);margin:6px 0 8px}
+.modal p{color:#5A6482;font-size:.92rem;line-height:1.6;margin-bottom:14px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:.9rem;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;transition:all .3s;z-index:80;max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+@media(max-width:700px){
+  .pg,.mt-grid{grid-template-columns:1fr}
+  .lesson{padding:22px 16px}
+  .hero{padding:24px 18px}.hero h1{font-size:1.5rem}
+  .hrow{row-gap:8px}.pill{font-size:.7rem;padding:5px 9px}.btn-ghost{font-size:.7rem;padding:6px 9px}
+  .tbl{display:block;overflow-x:auto}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+.jbox{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:860px){.jbox{grid-template-columns:1fr}}
+.jbox textarea{width:100%;min-height:230px;border:2px solid #C9D2E6;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:.86rem;line-height:1.5;background:#0F172A;color:#E2E8F0;resize:vertical}
+.jbox textarea:focus{outline:none;border-color:#16A34A}
+.jb-in{min-height:64px!important;background:#1E293B!important;color:#FDE68A!important}
+.jb-console{background:#0B1120;color:#4ADE80;border-radius:12px;padding:14px;font-family:Consolas,monospace;font-size:.86rem;min-height:120px;white-space:pre-wrap;border:2px solid #1E293B;margin:0}
+.jb-console.jb-err{color:#FCA5A5}
+.jb-run{background:linear-gradient(135deg,#22C55E,#15803D);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 14px rgba(34,197,94,.35);transition:transform .15s}
+.jb-run:hover{transform:translateY(-2px)}
+.jb-lab{font-size:.72rem;font-weight:800;color:#5A6482;text-transform:uppercase;letter-spacing:.6px;margin:8px 0 5px}
+</style>
+
+</head>
+<body class="locked">
+<header>
+  <div class="hrow">
+    <div class="logo" onclick="go('home')"><div class="ast">✱</div><div>Java no <span style="font-weight:400;opacity:.85">Minecraft</span></div></div>
+    <a class="btn-ghost" href="index.html" style="margin-left:6px">🏠 Dev Academy</a>
+    <div class="hspace"></div>
+    <div class="pill xp">⚡ <span id="xpVal">0</span> XP</div>
+    <div class="pill">🎖️ <span id="rankVal">Explorador(a)</span></div>
+    <button class="btn-ghost" id="acctBtn" onclick="authUi()">👤</button>
+    <button class="btn-ghost" id="dysBtn" onclick="toggleDys()">👓 Leitura fácil</button>
+  </div>
+</header>
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="screen active" id="home">
+  <div class="hero">
+    <div class="bigast">⛏️</div>
+    <h1>A lógica do Java <span>dentro do Minecraft</span></h1>
+    <p>O jogo mais vendido da história é um programa Java rodando na sua frente — e nós abrimos ele no laboratório. Dissecamos o arquivo REAL da versão 1.21.11: suas 10.291 classes, seu relógio de 20 ticks, suas entidades com herança, seus eventos, sua redstone booleana. Cada conceito que você aprendeu vira exemplo VIVO num jogo de bilhões — e no final, você escreve seu primeiro plugin de servidor. Pré-requisito: o curso Java Completo.</p>
+    <button class="btn amber" onclick="go('k1l1')">▶ Abrir o baú</button>
+  </div>
+  <div class="progresso">
+    <b>Sua escavação</b>
+    <div class="pbar"><div id="pfill" style="width:0%"></div></div>
+    <div id="plabel" style="font-size:.85rem;color:#5A6482">0 de 44 etapas</div>
+    <div class="rankline" id="rankline"></div>
+  </div>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="mod-head hh1"><span class="memo">📦</span><div><h3>Módulo 1 · Por dentro do .jar</h3><small>A autópsia do arquivo real</small></div></div><div class="mod-body" id="mod1list"></div></div>
+    <div class="mod-card"><div class="mod-head hh2"><span class="memo">⏰</span><div><h3>Módulo 2 · O relógio do mundo</h3><small>20 ticks por segundo</small></div></div><div class="mod-body" id="mod2list"></div></div>
+    <div class="mod-card"><div class="mod-head hh3"><span class="memo">🧟</span><div><h3>Módulo 3 · Tudo é objeto</h3><small>Entity, herança e polimorfismo reais</small></div></div><div class="mod-body" id="mod3list"></div></div>
+    <div class="mod-card"><div class="mod-head hh4"><span class="memo">🧭</span><div><h3>Módulo 4 · O mundo em números</h3><small>Coordenadas, chunks e seeds</small></div></div><div class="mod-body" id="mod4list"></div></div>
+    <div class="mod-card"><div class="mod-head hh5"><span class="memo">💾</span><div><h3>Módulo 5 · Dados que não somem</h3><small>NBT, inventário e itens</small></div></div><div class="mod-body" id="mod5list"></div></div>
+    <div class="mod-card"><div class="mod-head hh6"><span class="memo">📣</span><div><h3>Módulo 6 · Eventos</h3><small>O mundo que reage (observer)</small></div></div><div class="mod-body" id="mod6list"></div></div>
+    <div class="mod-card"><div class="mod-head hh7"><span class="memo">🔴</span><div><h3>Módulo 7 · Redstone é lógica</h3><small>Booleanos que viram circuitos</small></div></div><div class="mod-body" id="mod7list"></div></div>
+    <div class="mod-card"><div class="mod-head hh8"><span class="memo">🚀</span><div><h3>Módulo 8 · Vire criador(a)</h3><small>Servidor próprio e seu 1º plugin</small></div></div><div class="mod-body" id="mod8list"></div></div>
+  </div>
+</section>
+
+<!-- ================= M1 · POR DENTRO DO JAR ================= -->
+<section class="screen" id="k1l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 1 · Lição 1 de 5</span></div>
+  <h2>📦 O segredo do .jar: é um ZIP</h2>
+  <p>O Minecraft inteiro chega ao seu PC como UM arquivo: <code>1.21.11.jar</code>. E aqui vai a primeira revelação: <mark>um .jar é literalmente um .zip com outro nome</mark> (Java ARchive). Nós abrimos o da versão 1.21.11 no laboratório — os números REAIS:</p>
+  <table class="tbl">
+    <tr><th>Medida</th><th>Valor real (1.21.11)</th></tr>
+    <tr><td>Tamanho do arquivo</td><td>31.152.600 bytes (~29,7 MB)</td></tr>
+    <tr><td>Arquivos lá dentro</td><td><b>28.163</b></td></tr>
+    <tr><td>Descomprimido</td><td>~53 MB (a compressão do zip economiza quase metade)</td></tr>
+    <tr><td>Classes Java compiladas (.class)</td><td><b>10.291</b> 🤯</td></tr>
+    <tr><td>Pastas na raiz</td><td>META-INF, assets, com, data, net</td></tr>
+  </table>
+  <p>Dez mil classes. Cada uma é um molde como os seus <code>Cachorro</code> e <code>ContaBancaria</code> — só que trabalhando juntas num sistema gigante. E dentro do jar mora um cartão de visitas em JSON, o <code>version.json</code>, que entrega a ficha técnica: <code>"java_version": 21</code> (o MESMO Java 21 que você vai instalar no Módulo 8!), <code>"protocol_version": 774</code> (o idioma da rede entre cliente e servidor) e a data de compilação: 09/12/2025.</p>
+  <div class="box gold"><div class="bt">✱ Por que isso importa</div>Você acabou de perder o medo do "arquivo de jogo misterioso": é um zip de classes + dados, empacotado exatamente como o SEU projeto Java será um dia. A distância entre você e a Mojang é de escala — não de espécie.</div>
+  <button class="btn green done-btn" onclick="complete('k1l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k1l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k1l2')">Próxima: Bytecode e a JVM →</button></div>
+</div></section>
+
+<section class="screen" id="k1l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 1 · Lição 2 de 5</span></div>
+  <h2>☕ Bytecode: o idioma que a JVM fala</h2>
+  <p>Os 10.291 arquivos <code>.class</code> não são o código-fonte que os devs da Mojang escreveram — são o <b>bytecode</b>: a tradução compilada que a JVM executa. Lembra da viagem do Módulo 1 do Java Completo? <code>App.java → App.class → JVM</code>. O Minecraft é essa viagem, 10 mil vezes.</p>
+  <div class="codebox"><div class="cb-top">os primeiros bytes de TODO arquivo .class do planeta</div>
+  <pre>CA FE BA BE  00 00 00 41  ...
+
+<span class="tk-com">Sim: todo .class começa com os bytes "CAFEBABE" em hexadecimal —
+a piada de café dos criadores do Java, gravada em bilhões de arquivos
+desde 1995. O número seguinte é a versão (0x41 = 65 = Java 21).</span></pre></div>
+  <p>E é por a JVM ser a mesma em todo lugar que o MESMO jar roda no Windows, no Mac e no Linux — o "escreva uma vez, rode em qualquer lugar" que você aprendeu, provado pelo jogo mais vendido da história. O manifesto do jar aponta a porta de entrada, e ela tem o nome que você já esperava:</p>
+  <div class="codebox"><div class="cb-top">META-INF/MANIFEST.MF (trecho real)</div>
+  <pre>Manifest-Version: 1.0
+Main-Class: <span class="tk-attr">net.minecraft.client.Main</span></pre></div>
+  <p>Ou seja: em algum lugar dessas 10 mil classes existe um <code>public static void main(String[] args)</code> — a MESMA cerimônia do seu primeiro programa. Ao dar dois cliques no jogo, a JVM procura essa classe e chama esse main. O Minecraft começa como o seu "Olá, mundo" começou. ☕</p>
+  <button class="btn green done-btn" onclick="complete('k1l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k1l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k1l1')">← Anterior</button><button class="btn small" onclick="go('k1l3')">Próxima: A ofuscação →</button></div>
+</div></section>
+
+<section class="screen" id="k1l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 1 · Lição 3 de 5</span></div>
+  <h2>🕵️ Ofuscação: por que as classes têm nomes de espirro</h2>
+  <p>Listando as classes da raiz do jar real, encontramos isto:</p>
+  <div class="codebox"><div class="cb-top">nomes reais de arquivos do 1.21.11</div>
+  <pre>gds.class    gds$a.class    gds$b.class    gds$c.class
+gdt.class    gdt$1.class    gdt$2.class    fzu$a.class
+bjq.class    <span class="tk-com">← a maior do jar: 245 KB de bytecode numa classe só!</span></pre></div>
+  <p><code>gds</code>?! É a <b>ofuscação</b>: antes de publicar, a Mojang troca os nomes legíveis (imagine <code>ZombieEntity</code>) por códigos curtos — o jar encolhe e engenharia reversa fica mais chata. O <code>$</code> você decifra com o que sabe: <code>gds$a</code> é uma <mark>classe interna</mark> (classe dentro de classe), e <code>gdt$1</code> uma classe anônima — recursos do Java que você verá na estrada.</p>
+  <p>O plot twist: a própria Mojang PUBLICA oficialmente os "mapas de tradução" (mappings) que revertem a ofuscação — é assim que a comunidade de mods consegue trabalhar. E dentro do jar existe até uma anotação reveladora: <code>net.minecraft.obfuscate.<b>DontObfuscate</b></code> — a etiqueta que marca o que NÃO pode ser ofuscado (como o Main, que a JVM precisa achar pelo nome!).</p>
+  <div class="box tip"><div class="bt">💡 Anotações: o @ que você já conhece</div>DontObfuscate é uma anotação — parente do seu <code>@Override</code>. Anotações são etiquetas que ferramentas leem: uma avisa o compilador ("estou sobrescrevendo"), outra avisa o ofuscador ("não toque aqui"). Mesmo mecanismo, propósitos diferentes.</div>
+  <button class="btn green done-btn" onclick="complete('k1l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k1l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k1l2')">← Anterior</button><button class="btn small" onclick="go('k1l4')">Próxima: Assets e data →</button></div>
+</div></section>
+
+<section class="screen" id="k1l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 1 · Lição 4 de 5</span></div>
+  <h2>🎨 Código vs dados: assets/ e data/</h2>
+  <p>Das 28.163 entradas do jar, só ~10 mil são código. O resto é DADO — e a contagem real ensina uma lição de arquitetura:</p>
+  <table class="tbl">
+    <tr><th>Conteúdo</th><th>Contagem real</th><th>O que é</th></tr>
+    <tr><td>Texturas (.png)</td><td>3.518</td><td>Cada bloco, item, mob — imagenzinhas de pixels</td></tr>
+    <tr><td>Definições (.json)</td><td><b>12.881</b></td><td>Modelos, receitas, tabelas de drop, avanços... TEXTO estruturado</td></tr>
+    <tr><td>Sons (.ogg)</td><td><b>0</b> 😱</td><td>Isso mesmo: os sons NÃO vêm no jar — o launcher baixa à parte (por isso a 1ª execução demora!)</td></tr>
+    <tr><td>Traduções</td><td>en_us.json com 492 KB</td><td>Milhares de textos do jogo num único JSON gigante</td></tr>
+  </table>
+  <p>E a pasta <code>data/</code> guarda os REGISTROS do jogo em JSON puro: <code>enchantment/</code>, <code>damage_type/</code>, <code>dimension_type/</code>, <code>cat_variant/</code>... Encantamentos e tipos de dano são ARQUIVOS DE DADOS, não código! Por isso datapacks existem: mudar o jogo editando JSON, sem tocar numa linha de Java.</p>
+  <div class="box gold"><div class="bt">✱ A lição de arquiteto(a)</div><mark>Código define COMPORTAMENTO; dados definem CONTEÚDO</mark>. A classe do encantamento (código) é uma; os 40+ encantamentos (dados) são JSONs. Você fez IGUAL no curso do jogo: a engine era código, sua fase era texto. Sistemas bem projetados separam os dois — do Minecraft ao CORTEX.</div>
+  <button class="btn green done-btn" onclick="complete('k1l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k1l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k1l3')">← Anterior</button><button class="btn small" onclick="go('k1l5')">Próxima: Ética e EULA →</button></div>
+</div></section>
+
+<section class="screen" id="k1l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 1 · Lição 5 de 5</span></div>
+  <h2>⚖️ As regras do jogo (as de verdade): EULA e ética</h2>
+  <p>Antes de seguir escavando, o combinado de gente grande. Estudar o jar que VOCÊ comprou é aprendizado legítimo — mas há linhas claras:</p>
+  <table class="tbl">
+    <tr><th>✅ Pode (e a Mojang apoia)</th><th>🚫 Não pode</th></tr>
+    <tr><td>Analisar seu próprio jar para aprender</td><td>Redistribuir o jogo ou partes dele (código, texturas, sons)</td></tr>
+    <tr><td>Usar os mappings OFICIAIS publicados pela Mojang</td><td>Vender mods que exigem burlar a compra do jogo</td></tr>
+    <tr><td>Criar mods e plugins (ecossistema abençoado pela EULA)</td><td>Servidores "pay-to-win" que vendem vantagem (a EULA proíbe!)</td></tr>
+    <tr><td>Publicar SEU código de plugin/mod</td><td>Publicar código decompilado da Mojang</td></tr>
+  </table>
+  <p>É por isso que este curso mostra NÚMEROS, ESTRUTURAS e CONCEITOS do jar — nunca o conteúdo em si. E é por isso que a comunidade de mods do Minecraft é gigante e legal: a Mojang desenhou as regras para que criadores existam. Você vai ser um deles do jeito certo.</p>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Essa mentalidade te acompanha na carreira: dev profissional respeita licenças como respeita testes. Saber O QUE se pode fazer com código dos outros (licenças MIT, GPL, EULAs...) é habilidade de trabalho — e você acabou de praticar no exemplo mais famoso do mundo.</div></div>
+  <button class="btn green done-btn" onclick="complete('k1l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k1l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k1l4')">← Anterior</button><button class="btn amber small" onclick="go('qk1')">🎯 Quiz do Módulo 1 →</button></div>
+</div></section>
+
+<section class="screen" id="qk1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Quiz · Módulo 1</span></div>
+  <h2>🎯 Quiz: Por dentro do .jar</h2>
+  <div id="quiz-qk1"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k2l1')">Módulo 2 →</button></div>
+</div></section>
+
+<!-- ================= M2 · O RELÓGIO ================= -->
+<section class="screen" id="k2l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B45309">Módulo 2 · Lição 1 de 4</span></div>
+  <h2>⏰ O tick: o coração bate 20 vezes por segundo</h2>
+  <p>Lembra do game loop do curso do jogo — 60 voltas por segundo? O Minecraft tem o dele: o <b>tick</b>, e a lógica do mundo roda a <mark>20 ticks por segundo</mark> (1 tick = 50 milissegundos). A CADA tick, o servidor faz a mesma dança: mover entidades, crescer plantações, propagar redstone, espalhar fogo, spawnar mobs...</p>
+  <div class="codebox"><div class="cb-top">o loop do Minecraft, em espírito</div>
+  <pre><span class="tk-tag">while</span> (servidorLigado) {
+    processarTick();      <span class="tk-com">// TODA a lógica do mundo: 1 passo</span>
+    esperarAte50ms();     <span class="tk-com">// segura o ritmo: 20 por segundo, cravados</span>
+}</pre></div>
+  <p>Curiosidade que agora faz sentido: os GRÁFICOS rodam a 60+ fps, mas a LÓGICA a 20 tps — dois relógios separados. Por isso um "clock de redstone mais rápido possível" pisca 10x por segundo (precisa de 2 ticks por ciclo): é o tick, não o fps, que manda no mundo.</p>
+  <button class="btn green done-btn" onclick="complete('k2l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k2l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk1')">← Anterior</button><button class="btn small" onclick="go('k2l2')">Próxima: Simule o tick →</button></div>
+</div></section>
+
+<section class="screen" id="k2l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B45309">Módulo 2 · Lição 2 de 4</span></div>
+  <h2>🧪 LAB: seu próprio servidor de 1 segundo</h2>
+  <p>Simule 20 ticks (= 1 segundo de mundo) processando um forno que assa a cada 10 ticks e uma planta que cresce no tick 15:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka1">int fornoProgresso = 0;
+
+for (int tick = 1; tick <= 20; tick++) {
+    fornoProgresso++;
+
+    if (fornoProgresso == 10) {
+        System.out.println("tick " + tick + ": 🔥 forno assou 1 item!");
+        fornoProgresso = 0;
+    }
+    if (tick == 15) {
+        System.out.println("tick " + tick + ": 🌱 o trigo cresceu um estágio");
+    }
+}
+System.out.println("--- 1 segundo de mundo processado (20 ticks) ---");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka1')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka1-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 É literalmente assim</div>O forno de verdade guarda um contador de progresso e o compara a cada tick; a plantação sorteia chances de crescer. Estado + loop + if — o Módulo 3 do Java Completo rodando um mundo inteiro.</div>
+  <button class="btn green done-btn" onclick="complete('k2l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k2l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k2l1')">← Anterior</button><button class="btn small" onclick="go('k2l3')">Próxima: O dia de 24.000 ticks →</button></div>
+</div></section>
+
+<section class="screen" id="k2l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B45309">Módulo 2 · Lição 3 de 4</span></div>
+  <h2>🌅 LAB: o dia dura 24.000 ticks</h2>
+  <p>O dia do Minecraft dura exatamente 24.000 ticks. Faça as contas que todo jogador sente na pele — e descubra a que horas do "dia do jogo" corresponde um tick qualquer:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka2">int ticksPorDia = 24000;
+int ticksPorSegundo = 20;
+
+int segundosReais = ticksPorDia / ticksPorSegundo;
+System.out.println("Um dia dura " + segundosReais + " segundos reais");
+System.out.println("Ou seja: " + (segundosReais / 60.0) + " minutos ☀️");
+
+int agora = 13000;
+System.out.println("Tick " + agora + " => " + (agora * 100.0 / ticksPorDia) + "% do dia");
+if (agora >= 13000) {
+    System.out.println("🌙 Noite! Os monstros chegaram... (13000 é o pôr do sol)");
+} else {
+    System.out.println("☀️ Dia claro, pode minerar em paz.");
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka2')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka2-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Confere com sua experiência?</div>20 minutos por dia — exatamente o que você sente jogando. E o comando /time set 13000 que os jogadores decoram? Agora você sabe: é só ESCREVER NUMA VARIÁVEL o relógio do mundo. Números com significado > números mágicos.</div>
+  <button class="btn green done-btn" onclick="complete('k2l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k2l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k2l2')">← Anterior</button><button class="btn small" onclick="go('k2l4')">Próxima: Lag e o orçamento do tick →</button></div>
+</div></section>
+
+<section class="screen" id="k2l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B45309">Módulo 2 · Lição 4 de 4</span></div>
+  <h2>🐌 O orçamento de 50ms: de onde vem o LAG</h2>
+  <p>Se a lógica roda a 20 tps, cada tick tem um ORÇAMENTO: <mark>50 milissegundos para processar o mundo INTEIRO</mark>. E se não der tempo?</p>
+  <table class="tbl">
+    <tr><th>Situação</th><th>O que acontece</th><th>Como o jogador sente</th></tr>
+    <tr><td>Tick gasta 30ms</td><td>Sobram 20ms; o servidor descansa</td><td>Mundo fluido, 20 tps</td></tr>
+    <tr><td>Tick gasta 80ms</td><td>O próximo atrasa — TPS cai para ~12</td><td>"Servidor lagado": mobs teleportando, blocos que voltam</td></tr>
+    <tr><td>Fazenda com 5.000 entidades</td><td>Milhares de updates por tick estouram o orçamento</td><td>O famoso lag das farms gigantes 😅</td></tr>
+  </table>
+  <p>Por isso existem limites de mobs por área, itens agrupados no chão viram UM objeto, e chunks longe de jogadores nem processam. Tudo é engenharia de orçamento: <mark>performance é caber no tempo do tick</mark>.</p>
+  <div class="box tip"><div class="bt">💡 Isso é profissão</div>Troque "tick de 50ms" por "requisição de API que deve responder em 200ms" e você tem o dia a dia de backend. Orçamento de tempo, medir o que consome, otimizar o gargalo — o Minecraft ensina performance melhor que muito curso.</div>
+  <button class="btn green done-btn" onclick="complete('k2l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k2l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k2l3')">← Anterior</button><button class="btn amber small" onclick="go('qk2')">🎯 Quiz do Módulo 2 →</button></div>
+</div></section>
+
+<section class="screen" id="qk2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B45309">Quiz · Módulo 2</span></div>
+  <h2>🎯 Quiz: O relógio do mundo</h2>
+  <div id="quiz-qk2"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k3l1')">Módulo 3 →</button></div>
+</div></section>
+
+<!-- ================= M3 · TUDO É OBJETO ================= -->
+<section class="screen" id="k3l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#7E22CE">Módulo 3 · Lição 1 de 5</span></div>
+  <h2>🧟 A árvore genealógica real: Entity e seus filhos</h2>
+  <p>Todo zumbi, vaca, flecha e vagoneta do Minecraft é um OBJETO — e a hierarquia de herança (documentada pela comunidade via mappings oficiais) é um manual de OO em produção:</p>
+  <div class="codebox"><div class="cb-top">a árvore (simplificada) — cada seta é um extends</div>
+  <pre>Entity                     <span class="tk-com">← TUDO que existe no mundo: posição, movimento, tick()</span>
+ ├─ LivingEntity           <span class="tk-com">← o que tem VIDA: HP, dano, morte, efeitos</span>
+ │   ├─ Player             <span class="tk-com">← você! (vida + inventário + experiência)</span>
+ │   ├─ Mob                <span class="tk-com">← o que tem IA própria</span>
+ │   │   ├─ Zombie, Skeleton, Creeper...
+ │   │   └─ Animal → Cow, Pig, Wolf...
+ ├─ ItemEntity             <span class="tk-com">← item caído no chão (tem posição, NÃO tem HP)</span>
+ └─ ArrowEntity, Boat...</pre></div>
+  <p>Repare na sabedoria: item caído NÃO herda de LivingEntity (não tem vida!), mas herda de Entity (tem posição e cai com gravidade). Cada extends é uma decisão: <mark>o que este ser TEM em comum com os outros?</mark> — a mesma pergunta que você respondeu no Módulo 7 do Java Completo.</p>
+  <button class="btn green done-btn" onclick="complete('k3l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k3l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk2')">← Anterior</button><button class="btn small" onclick="go('k3l2')">Próxima: LAB da hierarquia →</button></div>
+</div></section>
+
+<section class="screen" id="k3l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#7E22CE">Módulo 3 · Lição 2 de 5</span></div>
+  <h2>🧪 LAB: reconstrua a árvore em miniatura</h2>
+  <p>Monte a linhagem Entity → LivingEntity → Zombie com o que cada nível ADICIONA — e veja um zumbi nascer com os poderes das três gerações:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka3">class Entity {
+    double x; double y; double z;
+
+    void teleportar(double x, double y, double z) {
+        this.x = x; this.y = y; this.z = z;
+        System.out.println("✨ Teleportado para " + x + ", " + y + ", " + z);
+    }
+}
+
+class LivingEntity extends Entity {
+    int vida = 20;
+
+    void receberDano(int dano) {
+        this.vida -= dano;
+        System.out.println("💔 Dano " + dano + "! Vida: " + this.vida);
+    }
+}
+
+class Zombie extends LivingEntity {
+    void grunhir() {
+        System.out.println("🧟 Graaargh!");
+    }
+}
+
+Zombie z = new Zombie();
+z.teleportar(100, 64, -200);
+z.receberDano(7);
+z.grunhir();
+System.out.println("Um objeto, três gerações de poderes!");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka3')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka3-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 O y = 64</div>Reparou no teleporte para y 64? É o nível do mar do Minecraft — as coordenadas do lab são as do jogo de verdade. Módulo 4 destrincha esse sistema.</div>
+  <button class="btn green done-btn" onclick="complete('k3l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k3l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k3l1')">← Anterior</button><button class="btn small" onclick="go('k3l3')">Próxima: O polimorfismo do tick →</button></div>
+</div></section>
+
+<section class="screen" id="k3l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#7E22CE">Módulo 3 · Lição 3 de 5</span></div>
+  <h2>🎭 O loop mais polimórfico do planeta</h2>
+  <p>Junte os módulos 2 e 3 e você enxerga o coração do jogo: a cada tick, o servidor percorre a lista de entidades do mundo e chama o MESMO método em cada uma — e cada uma responde do seu jeito:</p>
+  <div class="codebox"><div class="cb-top">o espírito do código do servidor</div>
+  <pre><span class="tk-tag">for</span> (Entity e : entidadesDoMundo) {
+    e.tick();     <span class="tk-com">// zumbi persegue · vaca pasta · flecha voa · item gira</span>
+}</pre></div>
+  <p>UMA linha de chamada; MIL comportamentos. O zumbi sobrescreveu tick() para caçar você; a vaca, para pastar; o creeper, para... você sabe. É o coral da fazenda do Java Completo — rodando 20 vezes por segundo num mundo com milhares de seres. <mark>Polimorfismo não é teoria de prova: é o que faz o Minecraft ser vivo</mark>.</p>
+  <div class="box gold"><div class="bt">✱ Feche os olhos e veja</div>Da próxima vez que entrar num mundo cheio de bichos, visualize: uma ArrayList&lt;Entity&gt; e um for-each, girando. Você nunca mais vai ver o jogo do mesmo jeito — e isso é sinal de que virou dev.</div>
+  <button class="btn green done-btn" onclick="complete('k3l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k3l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k3l2')">← Anterior</button><button class="btn small" onclick="go('k3l4')">Próxima: LAB do Creeper →</button></div>
+</div></section>
+
+<section class="screen" id="k3l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#7E22CE">Módulo 3 · Lição 4 de 5</span></div>
+  <h2>🧪 LAB: o Creeper sobrescreve o destino</h2>
+  <p>Todo mob tem um comportamento padrão ao ver o jogador. O Creeper... discorda. Sobrescreva:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka4">class Mob {
+    String nome;
+    Mob(String nome) { this.nome = nome; }
+
+    String aoVerJogador() {
+        return this.nome + " rosna e ataca!";
+    }
+}
+
+class Creeper extends Mob {
+    Creeper() { super("Creeper"); }
+
+    @Override
+    String aoVerJogador() {
+        return "Creeper se aproxima em silêncio... sssss... 💥 BOOM!";
+    }
+}
+
+class Enderman extends Mob {
+    Enderman() { super("Enderman"); }
+
+    @Override
+    String aoVerJogador() {
+        return "Enderman só ataca SE você olhar nos olhos dele 👁️";
+    }
+}
+
+ArrayList<Mob> caverna = new ArrayList<>();
+caverna.add(new Mob("Zumbi"));
+caverna.add(new Creeper());
+caverna.add(new Enderman());
+
+for (Mob m : caverna) {
+    System.out.println(m.aoVerJogador());
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka4')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka4-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('k3l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k3l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k3l3')">← Anterior</button><button class="btn small" onclick="go('k3l5')">Próxima: OFICINA do Zumbi →</button></div>
+</div></section>
+
+<section class="screen" id="k3l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#7E22CE">Módulo 3 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: nasce um monstro</h2>
+  <p>Monte a herança estilo Minecraft na ordem que compila — mãe, filho que sobrescreve, e o polimorfismo em ação:</p>
+  <div class="mt" id="mk1"></div>
+  <button class="btn green done-btn" onclick="complete('k3l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k3l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k3l4')">← Anterior</button><button class="btn amber small" onclick="go('qk3')">🎯 Quiz do Módulo 3 →</button></div>
+</div></section>
+
+<section class="screen" id="qk3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#7E22CE">Quiz · Módulo 3</span></div>
+  <h2>🎯 Quiz: Tudo é objeto</h2>
+  <div id="quiz-qk3"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k4l1')">Módulo 4 →</button></div>
+</div></section>
+
+<!-- ================= M4 · O MUNDO EM NÚMEROS ================= -->
+<section class="screen" id="k4l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 4 · Lição 1 de 5</span></div>
+  <h2>🧭 Coordenadas: double para seres, int para blocos</h2>
+  <p>Aperte F3 no jogo e olhe: sua posição tem vírgula (<code>XYZ: 127.534 / 64.000 / -213.871</code>), mas o bloco onde você pisa não (<code>Block: 127 64 -214</code>). Não é acaso — são os tipos do Java:</p>
+  <table class="tbl">
+    <tr><th>O quê</th><th>Tipo</th><th>Por quê</th></tr>
+    <tr><td>Entidades (você, mobs, flechas)</td><td><code>double</code> x, y, z</td><td>Movimento suave exige frações — andar é somar 0.21 por tick</td></tr>
+    <tr><td>Blocos</td><td><code>int</code> x, y, z</td><td>Bloco é grade: existe o bloco 127, não o bloco 127.5</td></tr>
+    <tr><td>Altura do mundo</td><td>y de <b>-64 a 320</b></td><td>384 camadas (desde a atualização das cavernas)</td></tr>
+  </table>
+  <p>E a conversão entre os dois mundos é o velho conhecido: <mark>arredondar para baixo</mark>. Você em x = -0.5 está no bloco... -1! (floor, não truncar — o detalhe que derruba muito dev, e que o próximo lab esclarece de vez.)</p>
+  <button class="btn green done-btn" onclick="complete('k4l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k4l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk3')">← Anterior</button><button class="btn small" onclick="go('k4l2')">Próxima: LAB dos chunks →</button></div>
+</div></section>
+
+<section class="screen" id="k4l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 4 · Lição 2 de 5</span></div>
+  <h2>🧪 LAB: em qual chunk eu estou?</h2>
+  <p>O mundo é fatiado em <b>chunks</b> de 16×16 blocos — a unidade de carregamento, salvamento e processamento. A conta oficial é uma divisão com arredondamento para baixo, e o Java tem o método exato (que o jogo usa): <code>Math.floorDiv</code>:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka5">int blocoX = 127;
+int blocoZ = -213;
+
+int chunkX = Math.floorDiv(blocoX, 16);
+int chunkZ = Math.floorDiv(blocoZ, 16);
+System.out.println("Bloco (" + blocoX + ", " + blocoZ + ") => chunk (" + chunkX + ", " + chunkZ + ")");
+
+System.out.println("--- a pegadinha dos negativos: ---");
+System.out.println("floorDiv(-33, 16) = " + Math.floorDiv(-33, 16) + "  (arredonda p/ BAIXO: correto!)");
+System.out.println("-33 / 16 truncado seria -2 (errado: pularia um chunk!)");
+
+System.out.println("--- e a posição DENTRO do chunk (0 a 15): ---");
+int dentroX = blocoX - chunkX * 16;
+System.out.println("O bloco " + blocoX + " é a coluna " + dentroX + " do chunk " + chunkX);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka5')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka5-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Por que chunks existem</div>Um mundo do Minecraft pode ter bilhões de blocos — impossível na memória. Chunks permitem carregar SÓ o pedaço perto de jogadores (por isso o horizonte "nasce" enquanto você anda, e por isso farms longe param de funcionar). Dividir o problema em pedaços gerenciáveis: a estratégia número 1 da computação, tocável no jogo.</div>
+  <button class="btn green done-btn" onclick="complete('k4l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k4l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k4l1')">← Anterior</button><button class="btn small" onclick="go('k4l3')">Próxima: LAB das seeds →</button></div>
+</div></section>
+
+<section class="screen" id="k4l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 4 · Lição 3 de 5</span></div>
+  <h2>🧪 LAB: a mágica da seed</h2>
+  <p>Como dois jogadores com a MESMA seed geram o MESMO mundo infinito? Porque computador não sorteia de verdade: o <code>Random</code> do Java é uma FÓRMULA — dê a mesma semente, colha os mesmos "aleatórios", na mesma ordem, para sempre:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka6">Random mundoDaAna = new Random(20260728);
+Random mundoDoWess = new Random(20260728);
+
+System.out.println("Gerando 5 'terrenos' em cada mundo:");
+for (int i = 1; i <= 5; i++) {
+    int alturaAna = mundoDaAna.nextInt(100);
+    int alturaWess = mundoDoWess.nextInt(100);
+    System.out.println("chunk " + i + ": Ana=" + alturaAna + " | Wess=" + alturaWess + " | iguais? " + (alturaAna == alturaWess));
+}
+System.out.println("Mesma seed => mesmo mundo. SEMPRE. 🌍");
+
+Random outraSeed = new Random(999);
+System.out.println("Seed diferente, mundo diferente: " + outraSeed.nextInt(100));</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka6')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka6-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ Honestidade de laboratório</div>O Random do JavaBox usa uma fórmula determinística de 32 bits (didática); o do Java real usa 48 bits — o PRINCÍPIO é idêntico, os números específicos diferem. O nome técnico é PRNG: gerador de números PSEUDOaleatórios. "Pseudo" = a mentira mais útil da computação.</div>
+  <button class="btn green done-btn" onclick="complete('k4l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k4l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k4l2')">← Anterior</button><button class="btn small" onclick="go('k4l4')">Próxima: O ruído que vira montanha →</button></div>
+</div></section>
+
+<section class="screen" id="k4l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 4 · Lição 4 de 5</span></div>
+  <h2>🏔️ De números a montanhas: o ruído</h2>
+  <p>Seed → números "aleatórios" → ...montanhas? O elo perdido chama-se <b>ruído coerente</b> (Perlin/Simplex): em vez de sortear a altura de cada bloco solto (viraria estática de TV), a função de ruído gera valores SUAVES — vizinhos parecidos, transições graduais:</p>
+  <div class="codebox"><div class="cb-top">a ideia, em uma linha de espírito</div>
+  <pre>altura(x, z) = ruido(seed, x, z)   <span class="tk-com">// vizinho de montanha é montanha; de vale, vale</span>
+
+<span class="tk-com">Empilhe camadas: ruído grande = continentes · médio = colinas · fino = pedrinhas.
+Some tudo => terreno. Outro ruído decide biomas; outro, cavernas...</span></pre></div>
+  <p>É geração <b>procedural</b>: o mundo não está salvo em lugar nenhum — é CALCULADO da seed quando você chega perto (por chunk!). Bilhões de mundos possíveis, zero artistas desenhando mapas. Matemática fazendo o trabalho de um exército.</p>
+  <div class="box tip"><div class="bt">💡 Junte as peças do módulo</div>Seed (determinismo) + chunks (pedaços sob demanda) + ruído (suavidade) = mundos infinitos, idênticos para quem tem a mesma seed, gerados só onde importa. Três conceitos simples, um resultado lendário.</div>
+  <button class="btn green done-btn" onclick="complete('k4l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k4l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k4l3')">← Anterior</button><button class="btn small" onclick="go('k4l5')">Próxima: O F3 decifrado →</button></div>
+</div></section>
+
+<section class="screen" id="k4l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 4 · Lição 5 de 5</span></div>
+  <h2>🔎 A tela F3, agora com seus olhos de dev</h2>
+  <p>A famigerada tela de debug (F3) é um raio-X do estado do programa — e agora você lê cada linha:</p>
+  <table class="tbl">
+    <tr><th>Linha do F3</th><th>Tradução de dev</th></tr>
+    <tr><td><code>XYZ: 127.534 / 64.000 / -213.871</code></td><td>Os doubles da sua Entity</td></tr>
+    <tr><td><code>Block: 127 64 -214</code></td><td>O floor() das coordenadas — ints da grade</td></tr>
+    <tr><td><code>Chunk: 15 0 2 in 7 4 -14</code></td><td>Posição dentro do chunk + floorDiv(x,16) do lab!</td></tr>
+    <tr><td><code>E: 12/87</code></td><td>Entidades renderizadas / total carregadas (a ArrayList do tick!)</td></tr>
+    <tr><td><code>fps / tps</code></td><td>Os dois relógios do Módulo 2 — gráficos vs lógica</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Isto é "ler telemetria" — habilidade de dev de produção. O F3 do Minecraft é um dashboard de sistema em tempo real, e você acabou de se formar nele. Abra o jogo hoje e confira cada linha: é uma sensação nova, prometo.</div></div>
+  <button class="btn green done-btn" onclick="complete('k4l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k4l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k4l4')">← Anterior</button><button class="btn amber small" onclick="go('qk4')">🎯 Quiz do Módulo 4 →</button></div>
+</div></section>
+
+<section class="screen" id="qk4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Quiz · Módulo 4</span></div>
+  <h2>🎯 Quiz: O mundo em números</h2>
+  <div id="quiz-qk4"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k5l1')">Módulo 5 →</button></div>
+</div></section>
+
+<!-- ================= M5 · DADOS QUE NÃO SOMEM ================= -->
+<section class="screen" id="k5l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 5 · Lição 1 de 4</span></div>
+  <h2>💾 NBT: o mundo salvo em mapas aninhados</h2>
+  <p>Feche o jogo, abra amanhã: seu baú lembra de tudo. Como? O Minecraft salva TUDO num formato chamado <b>NBT</b> (Named Binary Tag) — que, conceitualmente, é o seu velho conhecido: <mark>um HashMap de chave → valor... onde o valor pode ser OUTRO HashMap</mark>. Caixas dentro de caixas:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka7">HashMap<String, String> encantamento = new HashMap<>();
+encantamento.put("id", "sharpness");
+encantamento.put("lvl", "5");
+
+HashMap<String, Object> espada = new HashMap<>();
+espada.put("id", "diamond_sword");
+espada.put("Damage", 120);
+espada.put("Enchantment", encantamento);
+
+HashMap<String, Object> jogador = new HashMap<>();
+jogador.put("Name", "Wess");
+jogador.put("Health", 20);
+jogador.put("ItemNaMao", espada);
+
+System.out.println("O 'save' do jogador:");
+System.out.println(jogador);
+System.out.println("");
+System.out.println("Navegando: a espada tem " + espada.get("Damage") + " de desgaste");
+System.out.println("E o encantamento é: " + encantamento.get("id") + " nível " + encantamento.get("lvl"));</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka7')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka7-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Você já conhece esse desenho</div>Mapas aninhados = a MESMA forma do JSON (que você viu aos 12.881 no jar) e dos dados do Supabase do CORTEX. NBT, JSON, dicionários: a humanidade descobriu UMA boa forma de estruturar dados e a usa em todo lugar. Quem domina "chave → valor, aninhável" lê o mundo.</div>
+  <button class="btn green done-btn" onclick="complete('k5l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k5l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk4')">← Anterior</button><button class="btn small" onclick="go('k5l2')">Próxima: LAB do inventário →</button></div>
+</div></section>
+
+<section class="screen" id="k5l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 5 · Lição 2 de 4</span></div>
+  <h2>🧪 LAB: o inventário é uma lista de 36 vagas</h2>
+  <p>36 slots (27 da mochila + 9 da hotbar), pilhas de até 64 — regras que você conhece de cor. Implemente o "pegar item" com a lógica real: <mark>primeiro tenta empilhar, depois procura vaga</mark>:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka8">class Pilha {
+    String item;
+    int qtd;
+    Pilha(String item, int qtd) { this.item = item; this.qtd = qtd; }
+    public String toString() { return this.item + " x" + this.qtd; }
+}
+
+ArrayList<Pilha> inventario = new ArrayList<>();
+
+void pegar(ArrayList<Pilha> inv, String item, int qtd) {
+    for (Pilha p : inv) {
+        if (p.item.equals(item) && p.qtd < 64) {
+            int cabe = 64 - p.qtd;
+            int poe = Math.min(cabe, qtd);
+            p.qtd += poe;
+            qtd -= poe;
+            System.out.println("Empilhou " + poe + " em " + p);
+        }
+    }
+    if (qtd > 0) {
+        if (inv.size() < 36) {
+            inv.add(new Pilha(item, qtd));
+            System.out.println("Nova pilha: " + item + " x" + qtd);
+        } else {
+            System.out.println("🎒 Inventário CHEIO! " + qtd + " caíram no chão");
+        }
+    }
+}
+
+pegar(inventario, "cobblestone", 60);
+pegar(inventario, "cobblestone", 10);
+pegar(inventario, "diamond", 3);
+System.out.println("Inventário final: " + inventario);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka8')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka8-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Confere?</div>60 + 10 de cobblestone virou pilha de 64 + pilha de 6 — exatamente como no jogo. Regras de negócio: if, loop e lista fazendo o que bilhões de jogadores sentem no dedo.</div>
+  <button class="btn green done-btn" onclick="complete('k5l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k5l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k5l1')">← Anterior</button><button class="btn small" onclick="go('k5l3')">Próxima: LAB do ItemStack →</button></div>
+</div></section>
+
+<section class="screen" id="k5l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 5 · Lição 3 de 4</span></div>
+  <h2>🧪 LAB: durabilidade — a picareta que se gasta</h2>
+  <p>No jogo real, a classe do item empilha dados + regras (encapsulamento!). Reconstrua a picareta de diamante: 1.561 usos, quebra no zero:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka9">class Ferramenta {
+    String nome;
+    private int durabilidade;
+    private int maxima;
+
+    Ferramenta(String nome, int maxima) {
+        this.nome = nome;
+        this.maxima = maxima;
+        this.durabilidade = maxima;
+    }
+
+    void usar() {
+        if (this.durabilidade <= 0) {
+            System.out.println("💔 " + this.nome + " está QUEBRADA!");
+            return;
+        }
+        this.durabilidade--;
+        if (this.durabilidade == 0) {
+            System.out.println("*CRACK* 💥 " + this.nome + " quebrou!");
+        }
+    }
+
+    String barra() {
+        int pct = this.durabilidade * 100 / this.maxima;
+        return this.nome + ": " + this.durabilidade + "/" + this.maxima + " (" + pct + "%)";
+    }
+}
+
+Ferramenta pica = new Ferramenta("Picareta de diamante", 1561);
+System.out.println(pica.barra());
+
+for (int i = 0; i < 1560; i++) {
+    pica.usar();
+}
+System.out.println(pica.barra());
+pica.usar();
+pica.usar();</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka9')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka9-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ 1.561 é o número real</div>E repare: durabilidade é <code>private</code> — só o método usar() a diminui, com as regras dentro. Nenhum código externo faz <code>pica.durabilidade = 9999</code>. Encapsulamento protegendo a economia do jogo: seu Módulo 6 do Java Completo, em produção há 15 anos.</div>
+  <button class="btn green done-btn" onclick="complete('k5l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k5l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k5l2')">← Anterior</button><button class="btn small" onclick="go('k5l4')">Próxima: A anatomia do save →</button></div>
+</div></section>
+
+<section class="screen" id="k5l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 5 · Lição 4 de 4</span></div>
+  <h2>🗃️ A pasta do mundo: onde tudo isso mora</h2>
+  <p>Junte o módulo: a pasta <code>saves/MeuMundo/</code> do seu PC é o NBT + chunks em arquivos:</p>
+  <table class="tbl">
+    <tr><th>Arquivo/pasta</th><th>O que guarda</th><th>Conceito do curso</th></tr>
+    <tr><td><code>level.dat</code></td><td>Seed, regras, hora do dia, spawn</td><td>O HashMap-raiz do mundo (NBT)</td></tr>
+    <tr><td><code>region/r.0.0.mca</code></td><td>Blocos de 32×32 CHUNKS por arquivo</td><td>Os chunks do Módulo 4, persistidos em lote</td></tr>
+    <tr><td><code>playerdata/&lt;uuid&gt;.dat</code></td><td>SEU inventário, posição, vida, XP</td><td>O HashMap do jogador (o do lab!)</td></tr>
+    <tr><td><code>datapacks/</code></td><td>Suas modificações em JSON</td><td>Dados vs código — Módulo 1</td></tr>
+  </table>
+  <p>E a mágica final: só chunks VISITADOS são salvos — o resto continua sendo "apenas a seed" esperando ser calculado. Um mundo de anos de jogo pesa gigabytes; um mundo novo, kilobytes. <mark>Persistir o que mudou, recalcular o resto</mark>: estratégia de sistemas grandes, no seu HD.</p>
+  <button class="btn green done-btn" onclick="complete('k5l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k5l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k5l3')">← Anterior</button><button class="btn amber small" onclick="go('qk5')">🎯 Quiz do Módulo 5 →</button></div>
+</div></section>
+
+<section class="screen" id="qk5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Quiz · Módulo 5</span></div>
+  <h2>🎯 Quiz: Dados que não somem</h2>
+  <div id="quiz-qk5"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k6l1')">Módulo 6 →</button></div>
+</div></section>
+
+<!-- ================= M6 · EVENTOS ================= -->
+<section class="screen" id="k6l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 6 · Lição 1 de 4</span></div>
+  <h2>📣 O padrão observer: o mundo que avisa</h2>
+  <p>Quebrou um bloco. Quem precisa saber? A estatística conta +1, o avanço confere se era diamante, a ferramenta gasta durabilidade, a fazenda automática reage... Se o código do bloco tivesse que CONHECER todo mundo, seria um espaguete infinito. A solução da engenharia: <b>eventos</b>.</p>
+  <div class="codebox"><div class="cb-top">o padrão observer (a ideia inteira)</div>
+  <pre>1. Interessados se INSCREVEM:   "me avise quando quebrarem blocos"
+2. O evento ACONTECE:           jogador quebra um diamante
+3. O mundo NOTIFICA a lista:    <span class="tk-tag">for</span> (Ouvinte o : inscritos) { o.aoQuebrarBloco(...); }
+4. Cada um reage do seu jeito — sem que o bloco conheça NINGUÉM</pre></div>
+  <p>Você já viveu isso duas vezes: o <code>onclick</code> do HTML (o navegador notifica o clique) e os <code>aoPegarMoeda</code> do seu jogo (a engine notifica o toque). O Minecraft é uma sinfonia de eventos — e é NELES que os plugins se penduram, como você fará no Módulo 8.</p>
+  <button class="btn green done-btn" onclick="complete('k6l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k6l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk5')">← Anterior</button><button class="btn small" onclick="go('k6l2')">Próxima: LAB do sistema de eventos →</button></div>
+</div></section>
+
+<section class="screen" id="k6l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 6 · Lição 2 de 4</span></div>
+  <h2>🧪 LAB: construa um sistema de eventos do zero</h2>
+  <p>Interface (o contrato do Módulo 7 do Java Completo) + lista de inscritos + notificação. Um mini-Minecraft de eventos em 30 linhas:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka10">interface Ouvinte {
+    void aoQuebrarBloco(String jogador, String bloco);
+}
+
+class Estatisticas implements Ouvinte {
+    public void aoQuebrarBloco(String jogador, String bloco) {
+        System.out.println("📊 estatística: " + jogador + " quebrou +1 " + bloco);
+    }
+}
+
+class Conquistas implements Ouvinte {
+    public void aoQuebrarBloco(String jogador, String bloco) {
+        if (bloco.equals("diamante")) {
+            System.out.println("🏆 CONQUISTA desbloqueada: DIAMANTES!");
+        }
+    }
+}
+
+ArrayList<Ouvinte> inscritos = new ArrayList<>();
+inscritos.add(new Estatisticas());
+inscritos.add(new Conquistas());
+
+void quebrar(ArrayList<Ouvinte> lista, String jogador, String bloco) {
+    System.out.println("⛏️ " + jogador + " quebrou: " + bloco);
+    for (Ouvinte o : lista) {
+        o.aoQuebrarBloco(jogador, bloco);
+    }
+}
+
+quebrar(inscritos, "Wess", "pedra");
+quebrar(inscritos, "Wess", "diamante");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka10')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka10-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Repare no desacoplamento</div>A função quebrar() não sabe que Conquistas existe. Amanhã você adiciona um terceiro ouvinte (SomDeQuebra? FazendaAutomatica?) SEM tocar em nada existente — só add na lista. Sistemas extensíveis nascem deste padrão.</div>
+  <button class="btn green done-btn" onclick="complete('k6l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k6l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k6l1')">← Anterior</button><button class="btn small" onclick="go('k6l3')">Próxima: Prioridade e cancelamento →</button></div>
+</div></section>
+
+<section class="screen" id="k6l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 6 · Lição 3 de 4</span></div>
+  <h2>🚦 Prioridade e cancelamento: eventos de gente grande</h2>
+  <p>Nos servidores reais (Paper/Spigot), o sistema de eventos tem dois superpoderes que o seu mini-sistema pode ganhar:</p>
+  <table class="tbl">
+    <tr><th>Superpoder</th><th>Como funciona</th><th>Exemplo real</th></tr>
+    <tr><td><b>Prioridade</b></td><td>Ouvintes declaram LOWEST → HIGHEST; a notificação segue a ordem</td><td>O plugin de proteção de terreno roda ANTES do plugin de estatísticas</td></tr>
+    <tr><td><b>Cancelamento</b></td><td>O evento carrega um boolean <code>cancelado</code>; qualquer ouvinte pode ligá-lo — e a ação NÃO acontece</td><td>Quebrou bloco em área protegida? <code>evento.setCancelled(true)</code> → o bloco volta!</td></tr>
+  </table>
+  <div class="codebox"><div class="cb-top">o cancelamento, em espírito</div>
+  <pre>EventoQuebra ev = <span class="tk-tag">new</span> EventoQuebra(jogador, bloco);
+notificarTodos(ev);                    <span class="tk-com">// os ouvintes opinam (em ordem de prioridade)</span>
+<span class="tk-tag">if</span> (!ev.cancelado) {
+    removerBlocoDoMundo();             <span class="tk-com">// só acontece se NINGUÉM vetou</span>
+}</pre></div>
+  <p>Sacou a elegância? O evento vira um OBJETO que viaja pelos ouvintes colhendo vetos — e a ação espera o veredito. É assim que plugins de proteção impedem grief sem nunca tocarem no código do bloco.</p>
+  <button class="btn green done-btn" onclick="complete('k6l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k6l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k6l2')">← Anterior</button><button class="btn small" onclick="go('k6l4')">Próxima: OFICINA do ouvinte →</button></div>
+</div></section>
+
+<section class="screen" id="k6l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 6 · Lição 4 de 4</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: o contrato e o ouvinte</h2>
+  <p>Monte um listener completo: interface, implementação e disparo — na ordem que compila:</p>
+  <div class="mt" id="mk2"></div>
+  <button class="btn green done-btn" onclick="complete('k6l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k6l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k6l3')">← Anterior</button><button class="btn amber small" onclick="go('qk6')">🎯 Quiz do Módulo 6 →</button></div>
+</div></section>
+
+<section class="screen" id="qk6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Quiz · Módulo 6</span></div>
+  <h2>🎯 Quiz: Eventos</h2>
+  <div id="quiz-qk6"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k7l1')">Módulo 7 →</button></div>
+</div></section>
+
+<!-- ================= M7 · REDSTONE ================= -->
+<section class="screen" id="k7l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B91C1C">Módulo 7 · Lição 1 de 4</span></div>
+  <h2>🔴 Redstone: o boolean que virou bloco</h2>
+  <p>A redstone é o Módulo 2 do Java Completo construído com pedras: sinal de <b>0 a 15</b> (que para a lógica vira <mark>ligado/desligado — um boolean</mark>), fios que o carregam, e componentes que o transformam:</p>
+  <table class="tbl">
+    <tr><th>No jogo</th><th>Na lógica</th></tr>
+    <tr><td>Alavanca / botão / placa de pressão</td><td>A ENTRADA: true ou false</td></tr>
+    <tr><td>Poeira de redstone</td><td>O fio: leva o sinal (perdendo 1 de força por bloco — por isso o máximo 15!)</td></tr>
+    <tr><td>Tocha de redstone num bloco alimentado</td><td><b>NOT</b>: inverte! Alimentou → apaga; sem sinal → acende</td></tr>
+    <tr><td>Pistão / lâmpada / porta</td><td>A SAÍDA: o efeito do true</td></tr>
+  </table>
+  <p>E aqui a beleza: a tocha (NOT) é a peça-mãe. Com NOTs combinados se constrói QUALQUER porta lógica — e com portas lógicas se constrói... um computador. Não é força de expressão: já construíram computadores funcionais dentro do Minecraft, de calculadoras a processadores. Booleana até o fim.</p>
+  <button class="btn green done-btn" onclick="complete('k7l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k7l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk6')">← Anterior</button><button class="btn small" onclick="go('k7l2')">Próxima: LAB das portas →</button></div>
+</div></section>
+
+<section class="screen" id="k7l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B91C1C">Módulo 7 · Lição 2 de 4</span></div>
+  <h2>🧪 LAB: as portas lógicas em Java</h2>
+  <p>Cada circuito clássico de redstone é UMA linha de Java. Monte a porta do cofre (duas alavancas E), o alarme (qualquer sensor OU) e o corredor noturno (NÃO é dia):</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka11">boolean alavancaA = true;
+boolean alavancaB = true;
+boolean sensorPorta = false;
+boolean sensorJanela = true;
+boolean eDia = false;
+
+boolean cofreAbre = alavancaA && alavancaB;
+System.out.println("🔐 Cofre (A AND B): " + cofreAbre);
+
+boolean alarmeToca = sensorPorta || sensorJanela;
+System.out.println("🚨 Alarme (porta OR janela): " + alarmeToca);
+
+boolean luzAcende = !eDia;
+System.out.println("💡 Luz do corredor (NOT dia): " + luzAcende);
+
+boolean xor = (alavancaA || alavancaB) && !(alavancaA && alavancaB);
+System.out.println("↕️ Interruptor de escada (XOR): " + xor);
+System.out.println("(XOR: exatamente UMA das duas — o circuito das luzes de escada!)");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka11')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka11-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Vale nos dois mundos</div>Alterne os booleans lá em cima e rode de novo — você está "puxando alavancas". No jogo, a porta AND são duas tochas engenhosas; no Java, um &&. Mesma verdade, materiais diferentes.</div>
+  <button class="btn green done-btn" onclick="complete('k7l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k7l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k7l1')">← Anterior</button><button class="btn small" onclick="go('k7l3')">Próxima: LAB do repetidor →</button></div>
+</div></section>
+
+<section class="screen" id="k7l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B91C1C">Módulo 7 · Lição 3 de 4</span></div>
+  <h2>🧪 LAB: o repetidor é um delay de ticks</h2>
+  <p>O repetidor atrasa o sinal em 1 a 4 <b>ticks de redstone</b> (cada um = 2 ticks de jogo = 0,1s). Ou seja: é uma FILA — o sinal de agora sai depois. Simule um repetidor de 3:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka12">int atraso = 3;
+boolean[] fila = new boolean[3];
+
+boolean[] entrada = {true, true, false, false, true, false, false, false};
+
+System.out.println("tick | entra | sai (3 ticks depois)");
+for (int t = 0; t < entrada.length; t++) {
+    boolean saindo = fila[0];
+
+    fila[0] = fila[1];
+    fila[1] = fila[2];
+    fila[2] = entrada[t];
+
+    System.out.println("  " + t + "  |  " + entrada[t] + "  =>  " + saindo);
+}
+System.out.println("O pulso viajou 3 posições na fila: ATRASO é memória em movimento!");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka12')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka12-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ E os clocks de redstone?</div>Agora você decifra: um clock é a saída de um NOT ligada... na própria entrada, com delay. true vira false vira true — piscando no ritmo do atraso. Realimentação + delay = oscilador. Meia dúzia de conceitos e a redstone inteira é sua.</div>
+  <button class="btn green done-btn" onclick="complete('k7l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k7l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k7l2')">← Anterior</button><button class="btn small" onclick="go('k7l4')">Próxima: Do bit ao computador →</button></div>
+</div></section>
+
+<section class="screen" id="k7l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B91C1C">Módulo 7 · Lição 4 de 4</span></div>
+  <h2>🖥️ Do bit ao computador: a escada completa</h2>
+  <p>A trilha que leva das suas alavancas aos computadores construídos dentro do jogo — cada degrau usando só o anterior:</p>
+  <table class="tbl">
+    <tr><th>Degrau</th><th>Feito de</th><th>Ganha o poder de</th></tr>
+    <tr><td>1. Sinal (bit)</td><td>Redstone 0/15</td><td>Representar true/false</td></tr>
+    <tr><td>2. Portas NOT, AND, OR</td><td>Tochas + fios</td><td>DECIDIR (todo if é isso por dentro!)</td></tr>
+    <tr><td>3. Somador</td><td>Portas XOR + AND combinadas</td><td>CALCULAR (soma binária, bit a bit, com "vai um")</td></tr>
+    <tr><td>4. Memória (latch)</td><td>Portas realimentadas</td><td>LEMBRAR (guardar um bit ligado)</td></tr>
+    <tr><td>5. Clock</td><td>NOT + delay em loop</td><td>Dar RITMO (o tick do circuito!)</td></tr>
+    <tr><td>6. Computador</td><td>Milhares dos anteriores</td><td>Rodar programas — dentro de um programa Java 🤯</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Este é um dos segredos mais bonitos da computação: seu processador REAL é a mesma escada — bilhões de portas em silício em vez de tochas em pedra. Quem entende redstone entende, em miniatura, a máquina onde este curso roda. Você acabou de olhar o abismo... e ele é feito de && e ||.</div></div>
+  <button class="btn green done-btn" onclick="complete('k7l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k7l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k7l3')">← Anterior</button><button class="btn amber small" onclick="go('qk7')">🎯 Quiz do Módulo 7 →</button></div>
+</div></section>
+
+<section class="screen" id="qk7"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#B91C1C">Quiz · Módulo 7</span></div>
+  <h2>🎯 Quiz: Redstone é lógica</h2>
+  <div id="quiz-qk7"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('k8l1')">Módulo 8 →</button></div>
+</div></section>
+
+<!-- ================= M8 · VIRE CRIADOR ================= -->
+<section class="screen" id="k8l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 8 · Lição 1 de 5</span></div>
+  <h2>🚀 A virada: de arqueólogo(a) a criador(a)</h2>
+  <p>Você dissecou o jar, o relógio, os objetos, os dados, os eventos e a lógica. Agora inverte-se o jogo: em vez de LER o Minecraft, você vai ESCREVER PARA ele — com um plugin de servidor. O caminho dos plugins é o mais amigável para começar:</p>
+  <table class="tbl">
+    <tr><th>Jeito de criar</th><th>O que é</th><th>Dificuldade</th></tr>
+    <tr><td><b>Plugin (Paper/Spigot)</b> ← começamos aqui</td><td>Java que roda NO SERVIDOR usando uma API pública e estável — sem tocar no código da Mojang</td><td>🌶️ Amigável</td></tr>
+    <tr><td>Datapack</td><td>Só JSON e mcfunctions (os dados do Módulo 1!) — nem precisa de Java</td><td>🌶️ Leve</td></tr>
+    <tr><td>Mod (Fabric/Forge)</td><td>Java que altera o JOGO em si via mappings — muda blocos, mobs, dimensões</td><td>🌶️🌶️🌶️ Avançado</td></tr>
+  </table>
+  <p>Pré-requisitos que você JÁ tem do Java Completo: o JDK 21 (o <code>"java_version": 21</code> do version.json não era coincidência!) e o IntelliJ. Se ainda não instalou, a lição 5 do Módulo 8 de lá é o passo a passo.</p>
+  <button class="btn green done-btn" onclick="complete('k8l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k8l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qk7')">← Anterior</button><button class="btn small" onclick="go('k8l2')">Próxima: Seu servidor local →</button></div>
+</div></section>
+
+<section class="screen" id="k8l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 8 · Lição 2 de 5</span></div>
+  <h2>🖥️ Seu servidor Paper em 6 passos</h2>
+  <p><b>Paper</b> é o software de servidor mais usado do mundo (gratuito, otimizado, com API de plugins). Montar o seu, local, para testar:</p>
+  <table class="tbl">
+    <tr><th>Passo</th><th>Como</th></tr>
+    <tr><td>1. Baixe o Paper</td><td>Site oficial papermc.io → Downloads → versão compatível com seu jogo → <code>paper-xxx.jar</code></td></tr>
+    <tr><td>2. Crie a casa</td><td>Uma pasta <code>meu-servidor/</code> e o jar dentro</td></tr>
+    <tr><td>3. Primeira partida</td><td>No terminal, dentro da pasta: <code>java -Xmx2G -jar paper-xxx.jar --nogui</code></td></tr>
+    <tr><td>4. Aceite a EULA</td><td>Ele para e cria <code>eula.txt</code> — abra, troque para <code>eula=true</code> (a leitura do Módulo 1 valendo na prática!), rode de novo</td></tr>
+    <tr><td>5. O mundo nasce</td><td>Veja no console: "Preparing spawn area..." — os chunks do Módulo 4 sendo gerados diante de você, até o <code>Done!</code></td></tr>
+    <tr><td>6. Entre</td><td>No jogo: Multiplayer → Direct Connect → <code>localhost</code>. Bem-vindo(a) ao SEU mundo 🌍</td></tr>
+  </table>
+  <div class="box tip"><div class="bt">💡 Traduzindo o comando</div><code>java</code> (a JVM!) <code>-Xmx2G</code> (até 2 GB de memória) <code>-jar paper-xxx.jar</code> (rode este jar — ele tem Main-Class no manifesto, lembra?) <code>--nogui</code> (sem janelinha, só console). Você LÊ esse comando agora — cada pedaço passou pelo curso.</div>
+  <button class="btn green done-btn" onclick="complete('k8l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k8l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k8l1')">← Anterior</button><button class="btn small" onclick="go('k8l3')">Próxima: SEU primeiro plugin →</button></div>
+</div></section>
+
+<section class="screen" id="k8l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 8 · Lição 3 de 5</span></div>
+  <h2>🔌 SEU primeiro plugin, linha a linha</h2>
+  <p>O rito de passagem. Um plugin Paper é uma classe que estende <code>JavaPlugin</code> + um listener de eventos — TUDO conceitos seus. O código completo (este é SEU código, usando a API pública — pode publicar!):</p>
+  <div class="codebox"><div class="cb-top">MeuPlugin.java — boas-vindas + comando /ola</div>
+  <pre><span class="tk-tag">public class</span> MeuPlugin <span class="tk-tag">extends</span> JavaPlugin <span class="tk-tag">implements</span> Listener {
+
+    @Override
+    <span class="tk-tag">public void</span> onEnable() {                          <span class="tk-com">// o "construtor" do plugin: roda ao ligar</span>
+        getServer().getPluginManager().registerEvents(<span class="tk-tag">this</span>, <span class="tk-tag">this</span>);
+        getLogger().info(<span class="tk-str">"MeuPlugin ligado! ✱"</span>);      <span class="tk-com">// aparece no console do servidor</span>
+    }
+
+    @EventHandler                                     <span class="tk-com">// "me inscreva neste evento" (Módulo 6!)</span>
+    <span class="tk-tag">public void</span> aoEntrar(PlayerJoinEvent evento) {
+        Player p = evento.getPlayer();                <span class="tk-com">// o objeto Player (Módulo 3!)</span>
+        p.sendMessage(<span class="tk-str">"§aBem-vindo(a) ao meu mundo, "</span> + p.getName() + <span class="tk-str">"!"</span>);
+        evento.setJoinMessage(<span class="tk-str">"§e✱ "</span> + p.getName() + <span class="tk-str">" chegou para construir!"</span>);
+    }
+
+    @Override
+    <span class="tk-tag">public boolean</span> onCommand(CommandSender quem, Command cmd, String rotulo, String[] args) {
+        <span class="tk-tag">if</span> (rotulo.equalsIgnoreCase(<span class="tk-str">"ola"</span>)) {        <span class="tk-com">// equals, não == (você sabe por quê 😉)</span>
+            quem.sendMessage(<span class="tk-str">"§bOlá! Plugin feito por um(a) formando(a) da Dev Academy."</span>);
+            <span class="tk-tag">return true</span>;
+        }
+        <span class="tk-tag">return false</span>;
+    }
+}</pre></div>
+  <p>Empacote (o IntelliJ gera o .jar do plugin — um jar SEU, com manifesto e tudo), solte na pasta <code>plugins/</code> do servidor, reinicie. Entre no jogo e digite <code>/ola</code>. Aquela mensagem azul na tela? <mark>Seu Java rodando DENTRO do Minecraft</mark>.</p>
+  <div class="box gold"><div class="bt">✱ O inventário de conceitos deste código</div>extends e implements (M7 do Java), @Override e anotações (M1 daqui!), eventos e inscrição (M6), o objeto Player da hierarquia Entity (M3), equalsIgnoreCase (M8 do Java), o jar com manifesto (M1). Não sobrou UMA linha misteriosa. Este é o teste final de verdade — e você passou lendo.</div>
+  <button class="btn green done-btn" onclick="complete('k8l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k8l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k8l2')">← Anterior</button><button class="btn small" onclick="go('k8l4')">Próxima: Publique →</button></div>
+</div></section>
+
+<section class="screen" id="k8l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 8 · Lição 4 de 5</span></div>
+  <h2>🌍 Publique: a comunidade espera</h2>
+  <p>Plugin funcionando local? O ecossistema do Minecraft é o melhor lugar do mundo para estrear em público:</p>
+  <table class="tbl">
+    <tr><th>Onde</th><th>O quê</th></tr>
+    <tr><td>GitHub</td><td>O CÓDIGO do seu plugin (você já sabe subir repositório — a Academy inteira mora num!). Um README caprichado = seu cartão de visitas</td></tr>
+    <tr><td>Hangar (papermc.io) / Modrinth</td><td>As "lojas" onde servidores descobrem plugins — publique o .jar com descrição e prints</td></tr>
+    <tr><td>Seu servidor com amigos</td><td>O teste de produção mais divertido que existe: feedback em tempo real, no jogo</td></tr>
+  </table>
+  <p>Ideias de segundo plugin na medida: mensagens de boas-vindas configuráveis, /home e /spawn, contador de diamantes do servidor (HashMap jogador → total... reconheceu o placar da oficina?), moeda virtual simples. Cada um usa SÓ o que você já tem.</p>
+  <div class="box tip"><div class="bt">💡 Portfólio que emprega</div>"Plugin de Minecraft com 500 downloads" num currículo júnior chama MAIS atenção que dez certificados: prova código real, usuários reais, manutenção real. Dev de plugin é dev — e o mercado sabe.</div>
+  <button class="btn green done-btn" onclick="complete('k8l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k8l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k8l3')">← Anterior</button><button class="btn small" onclick="go('k8l5')">Próxima: A trilha continua →</button></div>
+</div></section>
+
+<section class="screen" id="k8l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Módulo 8 · Lição 5 de 5</span></div>
+  <h2>🗺️ A trilha continua: datapacks, mods e além</h2>
+  <table class="tbl">
+    <tr><th>Caminho</th><th>Quando</th><th>Primeiro passo</th></tr>
+    <tr><td>📦 Datapacks</td><td>Quer mudar receitas, loot, avanços SEM Java</td><td>Abra os JSONs de <code>data/</code> que você conheceu no Módulo 1 — a wiki oficial tem o formato de cada registro</td></tr>
+    <tr><td>🧵 Fabric</td><td>Quer MODAR o jogo em si (leve e moderno)</td><td>Template oficial do Fabric no GitHub + os mappings oficiais da Mojang que você já entende</td></tr>
+    <tr><td>⚒️ Forge/NeoForge</td><td>O ecossistema dos modpacks gigantes</td><td>Mesma ideia, comunidade enorme</td></tr>
+    <tr><td>🕹️ Seus próprios jogos</td><td>O curso do jogo de plataforma desta trilha!</td><td>Você já sabe: loop, entidades, eventos... o Minecraft te ensinou os padrões</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Última reflexão da escavação: você entrou neste curso vendo um jogo — e sai vendo um SISTEMA: 10.291 classes num zip, um loop de 20Hz, uma árvore de herança viva, mapas aninhados persistidos, eventos desacoplados e lógica booleana virando circuitos. Essa mudança de olhos não tem volta, e serve para TODO software daqui em diante. O quiz final e o certificado ⛏️ Mestre(a) do Bloco te esperam. Foi uma honra escavar contigo. ✱</div></div>
+  <button class="btn green done-btn" onclick="complete('k8l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-k8l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('k8l4')">← Anterior</button><button class="btn amber small" onclick="go('qk8')">🎯 QUIZ FINAL →</button></div>
+</div></section>
+
+<section class="screen" id="qk8"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#166534">Quiz FINAL · Módulo 8</span></div>
+  <h2>🎯 Quiz Final: Java no Minecraft</h2>
+  <div id="quiz-qk8"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button></div>
+</div></section>
+
+</main>
+
+<!-- MODAIS -->
+<div class="overlay" id="badgeOverlay"><div class="modal">
+  <div class="me" id="badgeEmo">🏅</div>
+  <h3 id="badgeTit">Medalha!</h3>
+  <p id="badgeTxt"></p>
+  <button class="btn" onclick="document.getElementById('badgeOverlay').classList.remove('show')">Continuar ✨</button>
+</div></div>
+<div class="overlay" id="diplomaOverlay"><div class="modal">
+  <div class="me">🎓</div>
+  <h3>ESCAVAÇÃO COMPLETA!</h3>
+  <p>Do CAFEBABE aos 20 ticks, da árvore Entity ao seu primeiro plugin: você dissecou o jogo mais vendido da história e saiu do outro lado como <b>Mestre(a) do Bloco</b>. O certificado já está na aba Certificados — e o mundo dos criadores te espera. ✱⛏️</p>
+  <a class="btn" href="certificados.html">🎓 Ver meu certificado</a>
+  <button class="btn outline" onclick="document.getElementById('diplomaOverlay').classList.remove('show')" style="margin-top:8px">Continuar explorando</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<style>.mt .bloco{white-space:pre;font-family:Consolas,monospace;font-size:.82rem;text-align:left}</style>
+<script src="config.js?v=3"></script>
+<script src="shared/dev-academy.js?v=3"></script>
+<script src="shared/javabox.js?v=3"></script>
+<script>
+/* ============ ESTADO ============ */
+const CURSO_ID = 'java-minecraft';
+let xp = 0, done = new Set(), dys = false, badges = [], dip = false, dipEm = null, uid = null;
+const $ = id => document.getElementById(id);
+const RANKS = [[0,'Explorador(a) 🌱'],[110,'Minerador(a) de Código ⛏️'],[220,'Engenheiro(a) de Redstone 🔴'],[330,'Domador(a) de Mobs 🧟'],[430,'Mestre(a) do Bloco 👑']];
+const MODS = {
+ mod1:{items:[['k1l1','O .jar é um zip (números reais)'],['k1l2','Bytecode e a JVM'],['k1l3','Ofuscação e mappings'],['k1l4','assets/ e data/'],['k1l5','⚖️ EULA e ética'],['qk1','🎯 Quiz']],badge:{emo:'📦',tit:'Arqueólogo(a) Digital!',txt:'Módulo 1 completo: você abriu o jar e leu suas entranhas.'}},
+ mod2:{items:[['k2l1','O tick: 20 por segundo'],['k2l2','🧪 Lab: 1 segundo de mundo'],['k2l3','🧪 Lab: o dia de 24.000'],['k2l4','O orçamento de 50ms (lag)'],['qk2','🎯 Quiz']],badge:{emo:'⏰',tit:'Senhor(a) do Tempo!',txt:'Módulo 2 completo: o relógio do mundo não tem mais segredos.'}},
+ mod3:{items:[['k3l1','A árvore Entity real'],['k3l2','🧪 Lab: a linhagem'],['k3l3','O loop polimórfico'],['k3l4','🧪 Lab: o Creeper'],['k3l5','🧱 Oficina: nasce um monstro'],['qk3','🎯 Quiz']],badge:{emo:'🧟',tit:'Domador(a) de Mobs!',txt:'Módulo 3 completo: herança e polimorfismo em escala planetária.'}},
+ mod4:{items:[['k4l1','double vs int (F3)'],['k4l2','🧪 Lab: chunks e floorDiv'],['k4l3','🧪 Lab: a mágica da seed'],['k4l4','O ruído que vira montanha'],['k4l5','A tela F3 decifrada'],['qk4','🎯 Quiz']],badge:{emo:'🧭',tit:'Cartógrafo(a) de Bits!',txt:'Módulo 4 completo: coordenadas, chunks e seeds dominados.'}},
+ mod5:{items:[['k5l1','NBT: mapas aninhados'],['k5l2','🧪 Lab: o inventário'],['k5l3','🧪 Lab: durabilidade'],['k5l4','A pasta do mundo'],['qk5','🎯 Quiz']],badge:{emo:'💾',tit:'Guardião(ã) dos Dados!',txt:'Módulo 5 completo: você sabe como o mundo não esquece.'}},
+ mod6:{items:[['k6l1','O padrão observer'],['k6l2','🧪 Lab: eventos do zero'],['k6l3','Prioridade e cancelamento'],['k6l4','🧱 Oficina: o ouvinte'],['qk6','🎯 Quiz']],badge:{emo:'📣',tit:'Maestro(ina) de Eventos!',txt:'Módulo 6 completo: o mundo reage — e você rege.'}},
+ mod7:{items:[['k7l1','O boolean que virou bloco'],['k7l2','🧪 Lab: as portas'],['k7l3','🧪 Lab: o repetidor'],['k7l4','Do bit ao computador'],['qk7','🎯 Quiz']],badge:{emo:'🔴',tit:'Engenheiro(a) de Redstone!',txt:'Módulo 7 completo: lógica booleana das alavancas ao processador.'}},
+ mod8:{items:[['k8l1','A virada: criador(a)'],['k8l2','Seu servidor Paper'],['k8l3','🔌 SEU primeiro plugin'],['k8l4','Publique'],['k8l5','A trilha continua'],['qk8','🎯 Quiz FINAL']],badge:{emo:'🚀',tit:'Criador(a) Oficial!',txt:'Módulo 8 completo: do jar alheio ao plugin próprio.'}}
+};
+const TOTAL = Object.values(MODS).reduce((s,m)=>s+m.items.length,0);
+/* ============ QUIZ ============ */
+const QUIZ = {
+ qk1:[
+  {q:'Um arquivo .jar é:',o:['Um .zip com classes compiladas e dados (Java ARchive)','Um vídeo','Código-fonte legível','Um formato secreto da Mojang'],c:0,w:'28.163 arquivos num zip: 10.291 classes + assets + data.'},
+  {q:'Os sons do Minecraft:',o:['NÃO vêm no jar — o launcher baixa à parte (0 .ogg lá dentro!)','Estão todos no jar','São gerados por IA','Não existem'],c:0,w:'Por isso a primeira execução baixa tanta coisa.'},
+  {q:'A ofuscação (classes como gds$a):',o:['Encolhe o jar e dificulta engenharia reversa; a Mojang publica os mappings oficiais','É um vírus','É um erro de compilação','Deixa o jogo mais rápido para jogar'],c:0,w:'E o $ indica classe interna — Java que você reconhece.'}],
+ qk2:[
+  {q:'A lógica do mundo roda a:',o:['20 ticks por segundo (1 tick = 50ms)','60 ticks','1 tick','1000 ticks'],c:0,w:'Gráficos a 60+ fps, lógica a 20 tps — dois relógios.'},
+  {q:'Um dia no jogo dura 24.000 ticks =',o:['20 minutos reais','24 horas','1 hora','5 minutos'],c:0,w:'24000 ÷ 20 = 1200s = 20 min — bate com sua experiência.'},
+  {q:'O "lag" de servidor acontece quando:',o:['O tick estoura o orçamento de 50ms e o TPS cai','A internet acaba','O jar corrompe','Há muitos jogadores bonitos'],c:0,w:'Farm de 5.000 entidades = milhares de updates não cabem no tick.'}],
+ qk3:[
+  {q:'Player e Zombie herdam vida e dano de:',o:['LivingEntity','ItemEntity','Block','Redstone'],c:0,w:'Entity → LivingEntity → (Player, Mob → Zombie...).'},
+  {q:'Item caído no chão NÃO herda de LivingEntity porque:',o:['Não tem vida — mas herda de Entity (tem posição e cai)','É invisível','Não é um objeto','É de pedra'],c:0,w:'Cada extends é uma decisão sobre o que se tem em comum.'},
+  {q:'O "for (Entity e : mundo) { e.tick(); }" é:',o:['Polimorfismo: uma chamada, mil comportamentos','Um erro','Ofuscação','Redstone'],c:0,w:'Zumbi caça, vaca pasta, flecha voa — o coral da fazenda em produção.'}],
+ qk4:[
+  {q:'Entidades usam double e blocos usam int porque:',o:['Movimento precisa de frações; a grade de blocos não','double é mais bonito','int é proibido','Sempre foi assim sem motivo'],c:0,w:'O F3 mostra os dois: XYZ com vírgula, Block sem.'},
+  {q:'O chunk de um bloco vem de:',o:['Math.floorDiv(x, 16) — arredonda para BAIXO (importante nos negativos!)','x * 16','x + 16','Sorteio'],c:0,w:'floorDiv(-33,16) = -3; truncar daria -2 e pularia um chunk.'},
+  {q:'Mesma seed gera o mesmo mundo porque:',o:['Random é uma fórmula determinística (PRNG): mesma semente, mesma sequência','O mundo baixa da internet','É coincidência','A Mojang escolhe à mão'],c:0,w:'Pseudoaleatório: a mentira mais útil da computação.'}],
+ qk5:[
+  {q:'NBT é, conceitualmente:',o:['Mapas chave→valor aninhados (HashMap dentro de HashMap)','Uma imagem','Código Java','Um vírus'],c:0,w:'A mesma forma do JSON — caixas dentro de caixas.'},
+  {q:'Ao pegar itens, o inventário primeiro:',o:['Tenta EMPILHAR nas pilhas existentes (até 64), depois procura vaga','Joga tudo fora','Cria sempre pilha nova','Ordena por cor'],c:0,w:'60+10 de cobblestone = pilha de 64 + pilha de 6, como no lab.'},
+  {q:'A durabilidade ser private com método usar() é:',o:['Encapsulamento: só as regras internas alteram o dado','Um bug','Enfeite','Ofuscação'],c:0,w:'Ninguém faz pica.durabilidade = 9999 — o objeto se defende.'}],
+ qk6:[
+  {q:'No padrão observer:',o:['Interessados se inscrevem; o evento notifica a lista; cada um reage','Todos conhecem todos','O bloco chama cada sistema pelo nome','Nada acontece'],c:0,w:'Desacoplamento: quebrar() não sabe que Conquistas existe.'},
+  {q:'evento.setCancelled(true) faz:',o:['A ação NÃO acontecer (o bloco quebrado volta!)','O servidor desligar','O evento repetir','Nada'],c:0,w:'Plugins de proteção vetam ações sem tocar no código do bloco.'},
+  {q:'A prioridade (LOWEST→HIGHEST) define:',o:['A ORDEM em que os ouvintes são notificados','Quem é mais importante socialmente','A cor da mensagem','O lag'],c:0,w:'Proteção roda antes de estatística — ordem importa.'}],
+ qk7:[
+  {q:'Para a lógica, o sinal de redstone equivale a:',o:['Um boolean (ligado/desligado)','Um double','Uma String','Uma classe'],c:0,w:'A força 0-15 existe, mas a decisão é true/false.'},
+  {q:'A tocha de redstone num bloco alimentado é a porta:',o:['NOT (inverte o sinal)','AND','OR','XOR'],c:0,w:'E com NOTs combinados se constrói qualquer porta — e computadores.'},
+  {q:'O repetidor, em termos de programação, é:',o:['Um DELAY: uma fila que atrasa o sinal alguns ticks','Um amplificador de som','Uma variável','Um comentário'],c:0,w:'Delay + realimentação = clock: o pisca-pisca explicado.'}],
+ qk8:[
+  {q:'O caminho mais amigável para criar é:',o:['Plugin (Paper/Spigot): Java na API pública do servidor','Reescrever o jogo','Hackear o jar','Esperar a Mojang'],c:0,w:'Sem tocar no código da Mojang — e a EULA abençoa.'},
+  {q:'@EventHandler no plugin significa:',o:['"Inscreva este método neste evento" — o observer do Módulo 6','Um comentário','Um erro','Uma textura'],c:0,w:'PlayerJoinEvent chega, seu método reage. Você construiu isso no lab.'},
+  {q:'No onCommand, comparar o comando com equalsIgnoreCase (e não ==) porque:',o:['Strings se comparam com equals no Java real','== é mais lento','É moda','Tanto faz'],c:0,w:'A lição de honestidade do Java Completo, agora em código de produção.'}]
+};
+const quizOk = {};
+function renderQuizzes(){
+  Object.keys(QUIZ).forEach(qid=>{
+    const box = $('quiz-'+qid); if(!box) return;
+    quizOk[qid] = quizOk[qid] || new Set();
+    box.innerHTML = (done.has(qid) ? '<div class="box gold"><div class="bt">✅ Quiz concluído!</div>Pode refazer para revisar — o XP já é seu.</div>' : '') +
+      QUIZ[qid].map((p,pi)=>{
+        const ops = p.o.map((t,oi)=>({t,oi})).sort(()=>Math.random()-.5);
+        return '<div class="qq"><div class="qp">'+(pi+1)+'. '+p.q+'</div>'+
+          ops.map(o=>`<button class="qopt" data-oi="${o.oi}" onclick="quizResp('${qid}',${pi},${o.oi},this)">${o.t}</button>`).join('')+
+          '<div class="qwhy" id="why-'+qid+'-'+pi+'"></div></div>';
+      }).join('');
+  });
+}
+function quizResp(qid,pi,oi,el){
+  const p = QUIZ[qid][pi], pai = el.parentElement;
+  pai.querySelectorAll('.qopt').forEach(b=>{ b.classList.remove('certa','errada'); if(+b.dataset.oi===p.c) b.classList.add('certa'); });
+  if(oi!==p.c) el.classList.add('errada');
+  const why = $('why-'+qid+'-'+pi);
+  why.innerHTML = (oi===p.c?'🎉 <b>Certíssimo!</b> ':'💭 <b>A certa está em verde.</b> ')+p.w;
+  why.classList.add('show');
+  if(oi===p.c){ quizOk[qid].add(pi); if(quizOk[qid].size===QUIZ[qid].length && !done.has(qid)) complete(qid); }
+}
+/* ============ OFICINAS (ordem exata) ============ */
+const MONTJ = {
+ mk1:{obj:'🎯 <b>Meta:</b> a herança estilo Minecraft — o Monstro genérico, o Zumbi que sobrescreve o ataque, e o polimorfismo mordendo. Ordem de compilação!',
+   alvo:['class Monstro {','    String nome;','    Monstro(String nome) { this.nome = nome; }','    String atacar() { return this.nome + " ataca!"; }','}','class Zumbi extends Monstro {','    Zumbi() { super("Zumbi"); }','    String atacar() { return "Zumbi morde! 🧟"; }','}','Monstro m = new Zumbi();','System.out.println(m.atacar());'],
+   pal:['class Monstro {','    String nome;','    Monstro(String nome) { this.nome = nome; }','    String atacar() { return this.nome + " ataca!"; }','}','class Zumbi extends Monstro {','class Zumbi implements Monstro {','    Zumbi() { super("Zumbi"); }','    String atacar() { return "Zumbi morde! 🧟"; }','}','Monstro m = new Zumbi();','Monstro m = Zumbi();','System.out.println(m.atacar());']},
+ mk2:{obj:'🎯 <b>Meta:</b> um listener completo — o contrato (interface), quem o assina (implements) e o disparo do evento. O padrão dos plugins!',
+   alvo:['interface Ouvinte {','    void aoQuebrarBloco(String bloco);','}','class Anunciante implements Ouvinte {','    public void aoQuebrarBloco(String bloco) {','        System.out.println("💥 Quebrou: " + bloco);','    }','}','Anunciante a = new Anunciante();','a.aoQuebrarBloco("diamante");'],
+   pal:['interface Ouvinte {','    void aoQuebrarBloco(String bloco);','}','class Anunciante implements Ouvinte {','class Anunciante extends Ouvinte {','    public void aoQuebrarBloco(String bloco) {','        System.out.println("💥 Quebrou: " + bloco);','    }','}','Anunciante a = new Anunciante();','a.aoQuebrarBloco("diamante");','a.aoQuebrarBloco(diamante);']}
+};
+const MT = {};
+function catJ(l){
+  const t = l.trim();
+  if(/^(class |interface |enum )|extends|implements/.test(t)) return 'bk-estr';
+  if(/^(if|} else|else|for|while|switch|throw|case|break)/.test(t)) return 'bk-texto';
+  if(/System\.out/.test(t)) return 'bk-lista';
+  if(/Scanner|next/.test(t)) return 'bk-midia';
+  if(/^(int|double|String|boolean|void|private|HashMap|ArrayList|static)/.test(t)) return 'bk-form';
+  return 'bk-link';
+}
+function mtInit(id){ MT[id] = {pilha:[]}; mtRender(id); }
+function addMj(id,i){ MT[id].pilha.push(MONTJ[id].pal[i]); mtRender(id); }
+function remMj(id,i){ MT[id].pilha.splice(i,1); mtRender(id); }
+function mjLimpar(id){ MT[id].pilha = []; mtRender(id); }
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mtRender(id){
+  const spec = MONTJ[id], st = MT[id], el = $(id);
+  el.innerHTML = `<div class="mt-obj">${spec.obj}</div>
+    <div class="mt-grid">
+      <div><div class="pg-lab">🧩 Seu programa (a ORDEM importa — toque para remover)</div>
+        <div class="mt-pilha">${st.pilha.length===0?'<div class="vazio">👇 Toque nas linhas da caixa, na ordem certa</div>':st.pilha.map((d,i)=>`<button class="bloco ${catJ(d)}" onclick="remMj('${id}',${i})">${String(i+1).padStart(2,' ')}│ ${esc(d)}</button>`).join('')}</div>
+        <div style="margin-top:9px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn small green" onclick="mjCheck('${id}')">Conferir e ▶ Rodar</button><button class="btn small outline" onclick="mjLimpar('${id}')">🧹 Limpar</button></div>
+        <div class="mt-msg" id="${id}-msg"></div></div>
+      <div><div class="pg-lab">🧰 Caixa de linhas (com armadilhas!)</div>
+        <div>${spec.pal.map((d,i)=>`<button class="bloco ${catJ(d)}" onclick="addMj('${id}',${i})">${esc(d)}</button>`).join('')}</div>
+      </div>
+    </div>`;
+}
+function mjCheck(id){
+  const spec = MONTJ[id], got = MT[id].pilha, m = $(id+'-msg');
+  m.classList.add('show');
+  if(got.length===spec.alvo.length && got.every((l,i)=>l===spec.alvo[i])){
+    const r = JavaBox.run(spec.alvo.join('\n'), spec.entradas||'');
+    m.className = 'mt-msg show ok';
+    m.innerHTML = '🎉 <b>Programa montado — e RODANDO:</b><pre style="background:#0B1120;color:#4ADE80;border-radius:10px;padding:12px;margin-top:8px;white-space:pre-wrap;font-size:.85rem">'+esc(r.ok?r.out:('💥 '+r.err))+'</pre>';
+    DA.confetti(); return;
+  }
+  m.className = 'mt-msg show err';
+  const armadilha = got.find(l=>!spec.alvo.includes(l));
+  if(armadilha){ m.innerHTML = '🪤 A linha <code>'+esc(armadilha.trim())+'</code> é armadilha — não faz parte do programa! Toque nela na pilha para remover.'; return; }
+  if(got.length < spec.alvo.length){ m.innerHTML = '🤔 Ainda faltam <b>'+(spec.alvo.length-got.length)+'</b> linha(s). Todas as corretas estão na caixa.'; return; }
+  const idx = got.findIndex((l,i)=>l!==spec.alvo[i]);
+  m.innerHTML = '🔀 A linha <b>Nº '+(idx+1)+'</b> não está no lugar certo. Pense na receita: o que precisa existir ANTES de ser usado?';
+}
+function renderMts(){ Object.keys(MONTJ).forEach(mtInit); }
+/* ============ ENGINE ============ */
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
+function snapshot(){ return {xp, done:[...done], dys, badges, dip, dip_em:dipEm}; }
+async function saveState(){
+  const s = snapshot();
+  try{ localStorage.setItem('da-espelho:'+CURSO_ID+':'+uid, JSON.stringify(s)); }catch(e){}
+  DA.saveProgress(CURSO_ID, s);
+}
+function mergeStates(a,b){
+  if(!a) return b; if(!b) return a;
+  const d = new Set([...(a.done||[]),...(b.done||[])]);
+  return {xp:Math.max(a.xp||0,b.xp||0,d.size*10), done:[...d], dys:b.dys||a.dys||false,
+    badges:[...new Set([...(a.badges||[]),...(b.badges||[])])], dip:a.dip||b.dip||false, dip_em:a.dip_em||b.dip_em||null};
+}
+function apply(s){
+  if(!s) return;
+  done = new Set(s.done||[]); xp = s.xp||done.size*10; dys = !!s.dys; badges = s.badges||[]; dip = !!s.dip; dipEm = s.dip_em||null;
+  document.body.classList.toggle('dys', dys);
+}
+function rank(){ let r=RANKS[0][1]; RANKS.forEach(([m,n])=>{ if(xp>=m) r=n; }); return r; }
+function refreshUI(){
+  $('xpVal').textContent = xp;
+  $('rankVal').textContent = rank();
+  $('pfill').style.width = Math.round(done.size/TOTAL*100)+'%';
+  $('plabel').textContent = done.size+' de '+TOTAL+' etapas · '+Math.round(done.size/TOTAL*100)+'%';
+  $('rankline').innerHTML = RANKS.map(([m,n])=>'<span class="rk'+(xp>=m?' on':'')+'">'+n+' · '+m+' XP</span>').join('');
+  Object.entries(MODS).forEach(([mid,m])=>{
+    $(mid+'list').innerHTML = m.items.map(([id,rot])=>
+      `<button class="les-btn ${done.has(id)?'done':''}" onclick="go('${id}')"><span class="ic">${done.has(id)?'✅':'▶️'}</span> ${rot}</button>`).join('');
+  });
+  done.forEach(id=>{ const f=$('f-'+id); if(f) f.classList.add('show'); });
+}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const alvo = $(id); if(alvo) alvo.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function complete(id){
+  if(done.has(id)){ toast('Você já concluiu esta etapa! ✔'); return; }
+  done.add(id); xp += 10;
+  const f = $('f-'+id); if(f) f.classList.add('show');
+  DA.confetti(); refreshUI();
+  const mod = Object.entries(MODS).find(([k,m])=>m.items.some(([i])=>i===id));
+  if(mod && mod[1].items.every(([i])=>done.has(i)) && !badges.includes(mod[0])){
+    badges.push(mod[0]);
+    $('badgeEmo').textContent = mod[1].badge.emo; $('badgeTit').textContent = mod[1].badge.tit; $('badgeTxt').textContent = mod[1].badge.txt;
+    setTimeout(()=>$('badgeOverlay').classList.add('show'), 500);
+  }
+  if(done.size===TOTAL && !dip){ dip = true; dipEm = new Date().toISOString(); setTimeout(()=>$('diplomaOverlay').classList.add('show'), 900); }
+  saveState();
+  renderQuizzes();
+}
+function toggleDys(){ dys = !dys; document.body.classList.toggle('dys', dys); saveState(); toast(dys?'👓 Leitura fácil ativada':'Leitura fácil desativada'); }
+function authUi(){ if(confirm('Sair da sua conta?')) DA.logout(); }
+/* ============ INÍCIO ============ */
+(async function init(){
+  const u = await DA.requireAuth(); if(!u) return;
+  uid = u.id;
+  let nuvem = null;
+  try{ const r = await DA.loadProgress(CURSO_ID); nuvem = r.estado; }catch(e){}
+  let local = null;
+  try{ local = JSON.parse(localStorage.getItem('da-espelho:'+CURSO_ID+':'+uid)); }catch(e){}
+  apply(mergeStates(local, nuvem));
+  renderQuizzes(); renderMts(); refreshUI(); saveState();
+})();
+</script>
+</body>
+</html>

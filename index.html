@@ -71,6 +71,26 @@
       </div>
     </div>
     <div class="da-card">
+      <div class="top g-amber" style="background:linear-gradient(135deg,#7C2D12,#EA580C)"><span class="emo">☕</span><div><h3>Java Completo</h3><small>Do zero ao avançado</small></div></div>
+      <div class="body">
+        <div class="da-note" id="javaNote">A linguagem dos bancos, do Android e do Minecraft: 8 módulos, 54 etapas, com o laboratório JavaBox rodando seu código na hora.</div>
+        <a class="da-btn" href="curso-java.html" style="margin-top:auto;background:linear-gradient(135deg,#EA580C,#F59E0B)">▶ Estudar Java</a>
+      </div>
+      <div class="da-card" style="background:linear-gradient(135deg,#312E81,#7C4DFF)">
+        <div class="da-emoji">🕹️</div>
+        <h3 style="color:#fff">Java: seu 1º Jogo</h3>
+        <div class="da-note" id="jogoNote" style="color:#E0E7FF">Construa um plataforma completo em Java, jogável aqui — 12 missões com teste automático, física e fase autoral.</div>
+        <a class="da-btn" href="curso-java-jogo.html" style="background:linear-gradient(135deg,#7C4DFF,#22D3EE)">Abrir curso</a>
+      </div>
+    </div>
+    <div class="da-card">
+      <div class="top g-green" style="background:linear-gradient(135deg,#14532D,#16A34A)"><span class="emo">⛏️</span><div><h3>Java no Minecraft</h3><small>O jogo real por dentro</small></div></div>
+      <div class="body">
+        <div class="da-note" id="mcNote">A autópsia do jar verdadeiro: 10.291 classes, 20 ticks, entidades, NBT, eventos, redstone — até seu 1º plugin.</div>
+        <a class="da-btn green" href="curso-java-minecraft.html" style="margin-top:auto">▶ Abrir o baú</a>
+      </div>
+    </div>
+    <div class="da-card">
       <div class="top g-green"><span class="emo">🧱</span><div><h3>Lógica com Blocos</h3><small>Jogo para as crianças (e para você!)</small></div></div>
       <div class="body">
         <div class="da-note" id="gameNote">Monte blocos de encaixar e veja o Robô Bip obedecer. Programar virando brincadeira.</div>
@@ -157,6 +177,21 @@ async function entrar(){
   if(ht && ht.estado && ht.estado.done){
     const hf = ht.estado.done.length;
     document.getElementById('htmlNote').innerHTML = (ht.estado.dip?'🎓 Curso concluído! ':'🏗️ '+hf+'/50 etapas · ')+'⚡ '+(ht.estado.xp||0)+' XP';
+  }
+  const jv2 = rows.find(r=>r.curso_id === 'java-completo');
+  if(jv2 && jv2.estado){
+    const jvF = (jv2.estado.done||[]).length;
+    document.getElementById('javaNote').innerHTML = (jv2.estado.dip?'🎓 Curso concluído! ':'☕ '+jvF+'/54 etapas · ')+'⚡ '+(jv2.estado.xp||0)+' XP';
+  }
+  const gg2 = rows.find(r=>r.curso_id === 'java-jogo-plataforma');
+  if(gg2 && gg2.estado){
+    const ggF = (gg2.estado.done||[]).length;
+    document.getElementById('jogoNote').innerHTML = (gg2.estado.dip?'🎓 Curso concluído! ':'🕹️ '+ggF+'/40 etapas · ')+'⚡ '+(gg2.estado.xp||0)+' XP';
+  }
+  const mc2 = rows.find(r=>r.curso_id === 'java-minecraft');
+  if(mc2 && mc2.estado){
+    const mcF = (mc2.estado.done||[]).length;
+    document.getElementById('mcNote').innerHTML = (mc2.estado.dip?'🎓 Curso concluído! ':'⛏️ '+mcF+'/44 etapas · ')+'⚡ '+(mc2.estado.xp||0)+' XP';
   }
   const jg = rows.find(r=>r.curso_id === 'blocos-logica');
   if(jg && jg.estado && jg.estado.estrelas){

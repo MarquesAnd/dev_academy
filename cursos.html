@@ -20,10 +20,10 @@
 <div class="da-wrap">
   <div class="da-hero">
     <div class="bigast">📚</div>
-    <h1>Sua estante de <span>cursos</span></h1>
-    <p>Cada curso usa um sistema REAL como material didático. Sem exemplos genéricos de apostila — aqui você aprende no código que paga as contas. 😄</p>
+    <h1>Todos os <span>cursos</span></h1>
+    <p>A trilha completa da Dev Academy: escolha por onde continuar. Seu progresso, XP e certificados acompanham você em qualquer curso — tudo salvo na nuvem.</p>
   </div>
-  <div class="da-grid" id="lista"></div>
+  <div id="lista" class="da-grid"></div>
 </div>
 <script src="config.js?v=3"></script>
 <script src="shared/dev-academy.js?v=3"></script>
@@ -39,6 +39,15 @@
   const cfeitos = (ce.done||[]).length;
   const he = ht ? (ht.estado||{}) : {};
   const hfeitos = (he.done||[]).length;
+  const jv = rows.find(r=>r.curso_id==='java-completo');
+  const jve = jv ? (jv.estado||{}) : {};
+  const jvf = (jve.done||[]).length;
+  const gg = rows.find(r=>r.curso_id==='java-jogo-plataforma');
+  const gge = gg ? (gg.estado||{}) : {};
+  const ggf = (gge.done||[]).length;
+  const mc = rows.find(r=>r.curso_id==='java-minecraft');
+  const mce = mc ? (mc.estado||{}) : {};
+  const mcf = (mce.done||[]).length;
   const jg = rows.find(r=>r.curso_id==='blocos-logica');
   const je = jg ? (jg.estado||{}) : {};
   const jm = Object.keys(je.estrelas||{}).length;
@@ -71,6 +80,33 @@
         '<div class="da-prog"><div style="width:'+Math.round(cfeitos/47*100)+'%"></div></div>'+
         '<div class="da-note">'+(cfeitos===0?'Ainda não iniciado':(ce.dip?'🎓 Concluído! ⚡ '+(ce.xp||0)+' XP':cfeitos+'/47 etapas · ⚡ '+(ce.xp||0)+' XP'))+'</div>'+
         '<a class="da-btn" href="curso-css.html" style="margin-top:auto;background:linear-gradient(135deg,#7C4DFF,#EC4899)">'+(cfeitos===0?'▶ Começar':'▶ Continuar')+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="da-card">'+
+      '<div class="top g-amber" style="background:linear-gradient(135deg,#7C2D12,#EA580C)"><span class="emo">☕</span><div><h3>Java Completo</h3><small>Do zero ao avançado · 8 módulos</small></div></div>'+
+      '<div class="body">'+
+        '<div class="da-note">A linguagem dos bancos, do Android e do Minecraft — com o laboratório JavaBox rodando seu código na hora: variáveis, loops, métodos, coleções e a OO completa.</div>'+
+        '<div class="da-prog"><div style="width:'+Math.round(jvf/54*100)+'%"></div></div>'+
+        '<div class="da-note">'+(jvf===0?'Ainda não iniciado':(jve.dip?'🎓 Concluído! ⚡ '+(jve.xp||0)+' XP':jvf+'/54 etapas · ⚡ '+(jve.xp||0)+' XP'))+'</div>'+
+        '<a class="da-btn" href="curso-java.html" style="margin-top:auto;background:linear-gradient(135deg,#EA580C,#F59E0B)">'+(jvf===0?'▶ Começar':'▶ Continuar')+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="da-card">'+
+      '<div class="top g-blue" style="background:linear-gradient(135deg,#312E81,#7C4DFF)"><span class="emo">🕹️</span><div><h3>Java: seu 1º Jogo</h3><small>Plataforma jogável · 12 missões</small></div></div>'+
+      '<div class="body">'+
+        '<div class="da-note">Construa um jogo de plataforma completo EM JAVA, jogável aqui: física, pulo, colisão, moedas, inimigos, câmera e a SUA fase autoral — com teste automático por missão.</div>'+
+        '<div class="da-prog"><div style="width:'+Math.round(ggf/40*100)+'%"></div></div>'+
+        '<div class="da-note">'+(ggf===0?'Ainda não iniciado':(gge.dip?'🎓 Concluído! ⚡ '+(gge.xp||0)+' XP':ggf+'/40 etapas · ⚡ '+(gge.xp||0)+' XP'))+'</div>'+
+        '<a class="da-btn" href="curso-java-jogo.html" style="margin-top:auto;background:linear-gradient(135deg,#7C4DFF,#22D3EE)">'+(ggf===0?'▶ Apertar START':'▶ Continuar')+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="da-card">'+
+      '<div class="top g-green" style="background:linear-gradient(135deg,#14532D,#16A34A)"><span class="emo">⛏️</span><div><h3>Java no Minecraft</h3><small>O jogo real por dentro · 8 módulos</small></div></div>'+
+      '<div class="body">'+
+        '<div class="da-note">A autópsia do jar verdadeiro: 10.291 classes, o relógio de 20 ticks, entidades com herança, NBT, eventos, redstone booleana — e seu primeiro plugin de servidor.</div>'+
+        '<div class="da-prog"><div style="width:'+Math.round(mcf/44*100)+'%"></div></div>'+
+        '<div class="da-note">'+(mcf===0?'Ainda não iniciado':(mce.dip?'🎓 Concluído! ⚡ '+(mce.xp||0)+' XP':mcf+'/44 etapas · ⚡ '+(mce.xp||0)+' XP'))+'</div>'+
+        '<a class="da-btn green" href="curso-java-minecraft.html" style="margin-top:auto">'+(mcf===0?'▶ Abrir o baú':'▶ Continuar')+'</a>'+
       '</div>'+
     '</div>'+
     '<div class="da-card">'+

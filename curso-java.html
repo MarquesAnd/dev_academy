@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Java Completo · Dev Academy</title>
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#141F3C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dev Academy">
+<style>
+:root{--navy:#141F3C;--blue:#2F6FED;--purple:#7C4DFF;--amber:#F59E0B;--green:#22C55E;--red:#EF4444;--rosa:#EC4899;--teal:#0D9488;--bg:#ECEEF3;--ink:#1B2440;--line:#DCE1EC;--shadow:0 8px 22px rgba(20,31,60,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Verdana,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+body.locked header,body.locked main{display:none}
+body.locked::after{content:'✱';position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;background:linear-gradient(160deg,var(--navy),#23306B);z-index:70;animation:girar 1.6s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+body.dys{font-size:1.06rem;letter-spacing:.02em;word-spacing:.08em}
+body.dys .lesson p, body.dys .lesson li{line-height:2}
+header{position:sticky;top:0;z-index:50;background:linear-gradient(120deg,var(--navy) 0%,#1E2C5C 55%,#2A2560 100%);color:#fff;padding:12px 18px;box-shadow:var(--shadow);padding-top:calc(12px + env(safe-area-inset-top))}
+.hrow{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;cursor:pointer}
+.ast{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.5)}
+.hspace{flex:1}
+.pill{background:rgba(255,255,255,.13);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:800}
+.pill.xp{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.btn-ghost{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:7px 12px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;text-decoration:none}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-inset-bottom))}
+.screen{display:none;animation:pop .3s ease}
+.screen.active{display:block}
+.btn{border:none;font-family:inherit;font-weight:800;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:12px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 16px rgba(47,111,237,.35);transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn.small{padding:9px 14px;font-size:.85rem}
+.btn.green{background:linear-gradient(135deg,var(--green),#15803D);box-shadow:0 6px 16px rgba(34,197,94,.35)}
+.btn.amber{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00;box-shadow:0 6px 16px rgba(245,158,11,.35)}
+.btn.outline{background:#fff;color:var(--blue);border:2px solid var(--blue);box-shadow:none}
+/* hero + home */
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#7C2D12,#EA580C 55%,#F59E0B);color:#fff;border-radius:22px;padding:32px 28px;margin-bottom:20px;box-shadow:0 18px 44px rgba(234,88,12,.4)}
+.hero .bigast{position:absolute;right:-26px;top:-40px;font-size:13rem;opacity:.10;transform:rotate(12deg)}
+.hero h1{font-size:2rem;line-height:1.25;font-weight:800;margin-bottom:8px}
+.hero h1 span{background:linear-gradient(90deg,#FDE68A,#FDBA74);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:660px;opacity:.94;margin-bottom:14px}
+.progresso{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:18px}
+.pbar{height:14px;background:#E7EAF3;border-radius:999px;overflow:hidden;margin:8px 0}
+.pbar>div{height:100%;background:linear-gradient(90deg,var(--amber),#EA580C,var(--purple));border-radius:999px;transition:width .5s}
+.rankline{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.rk{font-size:.75rem;font-weight:800;padding:5px 11px;border-radius:999px;background:#EEF1F8;color:#8A93AC}
+.rk.on{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mod-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.mod-head{padding:15px 17px;color:#fff;display:flex;gap:11px;align-items:center}
+.mod-head .memo{font-size:1.7rem;filter:drop-shadow(0 3px 5px rgba(0,0,0,.25))}
+.mod-head h3{font-size:.98rem}
+.mod-head small{opacity:.9;font-weight:600;font-size:.75rem}
+.hh1{background:linear-gradient(135deg,#F97316,#C2410C)}
+.hh2{background:linear-gradient(135deg,var(--blue),#1D4ED8)}
+.hh3{background:linear-gradient(135deg,var(--rosa),#BE185D)}
+.hh4{background:linear-gradient(135deg,var(--teal),#0F766E)}
+.hh5{background:linear-gradient(135deg,var(--purple),#5B21B6)}
+.hh6{background:linear-gradient(135deg,var(--green),#15803D)}
+.hh7{background:linear-gradient(135deg,#06B6D4,#0E7490)}
+.hh8{background:linear-gradient(135deg,#6366F1,#4338CA)}
+.mod-body{padding:10px 14px 14px}
+.les-btn{display:flex;align-items:center;gap:9px;width:100%;border:none;background:#F4F6FB;font-family:inherit;text-align:left;font-size:.86rem;font-weight:700;color:var(--ink);border-radius:11px;padding:11px 13px;margin-top:7px;cursor:pointer;transition:all .15s}
+.les-btn:hover{background:#EDF2FF;transform:translateX(3px)}
+.les-btn.done{background:#E9FBEF;color:#15803D}
+.les-btn .ic{font-size:1rem}
+/* lição */
+.lesson{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:28px 26px;max-width:820px;margin:0 auto}
+.crumb{margin-bottom:12px}
+.chip{display:inline-block;color:#fff;font-size:.72rem;font-weight:800;padding:5px 13px;border-radius:999px}
+.lesson h2{color:var(--navy);font-size:1.45rem;margin-bottom:12px}
+.lesson h4{color:var(--navy);margin:16px 0 8px}
+.lesson p{line-height:1.75;margin-bottom:12px}
+.lesson mark{background:linear-gradient(120deg,#FDE68A,#FCD34D);padding:1px 6px;border-radius:6px;font-weight:700}
+.lesson code{background:#EEF1F8;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;font-size:.88em;color:#B4308F}
+.tbl{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:.88rem}
+.tbl th{background:var(--navy);color:#fff;padding:9px 11px;text-align:left}
+.tbl td{padding:9px 11px;border-bottom:1px solid var(--line);line-height:1.5}
+.codebox{background:#0F1B3D;border-radius:13px;margin:12px 0;overflow:hidden}
+.cb-top{background:#1B2A55;color:#8FA3D8;font-size:.72rem;font-weight:800;padding:7px 13px}
+.codebox pre{padding:13px 15px;color:#D6E1FF;font-family:Consolas,monospace;font-size:.84rem;line-height:1.7;overflow-x:auto;white-space:pre-wrap}
+.tk-tag{color:#7DD3FC}.tk-attr{color:#FDE047}.tk-str{color:#86EFAC}.tk-com{color:#64748B;font-style:italic}
+.box{border-radius:13px;padding:13px 15px;margin:13px 0;font-size:.9rem;line-height:1.65}
+.box .bt{font-weight:800;margin-bottom:4px}
+.box.tip{background:#EDF2FF;border-left:5px solid var(--blue)}
+.box.warn{background:#FEF3C7;border-left:5px solid var(--amber)}
+.box.gold{background:linear-gradient(120deg,#FEF3C7,#FDE68A);border-left:5px solid #D97706}
+.box.danger{background:#FEE2E2;border-left:5px solid var(--red)}
+.prof{display:flex;gap:11px;margin:14px 0;align-items:flex-start}
+.prof .face{width:44px;height:44px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.4)}
+.prof .bubble{background:#F4F6FB;border-radius:4px 16px 16px 16px;padding:12px 15px;font-size:.9rem;line-height:1.65}
+.done-btn{margin-top:16px}
+.done-flag{display:none;margin-top:10px;font-weight:800;color:#15803D}
+.done-flag.show{display:block;animation:pop .3s ease}
+.lnav{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
+/* playground */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.pg-lab{font-size:.72rem;font-weight:800;color:#5A6482;margin-bottom:4px}
+.pg textarea{width:100%;min-height:170px;border:2px solid #C9D2E6;border-radius:12px;padding:11px;font-family:Consolas,monospace;font-size:16px;line-height:1.55;resize:vertical;background:#0F1B3D;color:#D6E1FF}
+.pg iframe{width:100%;min-height:170px;height:100%;border:2px solid var(--line);border-radius:12px;background:#fff}
+/* lacunas */
+.fill{background:#F4F6FB;border-radius:14px;padding:14px;margin:12px 0}
+.fill .fdesc{font-size:.88rem;font-weight:700;margin-bottom:8px}
+.fill pre{background:#0F1B3D;color:#D6E1FF;border-radius:11px;padding:13px;font-family:Consolas,monospace;font-size:.9rem;line-height:2.1;overflow-x:auto;white-space:pre-wrap}
+.lac{width:110px;border:none;border-bottom:3px solid var(--amber);background:#1B2A55;color:#FDE047;font-family:Consolas,monospace;font-size:16px;font-weight:700;padding:3px 8px;border-radius:8px 8px 0 0;text-align:center}
+.lac:focus{outline:none;border-color:var(--blue)}
+.lac.ok{border-color:var(--green);color:#86EFAC}
+.lac.err{border-color:var(--red);color:#FCA5A5;animation:treme .3s}
+@keyframes treme{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.fill-msg{margin-top:9px;font-weight:800;font-size:.88rem;display:none}
+.fill-msg.show{display:block}
+/* montagem (blocos) */
+.mt{background:#F4F6FB;border-radius:16px;padding:14px;margin:12px 0}
+.mt-obj{background:linear-gradient(120deg,#EDF2FF,#F3EDFF);border-radius:11px;padding:10px 13px;font-size:.88rem;font-weight:700;margin-bottom:10px;line-height:1.5}
+.mt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt-pilha{min-height:130px;background:#fff;border:2px dashed #C9D2E6;border-radius:13px;padding:9px}
+.mt-pilha .vazio{color:#8A93AC;font-weight:700;font-size:.82rem;text-align:center;padding:24px 8px}
+.mt iframe{width:100%;min-height:150px;height:100%;border:2px solid var(--line);border-radius:13px;background:#fff}
+.bloco{position:relative;border:none;font-family:Consolas,monospace;color:#fff;font-weight:700;font-size:.82rem;padding:11px 14px 10px;border-radius:9px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.22),0 6px 12px rgba(20,31,60,.15);transition:transform .12s;display:flex;width:fit-content;align-items:center;gap:7px;margin:7px 6px 3px 0}
+.bloco:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
+.bloco::before,.bloco::after{content:'';position:absolute;top:-6px;width:14px;height:6px;border-radius:4px 4px 0 0;background:inherit;filter:brightness(1.13)}
+.bloco::before{left:10px}.bloco::after{left:31px}
+.bloco .x{opacity:.75;font-size:.75rem}
+.bk-texto{background:linear-gradient(180deg,#3B82F6,#2563EB)}
+.bk-lista{background:linear-gradient(180deg,#22C55E,#16A34A)}
+.bk-midia{background:linear-gradient(180deg,#F59E0B,#D97706);color:#3B2A00}
+.bk-link{background:linear-gradient(180deg,#EC4899,#BE185D)}
+.bk-form{background:linear-gradient(180deg,#F97316,#C2410C)}
+.bk-estr{background:linear-gradient(180deg,#8B5CF6,#6D28D9)}
+.mt-caixa{border-left:9px solid #16A34A;border-radius:0 11px 11px 9px;background:#E9FBEF;padding:4px 8px 8px 11px;margin:6px 0;width:fit-content;min-width:190px}
+.mt-caixa.roxa{border-color:#6D28D9;background:#F3EDFF}
+.mt-solo{border:2px dashed #86EFAC;border-radius:9px;padding:5px 9px;margin-top:4px;font-size:.75rem;font-weight:800;color:#15803D;cursor:pointer;background:#fff;width:fit-content}
+.mt-solo.ativo{background:#FDE047;border-color:#EAB308;color:#713F12;animation:pulsar 1.1s ease infinite}
+@keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.mt-msg{margin-top:9px;border-radius:11px;padding:10px 12px;font-size:.87rem;font-weight:700;display:none;line-height:1.5}
+.mt-msg.show{display:block}
+.mt-msg.ok{background:#D1FAE5;color:#065F46}
+.mt-msg.err{background:#FEE2E2;color:#991B1B}
+/* quiz */
+.qq{background:#F4F6FB;border-radius:14px;padding:15px;margin:12px 0}
+.qq .qp{font-weight:800;margin-bottom:9px;line-height:1.5}
+.qopt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:11px;padding:11px 13px;margin-top:7px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
+.qopt:hover{border-color:var(--blue)}
+.qopt.certa{border-color:var(--green);background:#E9FBEF}
+.qopt.errada{border-color:var(--red);background:#FEE2E2}
+.qwhy{display:none;margin-top:9px;font-size:.85rem;background:#EDF2FF;border-radius:10px;padding:10px 12px;line-height:1.6}
+.qwhy.show{display:block}
+/* modais */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:70;padding:18px}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:22px;padding:30px 26px;text-align:center;width:min(430px,94vw);animation:pop .35s ease;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modal .me{font-size:2.8rem}
+.modal h3{color:var(--navy);margin:6px 0 8px}
+.modal p{color:#5A6482;font-size:.92rem;line-height:1.6;margin-bottom:14px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:.9rem;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;transition:all .3s;z-index:80;max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+@media(max-width:700px){
+  .pg,.mt-grid{grid-template-columns:1fr}
+  .lesson{padding:22px 16px}
+  .hero{padding:24px 18px}.hero h1{font-size:1.5rem}
+  .hrow{row-gap:8px}.pill{font-size:.7rem;padding:5px 9px}.btn-ghost{font-size:.7rem;padding:6px 9px}
+  .tbl{display:block;overflow-x:auto}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+.jbox{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:860px){.jbox{grid-template-columns:1fr}}
+.jbox textarea{width:100%;min-height:230px;border:2px solid #C9D2E6;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:.86rem;line-height:1.5;background:#0F172A;color:#E2E8F0;resize:vertical}
+.jbox textarea:focus{outline:none;border-color:#EA580C}
+.jb-in{min-height:64px!important;background:#1E293B!important;color:#FDE68A!important}
+.jb-console{background:#0B1120;color:#4ADE80;border-radius:12px;padding:14px;font-family:Consolas,monospace;font-size:.86rem;min-height:120px;white-space:pre-wrap;border:2px solid #1E293B;margin:0}
+.jb-console.jb-err{color:#FCA5A5}
+.jb-run{background:linear-gradient(135deg,#22C55E,#15803D);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 14px rgba(34,197,94,.35);transition:transform .15s}
+.jb-run:hover{transform:translateY(-2px)}
+.jb-lab{font-size:.72rem;font-weight:800;color:#5A6482;text-transform:uppercase;letter-spacing:.6px;margin:8px 0 5px}
+</style>
+</head>
+<body class="locked">
+<header>
+  <div class="hrow">
+    <div class="logo" onclick="go('home')"><div class="ast">✱</div><div>Java <span style="font-weight:400;opacity:.85">Completo</span></div></div>
+    <a class="btn-ghost" href="index.html" style="margin-left:6px">🏠 Dev Academy</a>
+    <div class="hspace"></div>
+    <div class="pill xp">⚡ <span id="xpVal">0</span> XP</div>
+    <div class="pill">🎖️ <span id="rankVal">Novato(a)</span></div>
+    <button class="btn-ghost" id="acctBtn" onclick="authUi()">👤</button>
+    <button class="btn-ghost" id="dysBtn" onclick="toggleDys()">👓 Leitura fácil</button>
+  </div>
+</header>
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="screen active" id="home">
+  <div class="hero">
+    <div class="bigast">☕</div>
+    <h1>Java Completo: <span>do zero à programação</span> de verdade</h1>
+    <p>A linguagem que move bancos, o Android e o Minecraft — agora nas suas mãos. 8 módulos com um LABORATÓRIO onde seu código Java RODA aqui mesmo: variáveis, decisões, loops, métodos, coleções e a Orientação a Objetos completa, até instalar o Java de verdade no seu PC. Este é o curso que transforma curioso(a) em dev.</p>
+    <button class="btn amber" onclick="go('j1l1')">▶ Escrever minha primeira linha</button>
+  </div>
+  <div class="progresso">
+    <b>Sua jornada</b>
+    <div class="pbar"><div id="pfill" style="width:0%"></div></div>
+    <div id="plabel" style="font-size:.85rem;color:#5A6482">0 de 54 etapas</div>
+    <div class="rankline" id="rankline"></div>
+  </div>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="mod-head hh1"><span class="memo">☕</span><div><h3>Módulo 1 · A cerimônia e o console</h3><small>JVM, println, variáveis, Scanner</small></div></div><div class="mod-body" id="mod1list"></div></div>
+    <div class="mod-card"><div class="mod-head hh2"><span class="memo">🔀</span><div><h3>Módulo 2 · Decisões</h3><small>if, else, lógicos e switch</small></div></div><div class="mod-body" id="mod2list"></div></div>
+    <div class="mod-card"><div class="mod-head hh3"><span class="memo">🔁</span><div><h3>Módulo 3 · Repetições</h3><small>while, for e a arte dos loops</small></div></div><div class="mod-body" id="mod3list"></div></div>
+    <div class="mod-card"><div class="mod-head hh4"><span class="memo">🧰</span><div><h3>Módulo 4 · Métodos</h3><small>Blocos com nome que fazem uma coisa bem</small></div></div><div class="mod-body" id="mod4list"></div></div>
+    <div class="mod-card"><div class="mod-head hh5"><span class="memo">📚</span><div><h3>Módulo 5 · Arrays e coleções</h3><small>Listas, mapas e muitos dados</small></div></div><div class="mod-body" id="mod5list"></div></div>
+    <div class="mod-card"><div class="mod-head hh6"><span class="memo">🏗️</span><div><h3>Módulo 6 · Objetos I</h3><small>Classes, construtores, encapsulamento</small></div></div><div class="mod-body" id="mod6list"></div></div>
+    <div class="mod-card"><div class="mod-head hh7"><span class="memo">🧬</span><div><h3>Módulo 7 · Objetos II</h3><small>Herança, polimorfismo, interfaces</small></div></div><div class="mod-body" id="mod7list"></div></div>
+    <div class="mod-card"><div class="mod-head hh8"><span class="memo">🚀</span><div><h3>Módulo 8 · Java de verdade</h3><small>Exceções, enum, JDK no seu PC</small></div></div><div class="mod-body" id="mod8list"></div></div>
+  </div>
+</section>
+
+<!-- ================= M1 ================= -->
+<section class="screen" id="j1l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 1 de 6</span></div>
+  <h2>☕ O que é Java — e por que ele está em todo lugar</h2>
+  <p>Java nasceu em 1995 com uma promessa ousada: <mark>escreva uma vez, rode em qualquer lugar</mark>. O truque? Seu código não vira um programa preso a um sistema — vira <b>bytecode</b>, um idioma intermediário que uma máquina especial, a <b>JVM</b> (Java Virtual Machine), sabe executar. Onde tem JVM, seu programa roda: Windows, Mac, Linux, Android...</p>
+  <table class="tbl">
+    <tr><th>Onde o Java vive</th><th>Exemplo</th></tr>
+    <tr><td>Seu bolso</td><td>O Android inteiro nasceu em Java</td></tr>
+    <tr><td>Seu dinheiro</td><td>Bancos e a B3 rodam sistemas gigantes em Java há décadas</td></tr>
+    <tr><td>Seu jogo favorito</td><td>O Minecraft É um programa Java (temos um curso inteiro sobre isso 👀)</td></tr>
+    <tr><td>Empresas</td><td>Uma das linguagens mais pedidas em vagas no Brasil, ano após ano</td></tr>
+  </table>
+  <div class="codebox"><div class="cb-top">a viagem do seu código</div>
+  <pre>Voce escreve       O compilador traduz      A JVM executa
+<span class="tk-tag">App.java</span>    ──▶    <span class="tk-attr">App.class</span> (bytecode)  ──▶  🖥️ 📱 ☁️ (qualquer máquina)</pre></div>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Você chega aqui com uma vantagem rara: já pensa em caixas e estruturas (HTML), estilo e regras (CSS). Java vai te dar o terceiro poder — o COMPORTAMENTO. É a peça que faltava para construir sistemas que DECIDEM, CALCULAM e REAGEM. Bora. ☕</div></div>
+  <button class="btn green done-btn" onclick="complete('j1l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j1l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j1l2')">Próxima: Seu primeiro código →</button></div>
+</div></section>
+
+<section class="screen" id="j1l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 2 de 6</span></div>
+  <h2>🧪 O laboratório — e o seu primeiro código</h2>
+  <p>Apresento o <b>JavaBox</b>: o laboratório da Academy onde seu Java roda AQUI, sem instalar nada. A frase mais famosa da linguagem é a ordem de imprimir no console:</p>
+  <div class="codebox"><div class="cb-top">a frase que todo dev Java digitou milhares de vezes</div>
+  <pre><span class="tk-tag">System.out.println</span>(<span class="tk-str">"Olá, mundo!"</span>);</pre></div>
+  <p>Leia de trás pra frente: <i>println</i> = print line (imprima uma linha) · <i>out</i> = na saída · <i>System</i> = do sistema. E repare no <mark>ponto-e-vírgula</mark>: em Java ele é OBRIGATÓRIO no fim de cada instrução — é o ponto final da frase. Esquecer é o erro nº 1 do planeta.</p>
+  <h4>🧪 Aperte ▶ Rodar. Depois mude a mensagem, adicione linhas, quebre e conserte:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja1">System.out.println("Olá, mundo!");
+System.out.println("Meu nome é Wess");
+System.out.println("E este Java está RODANDO! 🚀");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja1')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja1-out">(aperte ▶ Rodar para ver a saída aqui)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 print vs println</div><code>println</code> pula pra linha de baixo depois de imprimir; <code>print</code> continua na mesma. Teste: troque um println por print e rode.</div>
+  <div class="box warn"><div class="bt">⚠️ Contrato de honestidade do laboratório</div>O JavaBox é um simulador fiel para APRENDER — ele entende o Java deste curso e roda na hora. Umas pouquíssimas diferenças do Java completo existem, e quando aparecerem eu AVISO num box como este. No Módulo 8, você instala o Java de verdade no seu PC e roda tudo lá. Combinado? 🤝</div>
+  <button class="btn green done-btn" onclick="complete('j1l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j1l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j1l1')">← Anterior</button><button class="btn small" onclick="go('j1l3')">Próxima: A cerimônia →</button></div>
+</div></section>
+
+<section class="screen" id="j1l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 3 de 6</span></div>
+  <h2>🎩 A cerimônia: class e main</h2>
+  <p>No Java completo, nenhum código fica solto: tudo mora dentro de uma <b>classe</b>, e o programa começa por uma porta de entrada sagrada chamada <b>main</b>. É a "cerimônia" do Java:</p>
+  <div class="codebox"><div class="cb-top">o traje de gala completo</div>
+  <pre><span class="tk-tag">public class</span> MeuPrograma {                    <span class="tk-com">// a CLASSE: o prédio onde o código mora</span>
+    <span class="tk-tag">public static void</span> main(String[] args) {  <span class="tk-com">// o MAIN: a porta por onde tudo começa</span>
+        System.out.println(<span class="tk-str">"Começou por aqui!"</span>);
+    }
+}</pre></div>
+  <p>Cada palavra tem razão de existir (public = visível, static = pronta sem criar objeto, void = não devolve nada, String[] args = argumentos) — e TODAS vão fazer sentido total até o Módulo 7. Por ora, memorize como um ritual: <mark>class abre o prédio, main abre a porta</mark>.</p>
+  <h4>🧪 Rode a cerimônia completa (o JavaBox aceita as duas formas — com e sem o traje):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja2">public class MeuPrograma {
+    public static void main(String[] args) {
+        System.out.println("A cerimônia funcionou!");
+        System.out.println("Sou oficialmente dev Java.");
+    }
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja2')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja2-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ O acordo didático</div>Nas próximas lições, vou muitas vezes mostrar só o MIOLO (sem class/main) para focar na ideia nova — o JavaBox aceita. Mas você já sabe: no Java real, o traje de gala está sempre lá. De tempos em tempos, treinaremos com ele completo.</div>
+  <button class="btn green done-btn" onclick="complete('j1l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j1l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j1l2')">← Anterior</button><button class="btn small" onclick="go('j1l4')">Próxima: Variáveis e tipos →</button></div>
+</div></section>
+
+<section class="screen" id="j1l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 4 de 6</span></div>
+  <h2>📦 Variáveis: caixas com etiqueta E tipo</h2>
+  <p>Variável é uma caixa com nome onde você guarda um valor. A marca registrada do Java: toda caixa declara o <b>TIPO</b> do que aceita — e não muda de ideia. Isso se chama <mark>tipagem estática</mark>, e é ela que segura sistemas de banco em pé:</p>
+  <table class="tbl">
+    <tr><th>Tipo</th><th>Guarda</th><th>Exemplo</th></tr>
+    <tr><td><code>int</code></td><td>Números inteiros</td><td><code>int idade = 34;</code></td></tr>
+    <tr><td><code>double</code></td><td>Números com vírgula</td><td><code>double altura = 1.78;</code></td></tr>
+    <tr><td><code>String</code></td><td>Texto (entre aspas DUPLAS; repare no S maiúsculo)</td><td><code>String nome = "Wess";</code></td></tr>
+    <tr><td><code>boolean</code></td><td>true ou false</td><td><code>boolean dev = true;</code></td></tr>
+    <tr><td><code>char</code></td><td>UM caractere (aspas simples)</td><td><code>char inicial = 'W';</code></td></tr>
+  </table>
+  <h4>🧪 Crie sua ficha de personagem — e tente guardar texto num int para ver o Java reclamar:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja3">String nome = "Wess";
+int idade = 34;
+double altura = 1.78;
+boolean programador = true;
+
+System.out.println("Ficha do personagem:");
+System.out.println("Nome: " + nome);
+System.out.println("Idade: " + idade);
+System.out.println("Altura: " + altura);
+System.out.println("É dev? " + programador);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja3')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja3-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 O + com textos</div>Nas Strings, o <code>+</code> vira COLA: <code>"Idade: " + idade</code> junta texto com número. Chama-se concatenação — e você vai usar isso pra sempre.</div>
+  <button class="btn green done-btn" onclick="complete('j1l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j1l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j1l3')">← Anterior</button><button class="btn small" onclick="go('j1l5')">Próxima: Operadores →</button></div>
+</div></section>
+
+<section class="screen" id="j1l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 5 de 6</span></div>
+  <h2>➗ Operadores: a calculadora embutida</h2>
+  <table class="tbl">
+    <tr><th>Operador</th><th>Faz</th><th>Exemplo</th></tr>
+    <tr><td><code>+ - *</code></td><td>Soma, subtração, multiplicação</td><td><code>7 * 3</code> → 21</td></tr>
+    <tr><td><code>/</code></td><td>Divisão</td><td><code>10 / 4</code> → 2.5 (ou 2! veja o box 👇)</td></tr>
+    <tr><td><code>%</code></td><td>RESTO da divisão — o subestimado mais útil do Java</td><td><code>10 % 3</code> → 1</td></tr>
+    <tr><td><code>++ e --</code></td><td>Soma/subtrai 1</td><td><code>vidas--;</code></td></tr>
+    <tr><td><code>+= -= *=</code></td><td>Atalhos: opera e guarda</td><td><code>pontos += 10;</code></td></tr>
+  </table>
+  <p>O <code>%</code> merece fama: com ele você descobre par/ímpar (<code>n % 2 == 0</code>), pega o último dígito (<code>n % 10</code>), faz coisas girarem em círculo. Grave este operador — ele volta nos jogos e no Minecraft.</p>
+  <h4>🧪 O caixa da padaria: troco, dúzias e o resto:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja4">int paes = 27;
+int porSaco = 6;
+
+System.out.println("Sacos cheios: " + (paes / 6));
+System.out.println("Pães que sobram: " + (paes % 6));
+
+double dinheiro = 50.0;
+double preco = 3.75;
+dinheiro -= preco * 4;
+System.out.println("Troco: R$ " + dinheiro);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja4')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja4-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ Aviso de honestidade nº 1: a divisão de inteiros</div>No Java DE VERDADE, <code>int / int</code> corta a vírgula sem dó: <code>10 / 4</code> dá <b>2</b> (divisão inteira). No JavaBox, os números são todos decimais (dá 2.5). Por isso, quando eu quiser divisão inteira aqui no lab, usarei <code>Math.floorDiv(10, 4)</code> → 2 — que também existe no Java real. Essa diferença cai em TODA prova de emprego; você já sai sabendo.</div>
+  <button class="btn green done-btn" onclick="complete('j1l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j1l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j1l4')">← Anterior</button><button class="btn small" onclick="go('j1l6')">Próxima: Conversando com o usuário →</button></div>
+</div></section>
+
+<section class="screen" id="j1l6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 6 de 6</span></div>
+  <h2>⌨️ Scanner: o programa que escuta</h2>
+  <p>Até agora o programa só fala. O <b>Scanner</b> o faz OUVIR — ler o que o usuário digita:</p>
+  <div class="codebox"><div class="cb-top">o kit de escuta</div>
+  <pre>Scanner sc = <span class="tk-tag">new</span> Scanner(System.in);  <span class="tk-com">// liga o microfone</span>
+String nome = sc.<span class="tk-attr">nextLine</span>();          <span class="tk-com">// lê uma linha de texto</span>
+<span class="tk-tag">int</span> idade = sc.<span class="tk-attr">nextInt</span>();            <span class="tk-com">// lê um número inteiro</span>
+<span class="tk-tag">double</span> altura = sc.<span class="tk-attr">nextDouble</span>();     <span class="tk-com">// lê um decimal</span></pre></div>
+  <p>No JavaBox, o "teclado do usuário" é a caixa <b>Entradas</b> (uma resposta por linha) — o programa consome na ordem. Rode, depois mude as entradas e rode de novo:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja5">Scanner sc = new Scanner(System.in);
+
+System.out.println("Qual seu nome?");
+String nome = sc.nextLine();
+
+System.out.println("Quantos anos você tem?");
+int idade = sc.nextInt();
+
+System.out.println("Prazer, " + nome + "!");
+System.out.println("Ano que vem você faz " + (idade + 1) + ".");</textarea>
+    <div class="jb-lab">⌨️ Entradas (uma por linha)</div><textarea class="jb-in" id="ja5-in">Wess
+34</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja5')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja5-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Programa = os 3 tempos</div>Você acaba de completar o ciclo sagrado de TODO programa: <b>ENTRADA → PROCESSAMENTO → SAÍDA</b>. Scanner lê, o código calcula, println responde. De caixa eletrônico a rede social, é sempre essa valsa.</div>
+  <button class="btn green done-btn" onclick="complete('j1l6')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j1l6">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j1l5')">← Anterior</button><button class="btn amber small" onclick="go('qj1')">🎯 Quiz do Módulo 1 →</button></div>
+</div></section>
+
+<section class="screen" id="qj1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Quiz · Módulo 1</span></div>
+  <h2>🎯 Quiz: A cerimônia e o console</h2>
+  <div id="quiz-qj1"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j2l1')">Módulo 2 →</button></div>
+</div></section>
+
+<!-- ================= M2 · DECISÕES ================= -->
+<section class="screen" id="j2l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 1 de 5</span></div>
+  <h2>🔀 if e else: o código que decide</h2>
+  <p>Até aqui, seu programa era um trem: sempre o mesmo trilho. O <code>if</code> instala o desvio — <mark>SE a condição for verdadeira, faça isto; SENÃO, aquilo</mark>:</p>
+  <div class="codebox"><div class="cb-top">a bifurcação</div>
+  <pre><span class="tk-tag">if</span> (idade >= 18) {
+    System.out.println(<span class="tk-str">"Pode tirar a habilitação!"</span>);
+} <span class="tk-tag">else</span> {
+    System.out.println(<span class="tk-str">"Ainda não... faltam "</span> + (18 - idade) + <span class="tk-str">" anos."</span>);
+}</pre></div>
+  <p>Comparadores: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code> (igual — DOIS iguais! um só é atribuição) e <code>!=</code> (diferente).</p>
+  <h4>🧪 Mude a idade nas Entradas e veja o trilho mudar:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja6">Scanner sc = new Scanner(System.in);
+System.out.println("Sua idade?");
+int idade = sc.nextInt();
+
+if (idade >= 18) {
+    System.out.println("Maior de idade. Bem-vindo(a)!");
+} else {
+    System.out.println("Menor de idade.");
+}</textarea>
+    <div class="jb-lab">⌨️ Entradas</div><textarea class="jb-in" id="ja6-in">16</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja6')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja6-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('j2l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j2l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj1')">← Anterior</button><button class="btn small" onclick="go('j2l2')">Próxima: else if →</button></div>
+</div></section>
+
+<section class="screen" id="j2l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 2 de 5</span></div>
+  <h2>🪜 else if: a escada de decisões</h2>
+  <p>E quando não são só dois caminhos? Empilhe degraus com <code>else if</code> — o Java testa de cima pra baixo e entra no PRIMEIRO que for verdadeiro:</p>
+  <h4>🧪 O boletim automático (teste notas diferentes!):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja7">Scanner sc = new Scanner(System.in);
+System.out.println("Digite a nota (0 a 10):");
+double nota = sc.nextDouble();
+
+if (nota >= 9) {
+    System.out.println("Excelente! 🏆");
+} else if (nota >= 7) {
+    System.out.println("Aprovado! ✅");
+} else if (nota >= 5) {
+    System.out.println("Recuperação. 📖");
+} else {
+    System.out.println("Reprovado. Vamos revisar juntos.");
+}</textarea>
+    <div class="jb-lab">⌨️ Entradas</div><textarea class="jb-in" id="ja7-in">7.5</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja7')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja7-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ A ordem da escada importa</div>Se você testasse <code>nota >= 5</code> PRIMEIRO, uma nota 10 pararia ali ("Recuperação"?!) — porque 10 também é >= 5. Regra: <mark>do caso mais exigente para o mais frouxo</mark>. Inverta os degraus no lab e veja o estrago.</div>
+  <button class="btn green done-btn" onclick="complete('j2l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j2l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j2l1')">← Anterior</button><button class="btn small" onclick="go('j2l3')">Próxima: E, OU e NÃO →</button></div>
+</div></section>
+
+<section class="screen" id="j2l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 3 de 5</span></div>
+  <h2>🧠 Operadores lógicos: &&, || e !</h2>
+  <table class="tbl">
+    <tr><th>Operador</th><th>Lê-se</th><th>Verdadeiro quando...</th></tr>
+    <tr><td><code>&&</code></td><td>E</td><td>as DUAS condições são verdadeiras</td></tr>
+    <tr><td><code>||</code></td><td>OU</td><td>PELO MENOS UMA é verdadeira</td></tr>
+    <tr><td><code>!</code></td><td>NÃO</td><td>inverte: !true vira false</td></tr>
+  </table>
+  <h4>🧪 O segurança do parque (altura E idade), e a promoção (aniversário OU cliente vip):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja8">double altura = 1.45;
+int idade = 11;
+boolean comResponsavel = true;
+
+if (altura >= 1.40 && idade >= 10) {
+    System.out.println("Pode ir na montanha-russa! 🎢");
+} else {
+    System.out.println("Ainda não pode.");
+}
+
+boolean aniversario = false;
+boolean vip = true;
+if (aniversario || vip) {
+    System.out.println("Ganhou entrada grátis! 🎁");
+}
+
+if (!comResponsavel) {
+    System.out.println("Precisa de um responsável.");
+} else {
+    System.out.println("Acompanhado(a): liberado.");
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja8')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja8-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Você já conhece isso do mundo real</div>Regras de sistema são SEMPRE combinações lógicas: "desconto se (aniversário OU vip) E compra > 50". No Módulo 7 do curso de Minecraft, você vai ver que a redstone inteira É este trio — && || ! virando circuitos. Lógica booleana é alfabetização de dev.</div>
+  <button class="btn green done-btn" onclick="complete('j2l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j2l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j2l2')">← Anterior</button><button class="btn small" onclick="go('j2l4')">Próxima: switch →</button></div>
+</div></section>
+
+<section class="screen" id="j2l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 4 de 5</span></div>
+  <h2>🎛️ switch: o painel de opções</h2>
+  <p>Quando a decisão é "qual das N opções?", o <code>switch</code> é mais limpo que uma escada de else if:</p>
+  <h4>🧪 O menu da lanchonete — repare no papel do <code>break</code>:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja9">Scanner sc = new Scanner(System.in);
+System.out.println("Escolha: 1-Pizza 2-Burguer 3-Salada");
+int opcao = sc.nextInt();
+
+switch (opcao) {
+    case 1:
+        System.out.println("Pizza saindo! 🍕");
+        break;
+    case 2:
+        System.out.println("Burguer na chapa! 🍔");
+        break;
+    case 3:
+        System.out.println("Salada fresquinha! 🥗");
+        break;
+    default:
+        System.out.println("Opção não existe no cardápio.");
+}</textarea>
+    <div class="jb-lab">⌨️ Entradas</div><textarea class="jb-in" id="ja9-in">2</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja9')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja9-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ O break é a porta</div>Sem <code>break</code>, o Java ENTRA no case certo e... continua descendo pelos próximos (o famoso "fall-through")! Apague os breaks e rode com a opção 1: sairá pizza, burguer E salada. Às vezes é útil de propósito; quase sempre é bug.</div>
+  <button class="btn green done-btn" onclick="complete('j2l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j2l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j2l3')">← Anterior</button><button class="btn small" onclick="go('j2l5')">Próxima: OFICINA de código →</button></div>
+</div></section>
+
+<section class="screen" id="j2l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: monte o porteiro</h2>
+  <p>A oficina agora é de LÓGICA: monte o programa colocando as linhas <b>na ordem certa</b> (aqui a ordem IMPORTA — é uma receita). Blocos-armadilha continuam à solta. Quando acertar, o código RODA de verdade no console aí embaixo. 👇</p>
+  <div class="mt" id="mj1"></div>
+  <button class="btn green done-btn" onclick="complete('j2l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j2l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j2l4')">← Anterior</button><button class="btn amber small" onclick="go('qj2')">🎯 Quiz do Módulo 2 →</button></div>
+</div></section>
+
+<section class="screen" id="qj2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Quiz · Módulo 2</span></div>
+  <h2>🎯 Quiz: Decisões</h2>
+  <div id="quiz-qj2"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j3l1')">Módulo 3 →</button></div>
+</div></section>
+
+<!-- ================= M3 · REPETIÇÕES ================= -->
+<section class="screen" id="j3l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 1 de 5</span></div>
+  <h2>🔁 while: repita ENQUANTO for verdade</h2>
+  <p>Computador não cansa — e o <code>while</code> é a ordem de repetir enquanto uma condição valer:</p>
+  <div class="codebox"><div class="cb-top">a anatomia do while</div>
+  <pre><span class="tk-tag">int</span> contagem = 5;
+<span class="tk-tag">while</span> (contagem > 0) {          <span class="tk-com">// ENQUANTO isso for true...</span>
+    System.out.println(contagem);
+    contagem--;                  <span class="tk-com">// ...algo PRECISA mudar, senão nunca acaba!</span>
+}
+System.out.println(<span class="tk-str">"🚀 Decolar!"</span>);</pre></div>
+  <h4>🧪 A contagem regressiva — depois apague o <code>contagem--</code> e veja o JavaBox te salvar do loop infinito:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja10">int contagem = 5;
+while (contagem > 0) {
+    System.out.println(contagem + "...");
+    contagem--;
+}
+System.out.println("🚀 DECOLAR!");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja10')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja10-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box danger"><div class="bt">🚨 O loop infinito</div>É o erro mais famoso da programação: a condição nunca vira false e o programa trava para sempre. No Java real, congela; no JavaBox, o guardião interrompe depois de 200.000 voltas e te avisa. TODO dev do planeta já fez um — hoje é seu dia de fazer o seu com segurança. 😄</div>
+  <button class="btn green done-btn" onclick="complete('j3l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j3l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj2')">← Anterior</button><button class="btn small" onclick="go('j3l2')">Próxima: for →</button></div>
+</div></section>
+
+<section class="screen" id="j3l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 2 de 5</span></div>
+  <h2>🎠 for: o loop de precisão</h2>
+  <p>Quando você SABE quantas voltas quer, o <code>for</code> empacota tudo numa linha: <mark>início; condição; passo</mark>:</p>
+  <div class="codebox"><div class="cb-top">leia como uma frase</div>
+  <pre><span class="tk-tag">for</span> (<span class="tk-attr">int i = 1</span>; <span class="tk-attr">i <= 10</span>; <span class="tk-attr">i++</span>) {   <span class="tk-com">// começa em 1; enquanto ≤ 10; soma 1</span>
+    System.out.println(<span class="tk-str">"7 x "</span> + i + <span class="tk-str">" = "</span> + (7 * i));
+}</pre></div>
+  <h4>🧪 A tabuada instantânea — troque o 7, o passo (i += 2?), o limite:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja11">int numero = 7;
+for (int i = 1; i <= 10; i++) {
+    System.out.println(numero + " x " + i + " = " + (numero * i));
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja11')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja11-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 while ou for?</div>Sabe o número de voltas → <b>for</b> ("10 vezes"). Depende de algo acontecer → <b>while</b> ("enquanto a senha estiver errada"). O i se chama i por tradição (index) — e ninguém nunca mudou. 😄</div>
+  <button class="btn green done-btn" onclick="complete('j3l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j3l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j3l1')">← Anterior</button><button class="btn small" onclick="go('j3l3')">Próxima: break e continue →</button></div>
+</div></section>
+
+<section class="screen" id="j3l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 3 de 5</span></div>
+  <h2>🚪 break e continue: os controles do loop</h2>
+  <table class="tbl">
+    <tr><th>Comando</th><th>Faz</th><th>Metáfora</th></tr>
+    <tr><td><code>break</code></td><td>ABANDONA o loop na hora</td><td>Achei! Pode parar a busca.</td></tr>
+    <tr><td><code>continue</code></td><td>PULA só esta volta e segue</td><td>Esse não me interessa, próximo!</td></tr>
+  </table>
+  <h4>🧪 Procurando a chave no chaveiro (break) e pulando os ímpares (continue):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja12">int chaveCerta = 4;
+for (int i = 1; i <= 10; i++) {
+    System.out.println("Testando chave " + i);
+    if (i == chaveCerta) {
+        System.out.println("🔓 Abriu! Parei de procurar.");
+        break;
+    }
+}
+
+System.out.println("--- Só os pares: ---");
+for (int i = 1; i <= 10; i++) {
+    if (i % 2 != 0) {
+        continue;
+    }
+    System.out.println(i);
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja12')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja12-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('j3l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j3l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j3l2')">← Anterior</button><button class="btn small" onclick="go('j3l4')">Próxima: Loops dentro de loops →</button></div>
+</div></section>
+
+<section class="screen" id="j3l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 4 de 5</span></div>
+  <h2>🎨 Loops aninhados — e a arte ASCII do ✱</h2>
+  <p>Um loop DENTRO do outro: o de fora controla as LINHAS, o de dentro as COLUNAS. É assim que se percorre tabelas, grades, mapas de jogos... e que se desenha no console:</p>
+  <h4>🧪 A pirâmide da Academy — mude o tamanho e o símbolo:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja13">int tamanho = 5;
+for (int linha = 1; linha <= tamanho; linha++) {
+    String texto = "";
+    for (int col = 1; col <= linha; col++) {
+        texto += "✱ ";
+    }
+    System.out.println(texto);
+}
+System.out.println("Uma pirâmide feita de pura lógica!");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja13')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja13-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Isto é maior do que parece</div>Linha-e-coluna é O padrão do universo digital: a tela do seu jogo de plataforma será uma grade percorrida assim; o mundo do Minecraft é percorrido assim (em 3 loops!); planilhas, imagens, tabuleiros — tudo. Você acabou de aprender a andar por qualquer grade.</div>
+  <button class="btn green done-btn" onclick="complete('j3l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j3l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j3l3')">← Anterior</button><button class="btn small" onclick="go('j3l5')">Próxima: OFICINA do caixa →</button></div>
+</div></section>
+
+<section class="screen" id="j3l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: a soma dos 1 aos 100</h2>
+  <p>O desafio que o pequeno Gauss resolveu de cabeça — e você vai resolver com um loop. Monte na ordem certa e veja rodar:</p>
+  <div class="mt" id="mj2"></div>
+  <button class="btn green done-btn" onclick="complete('j3l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j3l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j3l4')">← Anterior</button><button class="btn amber small" onclick="go('qj3')">🎯 Quiz do Módulo 3 →</button></div>
+</div></section>
+
+<section class="screen" id="qj3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Quiz · Módulo 3</span></div>
+  <h2>🎯 Quiz: Repetições</h2>
+  <div id="quiz-qj3"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j4l1')">Módulo 4 →</button></div>
+</div></section>
+
+<!-- ================= M4 · MÉTODOS ================= -->
+<section class="screen" id="j4l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 1 de 5</span></div>
+  <h2>🧰 Métodos: blocos com nome</h2>
+  <p>Repetir código é pecado capital de dev. O <b>método</b> resolve: você empacota um bloco, dá um NOME, e chama quantas vezes quiser:</p>
+  <div class="codebox"><div class="cb-top">definir uma vez, usar mil</div>
+  <pre><span class="tk-tag">void</span> cumprimentar() {                <span class="tk-com">// void = não devolve nada, só faz</span>
+    System.out.println(<span class="tk-str">"====================="</span>);
+    System.out.println(<span class="tk-str">"  Bem-vindo(a)! ✱"</span>);
+    System.out.println(<span class="tk-str">"====================="</span>);
+}
+
+cumprimentar();   <span class="tk-com">// chama aqui...</span>
+cumprimentar();   <span class="tk-com">// ...e aqui. Zero repetição de código!</span></pre></div>
+  <h4>🧪 Rode, depois crie um método seu (despedir? avisar?):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja14">void cumprimentar() {
+    System.out.println("=====================");
+    System.out.println("  Bem-vindo(a)! ✱");
+    System.out.println("=====================");
+}
+
+cumprimentar();
+System.out.println("(processando pedidos...)");
+cumprimentar();</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja14')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja14-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 A regra de ouro dos nomes</div>Método é AÇÃO — nomeie com verbo: <code>calcularTroco</code>, <code>enviarEmail</code>, <code>desenharHeroi</code>. Em Java, a convenção é camelCase: primeira palavra minúscula, seguintes com maiúscula. Você vai ler nomes assim pelo resto da carreira.</div>
+  <button class="btn green done-btn" onclick="complete('j4l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j4l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj3')">← Anterior</button><button class="btn small" onclick="go('j4l2')">Próxima: Parâmetros e retorno →</button></div>
+</div></section>
+
+<section class="screen" id="j4l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 2 de 5</span></div>
+  <h2>📬 Parâmetros e return: entra dado, sai resultado</h2>
+  <p>Métodos ficam poderosos quando RECEBEM dados (parâmetros) e DEVOLVEM resultados (return). O tipo antes do nome diz o que sai:</p>
+  <div class="codebox"><div class="cb-top">a máquina completa</div>
+  <pre><span class="tk-tag">double</span> calcularMedia(<span class="tk-attr">double a, double b</span>) {   <span class="tk-com">// recebe dois doubles...</span>
+    <span class="tk-tag">return</span> (a + b) / 2;                       <span class="tk-com">// ...devolve um double</span>
+}
+
+<span class="tk-tag">double</span> m = calcularMedia(8.0, 6.5);   <span class="tk-com">// o retorno cai na variável</span></pre></div>
+  <h4>🧪 A calculadora de churrasco (400g por pessoa — ajuste a gosto):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja15">double carnePorPessoa(int pessoas) {
+    return pessoas * 0.4;
+}
+
+double precoTotal(double kg, double precoKg) {
+    return kg * precoKg;
+}
+
+int convidados = 12;
+double kg = carnePorPessoa(convidados);
+System.out.println("Convidados: " + convidados);
+System.out.println("Carne: " + kg + " kg");
+System.out.println("Custo: R$ " + precoTotal(kg, 42.90));</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja15')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja15-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Repare na mágica da composição</div><code>precoTotal(kg, 42.90)</code> usa o RESULTADO de <code>carnePorPessoa</code>. Métodos que alimentam métodos — é assim que programas grandes são feitos de peças pequenas e testáveis. LEGO de lógica.</div>
+  <button class="btn green done-btn" onclick="complete('j4l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j4l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j4l1')">← Anterior</button><button class="btn small" onclick="go('j4l3')">Próxima: Na cerimônia completa →</button></div>
+</div></section>
+
+<section class="screen" id="j4l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 3 de 5</span></div>
+  <h2>🎩 Métodos na cerimônia completa (static)</h2>
+  <p>No Java real, métodos moram DENTRO da classe, como o main. E o main é <code>static</code> ("pronto sem criar objeto") — então os métodos que ele chama também precisam ser. A forma profissional de chamar: <mark>NomeDaClasse.metodo()</mark> — clara e sem ambiguidade:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja16">public class Calculadora {
+
+    public static double somar(double a, double b) {
+        return a + b;
+    }
+
+    public static double dobrar(double n) {
+        return n * 2;
+    }
+
+    public static void main(String[] args) {
+        double resultado = Calculadora.somar(10, 5);
+        System.out.println("Soma: " + resultado);
+        System.out.println("Dobro: " + Calculadora.dobrar(resultado));
+    }
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja16')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja16-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 O static vai fazer clique no Módulo 6</div>Por ora: static = ferramenta da CLASSE (como Math.random() — você nunca criou um "objeto Math", né?). No JavaBox, chame métodos static sempre qualificados (Calculadora.somar) — que é também o estilo mais legível no Java real.</div>
+  <button class="btn green done-btn" onclick="complete('j4l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j4l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j4l2')">← Anterior</button><button class="btn small" onclick="go('j4l4')">Próxima: Escopo →</button></div>
+</div></section>
+
+<section class="screen" id="j4l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 4 de 5</span></div>
+  <h2>🏠 Escopo: onde cada variável existe</h2>
+  <p>Uma variável nasce e morre <mark>dentro das chaves onde foi criada</mark>. Isso se chama escopo — e é proteção, não frescura:</p>
+  <div class="codebox"><div class="cb-top">cada um na sua casa</div>
+  <pre><span class="tk-tag">void</span> metodoA() {
+    <span class="tk-tag">int</span> segredo = 42;      <span class="tk-com">// vive SÓ aqui dentro</span>
+}
+<span class="tk-tag">void</span> metodoB() {
+    System.out.println(segredo);   <span class="tk-com">// 💥 ERRO! segredo não existe aqui</span>
+}</pre></div>
+  <p>Quer que dois métodos compartilhem um valor? Passe por <b>parâmetro</b> e receba por <b>return</b> — a via oficial. É por isso que os métodos da lição passada recebiam e devolviam tudo: dados viajando às claras, sem variáveis-fantasma.</p>
+  <h4>🧪 Este código tem um erro de escopo de propósito. Rode, leia o erro, conserte (dica: passe por parâmetro!):</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java (quebrado de propósito)</div><textarea id="ja17">void prepararPedido() {
+    String cliente = "Ana";
+    System.out.println("Preparando para " + cliente);
+}
+
+void entregarPedido() {
+    System.out.println("Entregando para " + cliente);
+}
+
+prepararPedido();
+entregarPedido();</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja17')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja17-out">(aperte ▶ Rodar e observe o erro!)</pre></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('j4l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j4l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j4l3')">← Anterior</button><button class="btn small" onclick="go('j4l5')">Próxima: OFICINA de refatoração →</button></div>
+</div></section>
+
+<section class="screen" id="j4l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: a máquina de saudação</h2>
+  <p>Monte um programa com método + parâmetro + chamadas — na ordem que compila. Definição primeiro, uso depois:</p>
+  <div class="mt" id="mj3"></div>
+  <button class="btn green done-btn" onclick="complete('j4l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j4l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j4l4')">← Anterior</button><button class="btn amber small" onclick="go('qj4')">🎯 Quiz do Módulo 4 →</button></div>
+</div></section>
+
+<section class="screen" id="qj4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Quiz · Módulo 4</span></div>
+  <h2>🎯 Quiz: Métodos</h2>
+  <div id="quiz-qj4"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j5l1')">Módulo 5 →</button></div>
+</div></section>
+
+<!-- ================= M5 · ARRAYS E COLEÇÕES ================= -->
+<section class="screen" id="j5l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 1 de 6</span></div>
+  <h2>📦 Arrays: a prateleira numerada</h2>
+  <p>Guardar 30 notas em 30 variáveis? Nunca. O <b>array</b> é uma prateleira de tamanho fixo com gavetas numeradas — <mark>começando do ZERO</mark>:</p>
+  <div class="codebox"><div class="cb-top">a prateleira</div>
+  <pre><span class="tk-tag">int</span>[] notas = {8, 9, 7, 10, 6};   <span class="tk-com">// posições: 0  1  2  3  4</span>
+
+notas[0]        <span class="tk-com">// → 8 (a PRIMEIRA gaveta é a 0!)</span>
+notas[3]        <span class="tk-com">// → 10</span>
+notas.length    <span class="tk-com">// → 5 (quantas gavetas)</span></pre></div>
+  <h4>🧪 Percorra com o for clássico — o duo array+loop é inseparável:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja18">int[] notas = {8, 9, 7, 10, 6};
+
+int soma = 0;
+for (int i = 0; i < notas.length; i++) {
+    System.out.println("Nota " + (i + 1) + ": " + notas[i]);
+    soma += notas[i];
+}
+double media = soma / 5.0;
+System.out.println("Média da turma: " + media);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja18')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja18-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ O crime do índice</div>Pedir <code>notas[5]</code> numa prateleira de 5 gavetas (0 a 4) = <b>IndexOutOfBounds</b>, o erro mais cometido da história do Java. Repare que o for usa <code>i &lt; length</code> (menor, não menor-igual) exatamente por isso. Teste o crime no lab e leia o erro!</div>
+  <button class="btn green done-btn" onclick="complete('j5l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j5l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj4')">← Anterior</button><button class="btn small" onclick="go('j5l2')">Próxima: for-each →</button></div>
+</div></section>
+
+<section class="screen" id="j5l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 2 de 6</span></div>
+  <h2>🚶 for-each: para cada item, faça</h2>
+  <p>Quando você só quer VISITAR cada item (sem precisar do número da gaveta), o for-each é mais limpo e à prova de IndexOutOfBounds:</p>
+  <div class="codebox"><div class="cb-top">leia: "para cada String cidade dentro de cidades"</div>
+  <pre><span class="tk-tag">for</span> (String cidade : cidades) {
+    System.out.println(<span class="tk-str">"Visitando "</span> + cidade);
+}</pre></div>
+  <h4>🧪 O roteiro de viagem, dos dois jeitos:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja19">String[] cidades = {"Uberlândia", "BH", "Rio", "Salvador"};
+
+System.out.println("--- for-each (limpo): ---");
+for (String cidade : cidades) {
+    System.out.println("✈️ " + cidade);
+}
+
+System.out.println("--- for clássico (com posição): ---");
+for (int i = 0; i < cidades.length; i++) {
+    System.out.println("Parada " + (i + 1) + ": " + cidades[i]);
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja19')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja19-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Qual usar?</div>Precisa da POSIÇÃO (numerar, comparar vizinhos, andar de 2 em 2)? for clássico. Só visitar todos? for-each. Na prática, você usará for-each na maioria das vezes.</div>
+  <button class="btn green done-btn" onclick="complete('j5l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j5l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j5l1')">← Anterior</button><button class="btn small" onclick="go('j5l3')">Próxima: ArrayList →</button></div>
+</div></section>
+
+<section class="screen" id="j5l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 3 de 6</span></div>
+  <h2>🎒 ArrayList: a lista que cresce</h2>
+  <p>Array tem tamanho FIXO — mas a vida não tem. O <b>ArrayList</b> é a lista elástica do Java: cresce e encolhe conforme você adiciona e remove:</p>
+  <table class="tbl">
+    <tr><th>Comando</th><th>Faz</th></tr>
+    <tr><td><code>lista.add("pão")</code></td><td>Adiciona no fim</td></tr>
+    <tr><td><code>lista.get(0)</code></td><td>Pega pela posição</td></tr>
+    <tr><td><code>lista.size()</code></td><td>Tamanho ATUAL (repare: método, com parênteses — no array era .length sem)</td></tr>
+    <tr><td><code>lista.remove("pão")</code></td><td>Remove o item</td></tr>
+    <tr><td><code>lista.contains("uva")</code></td><td>true se está na lista</td></tr>
+  </table>
+  <h4>🧪 A lista de compras viva:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja20">ArrayList<String> compras = new ArrayList<>();
+
+compras.add("pão");
+compras.add("leite");
+compras.add("café");
+System.out.println("Lista: " + compras);
+System.out.println("Itens: " + compras.size());
+
+compras.remove("leite");
+System.out.println("Sem leite: " + compras);
+System.out.println("Tem café? " + compras.contains("café"));
+
+for (String item : compras) {
+    System.out.println("🛒 comprar " + item);
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja20')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja20-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ O &lt;String&gt; entre sinais</div>É o "generics": a etiqueta do que a lista aceita — <code>ArrayList&lt;String&gt;</code> só aceita textos, e o Java barra qualquer intruso ANTES do programa rodar. O inventário do seu jogo será um <code>ArrayList&lt;Item&gt;</code>; o do Minecraft, também (curso 3 mostra!).</div>
+  <button class="btn green done-btn" onclick="complete('j5l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j5l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j5l2')">← Anterior</button><button class="btn small" onclick="go('j5l4')">Próxima: HashMap →</button></div>
+</div></section>
+
+<section class="screen" id="j5l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 4 de 6</span></div>
+  <h2>🗂️ HashMap: o dicionário chave → valor</h2>
+  <p>Lista responde "qual é o item Nº 3?". O <b>HashMap</b> responde a pergunta mais útil do mundo: <mark>"qual é o valor DA CHAVE tal?"</mark> — como um dicionário: palavra → definição, produto → preço, jogador → pontuação:</p>
+  <h4>🧪 A tabela de preços da padaria:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja21">HashMap<String, Double> precos = new HashMap<>();
+
+precos.put("pão", 0.75);
+precos.put("sonho", 6.50);
+precos.put("café", 4.00);
+
+System.out.println("O sonho custa: R$ " + precos.get("sonho"));
+System.out.println("Tem bolo? " + precos.containsKey("bolo"));
+
+precos.put("sonho", 5.90);
+System.out.println("Sonho em promoção: R$ " + precos.get("sonho"));
+
+System.out.println("Cardápio completo: " + precos);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja21')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja21-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 put na mesma chave = substitui</div>Cada chave é única: o segundo <code>put("sonho", ...)</code> atualizou o preço. E <code>get</code> de chave inexistente devolve <code>null</code> — o "nada" do Java, que você aprenderá a respeitar no Módulo 8.</div>
+  <button class="btn green done-btn" onclick="complete('j5l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j5l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j5l3')">← Anterior</button><button class="btn small" onclick="go('j5l5')">Próxima: Lacunas →</button></div>
+</div></section>
+
+<section class="screen" id="j5l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 5 de 6</span></div>
+  <h2>✏️ Treino: complete o inventário</h2>
+  <div class="fill" id="fj1">
+    <div class="fdesc">Um inventário de jogo: lista elástica, adicionar itens, checar tamanho e visitar cada um.</div>
+    <pre>ArrayList&lt;String&gt; mochila = new <input class="lac" data-r="ArrayList<>()|ArrayList()" style="width:130px">;
+mochila.<input class="lac" data-r="add" style="width:60px">("espada");
+mochila.add("poção");
+System.out.println("Itens: " + mochila.<input class="lac" data-r="size()" style="width:70px">);
+for (String item <input class="lac" data-r=":" style="width:40px"> mochila) {
+    System.out.println(item);
+}</pre>
+    <button class="btn small" onclick="fillCheck('fj1')">Conferir ✔</button>
+    <div class="fill-msg"></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('j5l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j5l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j5l4')">← Anterior</button><button class="btn small" onclick="go('j5l6')">Próxima: OFICINA da fila →</button></div>
+</div></section>
+
+<section class="screen" id="j5l6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 6 de 6</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: o placar do campeonato</h2>
+  <p>Monte o programa que registra pontos num HashMap e anuncia — atenção à ordem: criar, preencher, consultar:</p>
+  <div class="mt" id="mj4"></div>
+  <button class="btn green done-btn" onclick="complete('j5l6')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j5l6">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j5l5')">← Anterior</button><button class="btn amber small" onclick="go('qj5')">🎯 Quiz do Módulo 5 →</button></div>
+</div></section>
+
+<section class="screen" id="qj5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Quiz · Módulo 5</span></div>
+  <h2>🎯 Quiz: Arrays e coleções</h2>
+  <div id="quiz-qj5"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j6l1')">Módulo 6 →</button></div>
+</div></section>
+
+<!-- ================= M6 · OBJETOS I ================= -->
+<section class="screen" id="j6l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 1 de 6</span></div>
+  <h2>🏗️ Classe e objeto: a planta e a casa</h2>
+  <p>Chegamos ao coração do Java — a <b>Orientação a Objetos</b>. A ideia: em vez de variáveis soltas, você cria os SEUS PRÓPRIOS TIPOS, que juntam <mark>dados + comportamentos</mark> numa coisa só.</p>
+  <table class="tbl">
+    <tr><th>Conceito</th><th>É...</th><th>Metáfora</th></tr>
+    <tr><td><b>Classe</b></td><td>O molde: define o que todo objeto daquele tipo TEM e FAZ</td><td>A planta da casa 📐</td></tr>
+    <tr><td><b>Objeto</b></td><td>Um exemplar concreto criado com <code>new</code></td><td>A casa construída 🏠 (dá pra construir mil da mesma planta)</td></tr>
+  </table>
+  <h4>🧪 A classe Cachorro — e dois cachorros bem diferentes saídos do mesmo molde:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja22">class Cachorro {
+    String nome;
+    int idade;
+
+    void latir() {
+        System.out.println(this.nome + " diz: Au au! 🐕");
+    }
+}
+
+Cachorro rex = new Cachorro();
+rex.nome = "Rex";
+rex.idade = 3;
+
+Cachorro luna = new Cachorro();
+luna.nome = "Luna";
+luna.idade = 7;
+
+rex.latir();
+luna.latir();
+System.out.println(luna.nome + " tem " + luna.idade + " anos.");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja22')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja22-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ O this</div><code>this.nome</code> = "o nome DESTE objeto aqui". Quando rex late, this é o rex; quando luna late, this é a luna. Mesmo código, dados de cada um — essa é a mágica inteira dos objetos. (No JavaBox, use this sempre dentro dos métodos — que é também o estilo mais claro no Java real.)</div>
+  <button class="btn green done-btn" onclick="complete('j6l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j6l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj5')">← Anterior</button><button class="btn small" onclick="go('j6l2')">Próxima: Construtor →</button></div>
+</div></section>
+
+<section class="screen" id="j6l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 2 de 6</span></div>
+  <h2>🚪 Construtor: o objeto já nasce pronto</h2>
+  <p>Criar vazio e preencher campo a campo é frágil (e se esquecer um?). O <b>construtor</b> é um método especial — mesmo nome da classe, sem tipo de retorno — que roda NO <code>new</code> e exige tudo de uma vez:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja23">class Cachorro {
+    String nome;
+    int idade;
+
+    Cachorro(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+        System.out.println("🐣 " + nome + " nasceu!");
+    }
+
+    void latir() {
+        System.out.println(this.nome + ": Au au!");
+    }
+}
+
+Cachorro rex = new Cachorro("Rex", 3);
+Cachorro luna = new Cachorro("Luna", 7);
+rex.latir();
+luna.latir();</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja23')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja23-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Desembolando o this.nome = nome</div>Dentro do construtor existem DOIS "nome": o parâmetro que chegou e o campo do objeto. <code>this.nome</code> (o campo) <code>= nome</code> (o que chegou). É a linha mais escrita da história do Java — agora ela é sua.</div>
+  <button class="btn green done-btn" onclick="complete('j6l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j6l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j6l1')">← Anterior</button><button class="btn small" onclick="go('j6l3')">Próxima: Encapsulamento →</button></div>
+</div></section>
+
+<section class="screen" id="j6l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 3 de 6</span></div>
+  <h2>🔐 Encapsulamento: private + get/set</h2>
+  <p>E se qualquer um pudesse fazer <code>conta.saldo = -999999;</code>? O <b>encapsulamento</b> tranca os dados (<code>private</code>) e abre PORTÕES COM REGRAS (métodos públicos). O objeto passa a se defender:</p>
+  <h4>🧪 Tente roubar o banco — o depósito negativo é barrado pelo portão:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja24">class ContaBancaria {
+    private double saldo;
+
+    ContaBancaria(double inicial) {
+        this.saldo = inicial;
+    }
+
+    double getSaldo() {
+        return this.saldo;
+    }
+
+    void depositar(double valor) {
+        if (valor <= 0) {
+            System.out.println("🚫 Depósito inválido: " + valor);
+            return;
+        }
+        this.saldo += valor;
+        System.out.println("✅ +R$ " + valor);
+    }
+
+    void sacar(double valor) {
+        if (valor > this.saldo) {
+            System.out.println("🚫 Saldo insuficiente!");
+            return;
+        }
+        this.saldo -= valor;
+        System.out.println("💸 -R$ " + valor);
+    }
+}
+
+ContaBancaria conta = new ContaBancaria(100);
+conta.depositar(50);
+conta.depositar(-5000);
+conta.sacar(9999);
+conta.sacar(30);
+System.out.println("Saldo final: R$ " + conta.getSaldo());</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja24')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja24-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Por que os sistemas confiam nisso</div>Todo o CORTEX que você constrói, todo banco, todo sistema sério vive deste princípio: <mark>o dado nunca é tocado direto — sempre passa por um método que valida</mark>. get lê, set/ações modificam COM regra. É a diferença entre sistema e planilha bagunçada.</div>
+  <button class="btn green done-btn" onclick="complete('j6l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j6l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j6l2')">← Anterior</button><button class="btn small" onclick="go('j6l4')">Próxima: toString →</button></div>
+</div></section>
+
+<section class="screen" id="j6l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 4 de 6</span></div>
+  <h2>🪪 toString: como seu objeto se apresenta</h2>
+  <p>Imprimir um objeto cru mostra algo feio e inútil. Defina <code>toString()</code> e o println passa a usar SUA apresentação automaticamente:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja25">class Produto {
+    String nome;
+    double preco;
+
+    Produto(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public String toString() {
+        return "📦 " + this.nome + " — R$ " + this.preco;
+    }
+}
+
+Produto p1 = new Produto("Sonho", 6.50);
+Produto p2 = new Produto("Café", 4.00);
+
+System.out.println(p1);
+System.out.println(p2);
+
+ArrayList<Produto> vitrine = new ArrayList<>();
+vitrine.add(p1);
+vitrine.add(p2);
+System.out.println(vitrine);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja25')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja25-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Repare na lista</div>O ArrayList de Produtos imprimiu cada um com o SEU toString. Objetos dentro de coleções, cada um sabendo se apresentar — as peças do Java se encaixando.</div>
+  <button class="btn green done-btn" onclick="complete('j6l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j6l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j6l3')">← Anterior</button><button class="btn small" onclick="go('j6l5')">Próxima: static →</button></div>
+</div></section>
+
+<section class="screen" id="j6l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 5 de 6</span></div>
+  <h2>⚡ static: o que é DA CLASSE, não de cada objeto</h2>
+  <p>Campos e métodos normais pertencem a CADA objeto (cada cachorro tem SEU nome). Os <code>static</code> pertencem à CLASSE — um valor único, compartilhado por todos:</p>
+  <h4>🧪 O contador de fabricação — repare: cada carro tem sua placa, mas o total é um só:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja26">class Carro {
+    static int totalFabricados = 0;
+    String placa;
+
+    Carro(String placa) {
+        this.placa = placa;
+        Carro.totalFabricados++;
+    }
+}
+
+Carro c1 = new Carro("ABC-1234");
+Carro c2 = new Carro("XYZ-9876");
+Carro c3 = new Carro("JVM-2026");
+
+System.out.println("Placa do 1º: " + c1.placa);
+System.out.println("Total fabricados: " + Carro.totalFabricados);</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja26')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja26-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Agora a cerimônia fecha o ciclo</div>Lembra do <code>public static void main</code>? STATIC porque a JVM precisa chamar o main SEM criar objeto nenhum antes — é o método da classe, pronto desde o nascimento do programa. A palavra misteriosa do Módulo 1 acabou de fazer sentido total. 🎓</div>
+  <button class="btn green done-btn" onclick="complete('j6l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j6l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j6l4')">← Anterior</button><button class="btn small" onclick="go('j6l6')">Próxima: OFICINA do RPG →</button></div>
+</div></section>
+
+<section class="screen" id="j6l6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 6 de 6</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: a classe Heroi</h2>
+  <p>Monte uma classe completa de RPG: campos, construtor, método — e o uso. A ordem é a gramática do Java:</p>
+  <div class="mt" id="mj5"></div>
+  <button class="btn green done-btn" onclick="complete('j6l6')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j6l6">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j6l5')">← Anterior</button><button class="btn amber small" onclick="go('qj6')">🎯 Quiz do Módulo 6 →</button></div>
+</div></section>
+
+<section class="screen" id="qj6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Quiz · Módulo 6</span></div>
+  <h2>🎯 Quiz: Objetos I</h2>
+  <div id="quiz-qj6"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j7l1')">Módulo 7 →</button></div>
+</div></section>
+
+<!-- ================= M7 · OBJETOS II ================= -->
+<section class="screen" id="j7l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 1 de 6</span></div>
+  <h2>🧬 Herança: extends</h2>
+  <p>Gato, cachorro e pássaro têm MUITO em comum. Em vez de repetir, você cria a classe-mãe com o comum, e as filhas <code>extends</code> herdam tudo — e adicionam o seu:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja27">class Animal {
+    String nome;
+
+    Animal(String nome) {
+        this.nome = nome;
+    }
+
+    void dormir() {
+        System.out.println(this.nome + " está dormindo... 💤");
+    }
+}
+
+class Cachorro extends Animal {
+    Cachorro(String nome) {
+        super(nome);
+    }
+
+    void buscarBolinha() {
+        System.out.println(this.nome + " buscou a bolinha! 🎾");
+    }
+}
+
+Cachorro rex = new Cachorro("Rex");
+rex.dormir();
+rex.buscarBolinha();</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja27')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja27-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 super(nome)</div>É o telefonema pra mãe: "construtora Animal, cuida da sua parte (o nome) que eu cuido da minha". Toda filha liga pra mãe PRIMEIRO — regra da casa.</div>
+  <button class="btn green done-btn" onclick="complete('j7l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j7l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj6')">← Anterior</button><button class="btn small" onclick="go('j7l2')">Próxima: Sobrescrita →</button></div>
+</div></section>
+
+<section class="screen" id="j7l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 2 de 6</span></div>
+  <h2>✍️ Sobrescrita (@Override): a filha faz do seu jeito</h2>
+  <p>A mãe define um comportamento padrão; a filha pode REESCREVER com a mesma assinatura. Em Java real, marca-se com <code>@Override</code> (o compilador confere a grafia pra você):</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja28">class Animal {
+    String nome;
+    Animal(String nome) { this.nome = nome; }
+
+    String fazerSom() {
+        return "...";
+    }
+}
+
+class Gato extends Animal {
+    Gato(String nome) { super(nome); }
+
+    @Override
+    String fazerSom() {
+        return "Miau! 🐱";
+    }
+}
+
+class Vaca extends Animal {
+    Vaca(String nome) { super(nome); }
+
+    @Override
+    String fazerSom() {
+        return "Muuu! 🐮";
+    }
+}
+
+Gato g = new Gato("Mia");
+Vaca v = new Vaca("Mimosa");
+System.out.println(g.nome + ": " + g.fazerSom());
+System.out.println(v.nome + ": " + v.fazerSom());</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja28')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja28-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('j7l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j7l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j7l1')">← Anterior</button><button class="btn small" onclick="go('j7l3')">Próxima: Polimorfismo →</button></div>
+</div></section>
+
+<section class="screen" id="j7l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 3 de 6</span></div>
+  <h2>🎭 Polimorfismo: uma lista, muitas formas</h2>
+  <p>A palavra do dia significa "muitas formas": <mark>trate todos como Animal, e cada um responde do SEU jeito</mark>. É o momento em que a herança mostra por que existe:</p>
+  <h4>🧪 O coral da fazenda — uma lista de Animal, cada som diferente:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja29">class Animal {
+    String nome;
+    Animal(String nome) { this.nome = nome; }
+    String fazerSom() { return "..."; }
+}
+class Gato extends Animal {
+    Gato(String nome) { super(nome); }
+    String fazerSom() { return "Miau!"; }
+}
+class Vaca extends Animal {
+    Vaca(String nome) { super(nome); }
+    String fazerSom() { return "Muuu!"; }
+}
+class Pato extends Animal {
+    Pato(String nome) { super(nome); }
+    String fazerSom() { return "Quack!"; }
+}
+
+ArrayList<Animal> fazenda = new ArrayList<>();
+fazenda.add(new Gato("Mia"));
+fazenda.add(new Vaca("Mimosa"));
+fazenda.add(new Pato("Donald"));
+
+System.out.println("🎵 O coral da fazenda:");
+for (Animal a : fazenda) {
+    System.out.println(a.nome + " canta: " + a.fazerSom());
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja29')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja29-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Este loop é o Minecraft</div>O jogo faz LITERALMENTE isto a cada tick: uma lista de Entity onde cada um (zumbi, vaca, jogador) executa o SEU update. Uma lista genérica, comportamentos específicos — polimorfismo movendo um dos jogos mais vendidos da história. O curso 3 te mostra por dentro.</div>
+  <button class="btn green done-btn" onclick="complete('j7l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j7l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j7l2')">← Anterior</button><button class="btn small" onclick="go('j7l4')">Próxima: Interface →</button></div>
+</div></section>
+
+<section class="screen" id="j7l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 4 de 6</span></div>
+  <h2>📜 Interface: o contrato</h2>
+  <p>A interface não tem corpo — só PROMESSAS: "quem me implementar, JURA ter estes métodos". É o contrato que permite tratar coisas diferentes pelo que elas SABEM FAZER:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja30">interface Tocavel {
+    String tocar();
+}
+
+class Violao implements Tocavel {
+    public String tocar() { return "🎸 dedilhado suave"; }
+}
+
+class Bateria implements Tocavel {
+    public String tocar() { return "🥁 tum tss tum tss"; }
+}
+
+ArrayList<Tocavel> banda = new ArrayList<>();
+banda.add(new Violao());
+banda.add(new Bateria());
+
+System.out.println("🎶 A banda toca:");
+for (Tocavel instrumento : banda) {
+    System.out.println(instrumento.tocar());
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja30')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja30-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Herança vs interface, em uma frase</div>Herança = <b>É UM</b> (Gato é um Animal — e só pode ter UMA mãe). Interface = <b>SABE FAZER</b> (Violão sabe tocar — e pode assinar VÁRIOS contratos). Classes abstratas ficam no meio-termo: mães que não podem virar objeto, só servir de base — você as verá no mundo real.</div>
+  <button class="btn green done-btn" onclick="complete('j7l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j7l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j7l3')">← Anterior</button><button class="btn small" onclick="go('j7l5')">Próxima: Lacunas de OO →</button></div>
+</div></section>
+
+<section class="screen" id="j7l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 5 de 6</span></div>
+  <h2>✏️ Treino: complete a hierarquia</h2>
+  <div class="fill" id="fj2">
+    <div class="fdesc">Uma classe-filha completa: herda, chama a mãe e sobrescreve.</div>
+    <pre>class Passaro <input class="lac" data-r="extends" style="width:90px"> Animal {
+    Passaro(String nome) {
+        <input class="lac" data-r="super(nome)" style="width:115px">;
+    }
+    <input class="lac" data-r="@Override" style="width:105px">
+    String fazerSom() {
+        <input class="lac" data-r="return" style="width:80px"> "Piu piu!";
+    }
+}</pre>
+    <button class="btn small" onclick="fillCheck('fj2')">Conferir ✔</button>
+    <div class="fill-msg"></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('j7l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j7l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j7l4')">← Anterior</button><button class="btn small" onclick="go('j7l6')">Próxima: OFICINA das formas →</button></div>
+</div></section>
+
+<section class="screen" id="j7l6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 6 de 6</span></div>
+  <h2>🧱 OFICINA DE CÓDIGO: herança em ação</h2>
+  <p>Monte a mãe, a filha que sobrescreve, e o polimorfismo na chamada — a santíssima trindade da OO em um programa:</p>
+  <div class="mt" id="mj6"></div>
+  <button class="btn green done-btn" onclick="complete('j7l6')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j7l6">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j7l5')">← Anterior</button><button class="btn amber small" onclick="go('qj7')">🎯 Quiz do Módulo 7 →</button></div>
+</div></section>
+
+<section class="screen" id="qj7"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Quiz · Módulo 7</span></div>
+  <h2>🎯 Quiz: Objetos II</h2>
+  <div id="quiz-qj7"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('j8l1')">Módulo 8 →</button></div>
+</div></section>
+
+<!-- ================= M8 · JAVA DE VERDADE ================= -->
+<section class="screen" id="j8l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 1 de 7</span></div>
+  <h2>🔤 String a fundo: o canivete do texto</h2>
+  <table class="tbl">
+    <tr><th>Método</th><th>Faz</th></tr>
+    <tr><td><code>.length()</code></td><td>Quantos caracteres (COM parênteses — no array era sem!)</td></tr>
+    <tr><td><code>.toUpperCase() / .toLowerCase()</code></td><td>GRITA / sussurra</td></tr>
+    <tr><td><code>.contains("x") / .startsWith / .endsWith</code></td><td>Procura pedaços</td></tr>
+    <tr><td><code>.substring(0, 3)</code></td><td>Recorta (do índice 0 ATÉ ANTES do 3)</td></tr>
+    <tr><td><code>.replace("a", "b")</code></td><td>Troca todas as ocorrências</td></tr>
+    <tr><td><code>.trim() / .split(" ") / .charAt(0)</code></td><td>Apara pontas / fatia / pega um caractere</td></tr>
+  </table>
+  <h4>🧪 O detetive de e-mails:</h4>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja31">String email = "  Wess.Marques@GMAIL.com  ";
+
+String limpo = email.trim().toLowerCase();
+System.out.println("Normalizado: " + limpo);
+System.out.println("É gmail? " + limpo.contains("@gmail"));
+System.out.println("Usuário: " + limpo.substring(0, limpo.indexOf("@")));
+System.out.println("Tamanho: " + limpo.length());
+System.out.println("Censurado: " + limpo.replace("a", "*"));</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja31')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja31-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ Aviso de honestidade nº 2: comparar textos</div>No Java REAL, <code>==</code> entre Strings compara se são O MESMO OBJETO na memória — e pode dar false para textos iguais! A forma certa é <mark>a.equals(b)</mark> (e equalsIgnoreCase). No JavaBox o == funciona, mas treine SEMPRE com equals — é pergunta de entrevista clássica, e agora você é dos que sabem o porquê.</div>
+  <button class="btn green done-btn" onclick="complete('j8l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qj7')">← Anterior</button><button class="btn small" onclick="go('j8l2')">Próxima: Exceções →</button></div>
+</div></section>
+
+<section class="screen" id="j8l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 2 de 7</span></div>
+  <h2>🛡️ Exceções: quando as coisas dão errado (e você está pronto)</h2>
+  <p>Arquivo que não existe, número mal digitado, índice fora do array... O Java lida com o inesperado por <b>exceções</b>: o problema é LANÇADO (<code>throw</code>) e alguém preparado o CAPTURA (<code>try/catch</code>):</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja32">class Cadastro {
+    static void validarIdade(int idade) {
+        if (idade < 0 || idade > 130) {
+            throw new IllegalArgumentException("Idade impossível: " + idade);
+        }
+        System.out.println("✅ Idade " + idade + " aceita.");
+    }
+}
+
+try {
+    Cadastro.validarIdade(34);
+    Cadastro.validarIdade(-7);
+    System.out.println("(esta linha nunca roda)");
+} catch (IllegalArgumentException e) {
+    System.out.println("🛡️ Capturado: " + e.getMessage());
+}
+System.out.println("O programa continua vivo!");</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja32')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja32-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ A mentalidade profissional</div>Amador escreve código que funciona quando tudo dá certo. Profissional escreve código que se comporta com dignidade quando dá ERRADO: valida na entrada (throw), captura no lugar certo (catch), avisa com mensagem útil. Os erros de "Idade impossível" que o próprio JavaBox te mostrou o curso inteiro? Exceções. Você estava cercado(a) delas.</div>
+  <button class="btn green done-btn" onclick="complete('j8l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j8l1')">← Anterior</button><button class="btn small" onclick="go('j8l3')">Próxima: enum →</button></div>
+</div></section>
+
+<section class="screen" id="j8l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 3 de 7</span></div>
+  <h2>🎚️ enum: o menu fechado de valores</h2>
+  <p>Quando uma variável só pode assumir opções conhecidas (dias da semana, dificuldade, status do pedido), o <code>enum</code> cria um tipo com ESSAS opções e mais nenhuma — adeus, String digitada errada:</p>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ja33">enum Dificuldade { FACIL, MEDIO, DIFICIL }
+
+Dificuldade escolha = Dificuldade.MEDIO;
+System.out.println("Jogando no modo: " + escolha);
+System.out.println("Posição no menu: " + escolha.ordinal());
+
+if (escolha == Dificuldade.DIFICIL) {
+    System.out.println("Corajoso(a)! 💀");
+} else {
+    System.out.println("Boa escolha para treinar.");
+}</textarea>
+    <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ja33')">▶ Rodar</button></div></div>
+    <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ja33-out">(aperte ▶ Rodar)</pre></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Onde você vai reencontrá-los</div>O Minecraft usa enums aos MONTES: GameMode.CREATIVE, Difficulty.HARD, Material.DIAMOND... Sistemas usam para status: PENDENTE, PAGO, ENVIADO. Sempre que pensar "só pode ser uma dessas opções" — enum.</div>
+  <button class="btn green done-btn" onclick="complete('j8l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j8l2')">← Anterior</button><button class="btn small" onclick="go('j8l4')">Próxima: As verdades do Java real →</button></div>
+</div></section>
+
+<section class="screen" id="j8l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 4 de 7</span></div>
+  <h2>🪞 O acerto de contas: JavaBox vs Java real</h2>
+  <p>Prometi honestidade — hora de pagar. Tudo que você aprendeu VALE. Estas são as diferenças que o laboratório suavizou, agora em versão completa:</p>
+  <table class="tbl">
+    <tr><th>Tema</th><th>No JavaBox</th><th>No Java real</th></tr>
+    <tr><td>Divisão int/int</td><td>10/4 = 2.5</td><td><b>10/4 = 2</b> (corta a vírgula). Quer decimal? Um dos lados double: 10/4.0</td></tr>
+    <tr><td>Comparar Strings</td><td>== funciona</td><td>Use <b>.equals()</b> — == compara referências de memória</td></tr>
+    <tr><td>Scanner nextInt + nextLine</td><td>Sem pegadinha</td><td>O nextInt deixa um "\n" pendente que o nextLine engole — a solução clássica é um sc.nextLine() extra entre eles</td></tr>
+    <tr><td>Imprimir array</td><td>[1, 2, 3] direto</td><td>println(array) mostra o endereço de memória; use <b>Arrays.toString(array)</b></td></tr>
+    <tr><td>Tipos int vs double</td><td>Números unificados</td><td>int transborda em ±2,1 bilhões (para mais, long); double tem imprecisões de centavos (para dinheiro, BigDecimal)</td></tr>
+  </table>
+  <div class="box gold"><div class="bt">✱ Por que ensinei assim</div>Cada "suavização" tirou uma pedra do caminho ENQUANTO você aprendia o conceito — e agora que os conceitos são seus, as pedras são detalhes de 5 minutos. Você aprendeu a dirigir no pátio; estas são as placas da rua. E conhecê-las de antemão já te coloca à frente de metade dos iniciantes.</div>
+  <button class="btn green done-btn" onclick="complete('j8l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j8l3')">← Anterior</button><button class="btn small" onclick="go('j8l5')">Próxima: Instalando o Java DE VERDADE →</button></div>
+</div></section>
+
+<section class="screen" id="j8l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 5 de 7</span></div>
+  <h2>💻 O rito de passagem: JDK + IntelliJ no seu PC</h2>
+  <p>Chegou o dia. Dois downloads e você roda Java DE VERDADE:</p>
+  <table class="tbl">
+    <tr><th>Passo</th><th>Como</th></tr>
+    <tr><td>1. Instale o JDK 21</td><td>Busque "<b>Adoptium Temurin 21</b>" (gratuito e oficial da comunidade) → baixe o instalador Windows → Avançar até o fim</td></tr>
+    <tr><td>2. Instale a IDE</td><td>Busque "<b>IntelliJ IDEA Community</b>" (gratuita) → instale — é o editor que meio mundo Java usa</td></tr>
+    <tr><td>3. Crie o projeto</td><td>New Project → nome <code>meu-primeiro-java</code> → JDK 21 → Create</td></tr>
+    <tr><td>4. Crie a classe</td><td>Botão direito em <code>src</code> → New → Java Class → <code>App</code></td></tr>
+    <tr><td>5. A cerimônia</td><td>Digite <code>main</code> e aperte TAB — a IDE escreve o public static void main POR você 🤯</td></tr>
+    <tr><td>6. RODE</td><td>println de algo épico → clique no ▶ verde ao lado do main → veja SEU console de verdade</td></tr>
+  </table>
+  <div class="codebox"><div class="cb-top">sugestão para o momento histórico</div>
+  <pre><span class="tk-tag">public class</span> App {
+    <span class="tk-tag">public static void</span> main(String[] args) {
+        System.out.println(<span class="tk-str">"Formado(a) pela Dev Academy. Agora é real. ✱"</span>);
+    }
+}</pre></div>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Tire um print desse primeiro console rodando no SEU computador. Daqui a uns anos, com sistemas em produção, você vai olhar pra ele com carinho. Todo mundo tem o seu — este é o seu. 📸</div></div>
+  <button class="btn green done-btn" onclick="complete('j8l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j8l4')">← Anterior</button><button class="btn small" onclick="go('j8l6')">Próxima: OFICINA FINAL →</button></div>
+</div></section>
+
+<section class="screen" id="j8l6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 6 de 7</span></div>
+  <h2>🏆 OFICINA FINAL: o sistema completo</h2>
+  <p>A prova de mestre: classe com encapsulamento + validação com exceção + uso — o curso inteiro num programa. Monte com calma:</p>
+  <div class="mt" id="mj7"></div>
+  <button class="btn green done-btn" onclick="complete('j8l6')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l6">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j8l5')">← Anterior</button><button class="btn small" onclick="go('j8l7')">Próxima: E agora? →</button></div>
+</div></section>
+
+<section class="screen" id="j8l7"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 7 de 7</span></div>
+  <h2>🗺️ E agora? A trilha continua</h2>
+  <p>Você saiu do zero e hoje escreve classes, herança, coleções e exceções. Os próximos passos, em ordem de diversão:</p>
+  <table class="tbl">
+    <tr><th>Caminho</th><th>O quê</th></tr>
+    <tr><td>🕹️ <b>Seu primeiro JOGO</b></td><td>O curso "Java: do avançado ao primeiro jogo" desta Academy — construa um plataforma completo, classe por classe, com física, moedas e inimigos</td></tr>
+    <tr><td>⛏️ <b>Java no Minecraft</b></td><td>O curso "A lógica do Java dentro do Minecraft" — disseque o jogo real e escreva seu primeiro plugin</td></tr>
+    <tr><td>💼 Backend</td><td>Mais adiante: Spring Boot, APIs, bancos de dados — o Java das empresas e das vagas</td></tr>
+    <tr><td>📱 Android</td><td>Apps de celular (Java/Kotlin) — seu código no bolso das pessoas</td></tr>
+  </table>
+  <div class="box gold"><div class="bt">✱ O conselho que vale ouro</div>Entre um curso e outro: ESCREVA código todo dia, nem que sejam 15 minutos. Refaça os labs de memória. Quebre de propósito e conserte. A fluência vem da mão, não do olho. Seu diploma te espera no quiz final. 🎓</div>
+  <button class="btn green done-btn" onclick="complete('j8l7')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-j8l7">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('j8l6')">← Anterior</button><button class="btn amber small" onclick="go('qj8')">🎯 QUIZ FINAL →</button></div>
+</div></section>
+
+<section class="screen" id="qj8"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Quiz FINAL · Módulo 8</span></div>
+  <h2>🎯 Quiz Final: Java Completo</h2>
+  <div id="quiz-qj8"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button></div>
+</div></section>
+
+</main>
+
+<!-- MODAIS -->
+<div class="overlay" id="badgeOverlay"><div class="modal">
+  <div class="me" id="badgeEmo">🏅</div>
+  <h3 id="badgeTit">Medalha!</h3>
+  <p id="badgeTxt"></p>
+  <button class="btn" onclick="document.getElementById('badgeOverlay').classList.remove('show')">Continuar ✨</button>
+</div></div>
+<div class="overlay" id="diplomaOverlay"><div class="modal">
+  <div class="me">🎓</div>
+  <h3>CURSO COMPLETO!</h3>
+  <p>Do primeiro println à Orientação a Objetos completa, com exceções, coleções e o Java instalado no seu PC: você é oficialmente <b>Mestre(a) do Java</b>. O certificado já está na aba Certificados — e dois mundos te esperam: o jogo de plataforma e o Minecraft por dentro. ✱</p>
+  <a class="btn" href="certificados.html">🎓 Ver meu certificado</a>
+  <button class="btn outline" onclick="document.getElementById('diplomaOverlay').classList.remove('show')" style="margin-top:8px">Continuar explorando</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<style>.mt .bloco{white-space:pre;font-family:Consolas,monospace;font-size:.82rem;text-align:left}</style>
+<script src="config.js?v=3"></script>
+<script src="shared/dev-academy.js?v=3"></script>
+<script src="shared/javabox.js?v=3"></script>
+<script>
+/* ============ ESTADO ============ */
+const CURSO_ID = 'java-completo';
+let xp = 0, done = new Set(), dys = false, badges = [], dip = false, dipEm = null, uid = null;
+const $ = id => document.getElementById(id);
+const RANKS = [[0,'Novato(a) ☕'],[140,'Aprendiz de Lógica 🧠'],[270,'Construtor(a) de Classes 🏗️'],[400,'Engenheiro(a) de Objetos ⚙️'],[530,'Mestre(a) do Java 👑']];
+const MODS = {
+ mod1:{items:[['j1l1','O que é Java e a JVM'],['j1l2','O laboratório + println'],['j1l3','A cerimônia: class e main'],['j1l4','Variáveis e tipos'],['j1l5','Operadores'],['j1l6','Scanner: o programa escuta'],['qj1','🎯 Quiz']],badge:{emo:'☕',tit:'Primeiro Café!',txt:'Módulo 1 completo: seu Java já fala, calcula e escuta.'}},
+ mod2:{items:[['j2l1','if e else'],['j2l2','else if: a escada'],['j2l3','Lógicos: && || !'],['j2l4','switch'],['j2l5','🧱 Oficina: o porteiro'],['qj2','🎯 Quiz']],badge:{emo:'🔀',tit:'Tomador(a) de Decisões!',txt:'Módulo 2 completo: seu código escolhe caminhos sozinho.'}},
+ mod3:{items:[['j3l1','while'],['j3l2','for'],['j3l3','break e continue'],['j3l4','Loops aninhados + arte ✱'],['j3l5','🧱 Oficina: a soma de Gauss'],['qj3','🎯 Quiz']],badge:{emo:'🔁',tit:'Domador(a) de Loops!',txt:'Módulo 3 completo: repetição com começo, meio e FIM.'}},
+ mod4:{items:[['j4l1','Métodos: blocos com nome'],['j4l2','Parâmetros e return'],['j4l3','Na cerimônia (static)'],['j4l4','Escopo'],['j4l5','🧱 Oficina: a saudação'],['qj4','🎯 Quiz']],badge:{emo:'🧰',tit:'Artesão(ã) de Métodos!',txt:'Módulo 4 completo: código em peças reutilizáveis.'}},
+ mod5:{items:[['j5l1','Arrays'],['j5l2','for-each'],['j5l3','ArrayList'],['j5l4','HashMap'],['j5l5','✏️ Treino: inventário'],['j5l6','🧱 Oficina: o placar'],['qj5','🎯 Quiz']],badge:{emo:'📚',tit:'Colecionador(a)!',txt:'Módulo 5 completo: listas, mapas e muitos dados sob controle.'}},
+ mod6:{items:[['j6l1','Classe e objeto'],['j6l2','Construtor'],['j6l3','Encapsulamento'],['j6l4','toString'],['j6l5','static'],['j6l6','🧱 Oficina: a classe Heroi'],['qj6','🎯 Quiz']],badge:{emo:'🏗️',tit:'Arquiteto(a) de Objetos!',txt:'Módulo 6 completo: você cria seus próprios tipos.'}},
+ mod7:{items:[['j7l1','Herança: extends'],['j7l2','Sobrescrita: @Override'],['j7l3','Polimorfismo'],['j7l4','Interface: o contrato'],['j7l5','✏️ Treino: hierarquia'],['j7l6','🧱 Oficina: herança em ação'],['qj7','🎯 Quiz']],badge:{emo:'🧬',tit:'Mestre(a) da Hierarquia!',txt:'Módulo 7 completo: herança, polimorfismo e contratos dominados.'}},
+ mod8:{items:[['j8l1','String a fundo'],['j8l2','Exceções'],['j8l3','enum'],['j8l4','JavaBox vs Java real'],['j8l5','💻 JDK + IntelliJ no PC'],['j8l6','🏆 Oficina FINAL'],['j8l7','🗺️ E agora?'],['qj8','🎯 Quiz FINAL']],badge:{emo:'🚀',tit:'Java de Verdade!',txt:'Módulo 8 completo: do simulador ao JDK no seu PC.'}}
+};
+const TOTAL = Object.values(MODS).reduce((s,m)=>s+m.items.length,0);
+/* ============ QUIZ ============ */
+const QUIZ = {
+ qj1:[
+  {q:'O que a JVM permite?',o:['Escrever o código uma vez e rodar em qualquer máquina que tenha JVM','Programar sem erros','Rodar Java sem compilar nunca','Transformar Java em HTML'],c:0,w:'O bytecode roda onde houver JVM: Windows, Mac, Linux, Android...'},
+  {q:'O ponto-e-vírgula em Java:',o:['É obrigatório no fim de cada instrução','É opcional, como em outras linguagens','Só aparece em loops','Serve para comentários'],c:0,w:'É o ponto final da frase — esquecê-lo é o erro nº 1 do planeta.'},
+  {q:'System.out.print (sem ln) faz o quê de diferente?',o:['Imprime SEM pular para a linha de baixo','Imprime em maiúsculas','Imprime duas vezes','Nada, é idêntico'],c:0,w:'println = print line, pula a linha; print continua na mesma.'}],
+ qj2:[
+  {q:'Para comparar igualdade entre números usa-se:',o:['== (dois iguais)','= (um igual)','=== (três)','equals sempre'],c:0,w:'Um = é atribuição (guardar valor); dois == é pergunta de igualdade.'},
+  {q:'Na escada de else if, a ordem correta é:',o:['Do caso mais exigente para o mais frouxo','Tanto faz','Do mais frouxo para o mais exigente','Ordem alfabética'],c:0,w:'Senão a nota 10 para no degrau "≥ 5" e sai "Recuperação".'},
+  {q:'if (altura >= 1.40 && idade >= 10) entra quando:',o:['As DUAS condições são verdadeiras','Pelo menos uma é verdadeira','Nenhuma é verdadeira','altura é maior que idade'],c:0,w:'&& é o E: tudo precisa ser true. Para "pelo menos uma", usa-se ||.'}],
+ qj3:[
+  {q:'O loop infinito acontece quando:',o:['A condição nunca vira false','O programa é muito longo','Há dois loops aninhados','Falta ponto-e-vírgula'],c:0,w:'Algo DENTRO do loop precisa mudar a condição — senão, nunca acaba.'},
+  {q:'Sabendo o número exato de voltas, o loop natural é:',o:['for','while','switch','if'],c:0,w:'for = início; condição; passo numa linha. while = "enquanto acontecer".'},
+  {q:'break e continue:',o:['break abandona o loop; continue pula só a volta atual','break pula a volta; continue abandona','Os dois abandonam','Os dois pulam'],c:0,w:'break = "achei, parei". continue = "esse não, próximo!".'}],
+ qj4:[
+  {q:'Métodos existem principalmente para:',o:['Empacotar lógica com nome e reutilizar sem repetir código','Deixar o programa mais lento','Substituir variáveis','Evitar o uso de classes'],c:0,w:'Definir uma vez, chamar mil — LEGO de lógica.'},
+  {q:'double media(double a, double b) — o double da frente indica:',o:['O tipo do valor que o método DEVOLVE','O tipo do primeiro parâmetro','Que o método é público','Que há duas versões'],c:0,w:'É a etiqueta do retorno; void = não devolve nada.'},
+  {q:'Uma variável criada dentro de um método:',o:['Existe só dentro dele (escopo)','É visível no programa todo','Vira static','Não pode ser usada'],c:0,w:'Nasce e morre nas chaves — dados viajam por parâmetro e return.'}],
+ qj5:[
+  {q:'Num array de 5 posições, a primeira e a última são:',o:['0 e 4','1 e 5','0 e 5','1 e 4'],c:0,w:'Índices começam do ZERO — e notas[5] estoura IndexOutOfBounds.'},
+  {q:'A diferença central entre array e ArrayList:',o:['Array tem tamanho fixo; ArrayList cresce e encolhe','Array é mais novo','ArrayList só guarda números','Nenhuma'],c:0,w:'A lista elástica: add, remove, size — a vida não tem tamanho fixo.'},
+  {q:'HashMap serve para:',o:['Guardar pares chave → valor e buscar pela chave','Ordenar números','Repetir código','Criar loops'],c:0,w:'O dicionário: precos.get("sonho") responde na hora.'}],
+ qj6:[
+  {q:'Classe e objeto:',o:['Classe é o molde; objeto é o exemplar criado com new','Objeto é o molde; classe é a cópia','São sinônimos','Classe só existe no papel'],c:0,w:'A planta e a casa — da mesma planta, mil casas.'},
+  {q:'O construtor:',o:['Tem o nome da classe, roda no new e prepara o objeto','É sempre chamado manualmente','Devolve int','É opcional escrever this'],c:0,w:'O objeto já nasce pronto — e this.nome = nome é a linha mais escrita do Java.'},
+  {q:'private + get/set (encapsulamento) serve para:',o:['Proteger os dados: só se mexe passando por métodos com regras','Esconder o código dos colegas','Deixar mais rápido','Economizar memória'],c:0,w:'conta.saldo = -999999 nunca mais: o objeto se defende.'}],
+ qj7:[
+  {q:'extends cria:',o:['Herança: a filha ganha tudo da mãe e adiciona o seu','Uma cópia independente','Uma interface','Um construtor'],c:0,w:'O comum mora na mãe; o específico, em cada filha.'},
+  {q:'Polimorfismo é:',o:['Tratar todos como o tipo-mãe e cada um responder do seu jeito','Ter muitos construtores','Herdar de duas mães','Métodos sem corpo'],c:0,w:'Uma lista de Animal, cada fazerSom() diferente — o loop do Minecraft.'},
+  {q:'Interface:',o:['Contrato de métodos que quem implementa JURA cumprir','Classe com campos públicos','Herança dupla','Um tipo de loop'],c:0,w:'Herança = É UM; interface = SABE FAZER (e pode assinar várias).'}],
+ qj8:[
+  {q:'No Java REAL, comparar Strings corretamente é com:',o:['.equals()','==','===','compare'],c:0,w:'== compara referências de memória — clássica pergunta de entrevista.'},
+  {q:'try/catch serve para:',o:['Capturar exceções e continuar com dignidade','Acelerar o código','Criar loops seguros','Importar bibliotecas'],c:0,w:'throw lança, catch captura, o programa segue vivo.'},
+  {q:'No Java real, 10 / 4 (ambos int) dá:',o:['2 — divisão inteira corta a vírgula','2.5','2.25','Erro'],c:0,w:'Quer decimal? Um dos lados double: 10 / 4.0 = 2.5.'}]
+};
+const quizOk = {};
+function renderQuizzes(){
+  Object.keys(QUIZ).forEach(qid=>{
+    const box = $('quiz-'+qid); if(!box) return;
+    quizOk[qid] = quizOk[qid] || new Set();
+    box.innerHTML = (done.has(qid) ? '<div class="box gold"><div class="bt">✅ Quiz concluído!</div>Pode refazer para revisar — o XP já é seu.</div>' : '') +
+      QUIZ[qid].map((p,pi)=>{
+        const ops = p.o.map((t,oi)=>({t,oi})).sort(()=>Math.random()-.5);
+        return '<div class="qq"><div class="qp">'+(pi+1)+'. '+p.q+'</div>'+
+          ops.map(o=>`<button class="qopt" data-oi="${o.oi}" onclick="quizResp('${qid}',${pi},${o.oi},this)">${o.t}</button>`).join('')+
+          '<div class="qwhy" id="why-'+qid+'-'+pi+'"></div></div>';
+      }).join('');
+  });
+}
+function quizResp(qid,pi,oi,el){
+  const p = QUIZ[qid][pi], pai = el.parentElement;
+  pai.querySelectorAll('.qopt').forEach(b=>{ b.classList.remove('certa','errada'); if(+b.dataset.oi===p.c) b.classList.add('certa'); });
+  if(oi!==p.c) el.classList.add('errada');
+  const why = $('why-'+qid+'-'+pi);
+  why.innerHTML = (oi===p.c?'🎉 <b>Certíssimo!</b> ':'💭 <b>A certa está em verde.</b> ')+p.w;
+  why.classList.add('show');
+  if(oi===p.c){ quizOk[qid].add(pi); if(quizOk[qid].size===QUIZ[qid].length && !done.has(qid)) complete(qid); }
+}
+/* ============ LACUNAS ============ */
+function fillCheck(id){
+  const box = $(id); let tudo = true;
+  box.querySelectorAll('.lac').forEach(i=>{
+    const ok = i.dataset.r.split('|').some(r=>r.trim().toLowerCase()===i.value.trim().toLowerCase());
+    i.classList.toggle('ok',ok); i.classList.toggle('err',!ok);
+    if(!ok) tudo = false;
+  });
+  const m = box.querySelector('.fill-msg');
+  m.className = 'fill-msg show';
+  m.style.color = tudo ? '#15803D' : '#B91C1C';
+  m.textContent = tudo ? '🎉 Perfeito! Pode seguir.' : '🤏 Quase! Ajuste os campos vermelhos — a resposta está na lição.';
+  if(tudo) DA.confetti();
+}
+/* ============ OFICINAS DE CÓDIGO (ordem exata) ============ */
+const MONTJ = {
+ mj1:{obj:'🎯 <b>Meta:</b> o porteiro da balada — lê a idade e decide. A ordem é a receita: ligar o Scanner, ler, decidir. Entradas simuladas: <code>21</code>.',
+   entradas:'21',
+   alvo:['Scanner sc = new Scanner(System.in);','int idade = sc.nextInt();','if (idade >= 18) {','    System.out.println("Entrada liberada!");','} else {','    System.out.println("Entrada negada.");','}'],
+   pal:['Scanner sc = new Scanner(System.in);','int idade = sc.nextInt();','if (idade = 18) {','if (idade >= 18) {','    System.out.println("Entrada liberada!");','} else {','    System.out.println("Entrada negada.");','}']},
+ mj2:{obj:'🎯 <b>Meta:</b> somar 1+2+3+...+100 com um for — o desafio de Gauss. Prepare o acumulador ANTES do loop, some dentro, anuncie depois.',
+   alvo:['int soma = 0;','for (int i = 1; i <= 100; i++) {','    soma += i;','}','System.out.println("Soma: " + soma);'],
+   pal:['int soma = 0;','for (int i = 1; i <= 100; i++) {','for (int i = 1; i <= 100; i--) {','    soma += i;','    soma = i;','}','System.out.println("Soma: " + soma);']},
+ mj3:{obj:'🎯 <b>Meta:</b> a máquina de saudação — um método com parâmetro, usado duas vezes. Definição primeiro, chamadas depois.',
+   alvo:['void saudar(String nome) {','    System.out.println("Olá, " + nome + "! ✱");','}','saudar("Ana");','saudar("Wess");'],
+   pal:['void saudar(String nome) {','void saudar() {','    System.out.println("Olá, " + nome + "! ✱");','}','saudar("Ana");','saudar(Ana);','saudar("Wess");']},
+ mj4:{obj:'🎯 <b>Meta:</b> o placar do campeonato num HashMap — criar, registrar dois jogadores, consultar um e exibir tudo.',
+   alvo:['HashMap<String, Integer> placar = new HashMap<>();','placar.put("Ana", 30);','placar.put("Bia", 45);','System.out.println("Bia fez: " + placar.get("Bia"));','System.out.println("Placar: " + placar);'],
+   pal:['HashMap<String, Integer> placar = new HashMap<>();','ArrayList<String> placar = new ArrayList<>();','placar.put("Ana", 30);','placar.put("Bia", 45);','placar.get("Ana", 30);','System.out.println("Bia fez: " + placar.get("Bia"));','System.out.println("Placar: " + placar);']},
+ mj5:{obj:'🎯 <b>Meta:</b> a classe Heroi de RPG completa — campos, construtor (nasce com 100 de vida), método de ataque, e o herói em ação.',
+   alvo:['class Heroi {','    String nome;','    int vida;','    Heroi(String nome) {','        this.nome = nome;','        this.vida = 100;','    }','    void atacar() {','        System.out.println(this.nome + " ataca! ⚔️");','    }','}','Heroi link = new Heroi("Link");','link.atacar();'],
+   pal:['class Heroi {','    String nome;','    int vida;','    Heroi(String nome) {','    void Heroi(String nome) {','        this.nome = nome;','        this.vida = 100;','    }','    void atacar() {','        System.out.println(this.nome + " ataca! ⚔️");','    }','}','Heroi link = new Heroi("Link");','Heroi link = Heroi("Link");','link.atacar();']},
+ mj6:{obj:'🎯 <b>Meta:</b> herança + polimorfismo em 8 linhas — a mãe genérica, o Lobo que sobrescreve, e a variável do tipo mãe uivando como filha.',
+   alvo:['class Animal {','    String fazerSom() { return "..."; }','}','class Lobo extends Animal {','    String fazerSom() { return "Auuuu! 🐺"; }','}','Animal a = new Lobo();','System.out.println(a.fazerSom());'],
+   pal:['class Animal {','    String fazerSom() { return "..."; }','}','class Lobo extends Animal {','class Lobo implements Animal {','    String fazerSom() { return "Auuuu! 🐺"; }','}','Animal a = new Lobo();','Animal a = new Animal();','System.out.println(a.fazerSom());']},
+ mj7:{obj:'🏆 <b>A PROVA DE MESTRE:</b> o Cofre — campo private, validação que LANÇA exceção, portões get, e o uso. O curso inteiro num programa.',
+   alvo:['class Cofre {','    private int moedas = 0;','    void guardar(int qtd) {','        if (qtd <= 0) {','            throw new IllegalArgumentException("Quantidade inválida!");','        }','        this.moedas += qtd;','    }','    int getMoedas() { return this.moedas; }','}','Cofre c = new Cofre();','c.guardar(50);','System.out.println("No cofre: " + c.getMoedas());'],
+   pal:['class Cofre {','    private int moedas = 0;','    public int moedas;','    void guardar(int qtd) {','        if (qtd <= 0) {','            throw new IllegalArgumentException("Quantidade inválida!");','        }','        this.moedas += qtd;','    }','    int getMoedas() { return this.moedas; }','}','Cofre c = new Cofre();','c.guardar(50);','c.moedas = 50;','System.out.println("No cofre: " + c.getMoedas());']}
+};
+const MT = {};
+function catJ(l){
+  const t = l.trim();
+  if(/^(class |interface |enum )|extends|implements/.test(t)) return 'bk-estr';
+  if(/^(if|} else|else|for|while|switch|throw|case|break)/.test(t)) return 'bk-texto';
+  if(/System\.out/.test(t)) return 'bk-lista';
+  if(/Scanner|next/.test(t)) return 'bk-midia';
+  if(/^(int|double|String|boolean|void|private|HashMap|ArrayList|static)/.test(t)) return 'bk-form';
+  return 'bk-link';
+}
+function mtInit(id){ MT[id] = {pilha:[]}; mtRender(id); }
+function addMj(id,i){ MT[id].pilha.push(MONTJ[id].pal[i]); mtRender(id); }
+function remMj(id,i){ MT[id].pilha.splice(i,1); mtRender(id); }
+function mjLimpar(id){ MT[id].pilha = []; mtRender(id); }
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mtRender(id){
+  const spec = MONTJ[id], st = MT[id], el = $(id);
+  el.innerHTML = `<div class="mt-obj">${spec.obj}</div>
+    <div class="mt-grid">
+      <div><div class="pg-lab">🧩 Seu programa (a ORDEM importa — toque para remover)</div>
+        <div class="mt-pilha">${st.pilha.length===0?'<div class="vazio">👇 Toque nas linhas da caixa, na ordem certa</div>':st.pilha.map((d,i)=>`<button class="bloco ${catJ(d)}" onclick="remMj('${id}',${i})">${String(i+1).padStart(2,' ')}│ ${esc(d)}</button>`).join('')}</div>
+        <div style="margin-top:9px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn small green" onclick="mjCheck('${id}')">Conferir e ▶ Rodar</button><button class="btn small outline" onclick="mjLimpar('${id}')">🧹 Limpar</button></div>
+        <div class="mt-msg" id="${id}-msg"></div></div>
+      <div><div class="pg-lab">🧰 Caixa de linhas (com armadilhas!)</div>
+        <div>${spec.pal.map((d,i)=>`<button class="bloco ${catJ(d)}" onclick="addMj('${id}',${i})">${esc(d)}</button>`).join('')}</div>
+      </div>
+    </div>`;
+}
+function mjCheck(id){
+  const spec = MONTJ[id], got = MT[id].pilha, m = $(id+'-msg');
+  m.classList.add('show');
+  if(got.length===spec.alvo.length && got.every((l,i)=>l===spec.alvo[i])){
+    const r = JavaBox.run(spec.alvo.join('\n'), spec.entradas||'');
+    m.className = 'mt-msg show ok';
+    m.innerHTML = '🎉 <b>Programa montado — e RODANDO:</b><pre style="background:#0B1120;color:#4ADE80;border-radius:10px;padding:12px;margin-top:8px;white-space:pre-wrap;font-size:.85rem">'+esc(r.ok?r.out:('💥 '+r.err))+'</pre>';
+    DA.confetti(); return;
+  }
+  m.className = 'mt-msg show err';
+  const armadilha = got.find(l=>!spec.alvo.includes(l));
+  if(armadilha){ m.innerHTML = '🪤 A linha <code>'+esc(armadilha.trim())+'</code> é armadilha — não faz parte do programa! Toque nela na pilha para remover.'; return; }
+  if(got.length < spec.alvo.length){ m.innerHTML = '🤔 Ainda faltam <b>'+(spec.alvo.length-got.length)+'</b> linha(s). Todas as corretas estão na caixa.'; return; }
+  const idx = got.findIndex((l,i)=>l!==spec.alvo[i]);
+  m.innerHTML = '🔀 A linha <b>Nº '+(idx+1)+'</b> não está no lugar certo. Pense na receita: o que precisa existir ANTES de ser usado?';
+}
+function renderMts(){ Object.keys(MONTJ).forEach(mtInit); }
+/* ============ ENGINE ============ */
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
+function snapshot(){ return {xp, done:[...done], dys, badges, dip, dip_em:dipEm}; }
+async function saveState(){
+  const s = snapshot();
+  try{ localStorage.setItem('da-espelho:'+CURSO_ID+':'+uid, JSON.stringify(s)); }catch(e){}
+  DA.saveProgress(CURSO_ID, s);
+}
+function mergeStates(a,b){
+  if(!a) return b; if(!b) return a;
+  const d = new Set([...(a.done||[]),...(b.done||[])]);
+  return {xp:Math.max(a.xp||0,b.xp||0,d.size*10), done:[...d], dys:b.dys||a.dys||false,
+    badges:[...new Set([...(a.badges||[]),...(b.badges||[])])], dip:a.dip||b.dip||false, dip_em:a.dip_em||b.dip_em||null};
+}
+function apply(s){
+  if(!s) return;
+  done = new Set(s.done||[]); xp = s.xp||done.size*10; dys = !!s.dys; badges = s.badges||[]; dip = !!s.dip; dipEm = s.dip_em||null;
+  document.body.classList.toggle('dys', dys);
+}
+function rank(){ let r=RANKS[0][1]; RANKS.forEach(([m,n])=>{ if(xp>=m) r=n; }); return r; }
+function refreshUI(){
+  $('xpVal').textContent = xp;
+  $('rankVal').textContent = rank();
+  $('pfill').style.width = Math.round(done.size/TOTAL*100)+'%';
+  $('plabel').textContent = done.size+' de '+TOTAL+' etapas · '+Math.round(done.size/TOTAL*100)+'%';
+  $('rankline').innerHTML = RANKS.map(([m,n])=>'<span class="rk'+(xp>=m?' on':'')+'">'+n+' · '+m+' XP</span>').join('');
+  Object.entries(MODS).forEach(([mid,m])=>{
+    $(mid+'list').innerHTML = m.items.map(([id,rot])=>
+      `<button class="les-btn ${done.has(id)?'done':''}" onclick="go('${id}')"><span class="ic">${done.has(id)?'✅':'▶️'}</span> ${rot}</button>`).join('');
+  });
+  done.forEach(id=>{ const f=$('f-'+id); if(f) f.classList.add('show'); });
+}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const alvo = $(id); if(alvo) alvo.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function complete(id){
+  if(done.has(id)){ toast('Você já concluiu esta etapa! ✔'); return; }
+  done.add(id); xp += 10;
+  const f = $('f-'+id); if(f) f.classList.add('show');
+  DA.confetti(); refreshUI();
+  const mod = Object.entries(MODS).find(([k,m])=>m.items.some(([i])=>i===id));
+  if(mod && mod[1].items.every(([i])=>done.has(i)) && !badges.includes(mod[0])){
+    badges.push(mod[0]);
+    $('badgeEmo').textContent = mod[1].badge.emo; $('badgeTit').textContent = mod[1].badge.tit; $('badgeTxt').textContent = mod[1].badge.txt;
+    setTimeout(()=>$('badgeOverlay').classList.add('show'), 500);
+  }
+  if(done.size===TOTAL && !dip){ dip = true; dipEm = new Date().toISOString(); setTimeout(()=>$('diplomaOverlay').classList.add('show'), 900); }
+  saveState();
+  renderQuizzes();
+}
+function toggleDys(){ dys = !dys; document.body.classList.toggle('dys', dys); saveState(); toast(dys?'👓 Leitura fácil ativada':'Leitura fácil desativada'); }
+function authUi(){ if(confirm('Sair da sua conta?')) DA.logout(); }
+/* ============ INÍCIO ============ */
+(async function init(){
+  const u = await DA.requireAuth(); if(!u) return;
+  uid = u.id;
+  let nuvem = null;
+  try{ const r = await DA.loadProgress(CURSO_ID); nuvem = r.estado; }catch(e){}
+  let local = null;
+  try{ local = JSON.parse(localStorage.getItem('da-espelho:'+CURSO_ID+':'+uid)); }catch(e){}
+  apply(mergeStates(local, nuvem));
+  renderQuizzes(); renderMts(); refreshUI(); saveState();
+})();
+</script>
+</body>
+</html>

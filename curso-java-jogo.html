@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Java: do avançado ao primeiro jogo · Dev Academy</title>
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#141F3C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dev Academy">
+<style>
+:root{--navy:#141F3C;--blue:#2F6FED;--purple:#7C4DFF;--amber:#F59E0B;--green:#22C55E;--red:#EF4444;--rosa:#EC4899;--teal:#0D9488;--bg:#ECEEF3;--ink:#1B2440;--line:#DCE1EC;--shadow:0 8px 22px rgba(20,31,60,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Verdana,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+body.locked header,body.locked main{display:none}
+body.locked::after{content:'✱';position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;background:linear-gradient(160deg,var(--navy),#23306B);z-index:70;animation:girar 1.6s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+body.dys{font-size:1.06rem;letter-spacing:.02em;word-spacing:.08em}
+body.dys .lesson p, body.dys .lesson li{line-height:2}
+header{position:sticky;top:0;z-index:50;background:linear-gradient(120deg,var(--navy) 0%,#1E2C5C 55%,#2A2560 100%);color:#fff;padding:12px 18px;box-shadow:var(--shadow);padding-top:calc(12px + env(safe-area-inset-top))}
+.hrow{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;cursor:pointer}
+.ast{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.5)}
+.hspace{flex:1}
+.pill{background:rgba(255,255,255,.13);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:800}
+.pill.xp{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.btn-ghost{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:7px 12px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;text-decoration:none}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-inset-bottom))}
+.screen{display:none;animation:pop .3s ease}
+.screen.active{display:block}
+.btn{border:none;font-family:inherit;font-weight:800;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:12px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 16px rgba(47,111,237,.35);transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn.small{padding:9px 14px;font-size:.85rem}
+.btn.green{background:linear-gradient(135deg,var(--green),#15803D);box-shadow:0 6px 16px rgba(34,197,94,.35)}
+.btn.amber{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00;box-shadow:0 6px 16px rgba(245,158,11,.35)}
+.btn.outline{background:#fff;color:var(--blue);border:2px solid var(--blue);box-shadow:none}
+/* hero + home */
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#312E81,#7C4DFF 55%,#22D3EE);color:#fff;border-radius:22px;padding:32px 28px;margin-bottom:20px;box-shadow:0 18px 44px rgba(49,46,129,.45)}
+.hero .bigast{position:absolute;right:-26px;top:-40px;font-size:13rem;opacity:.10;transform:rotate(12deg)}
+.hero h1{font-size:2rem;line-height:1.25;font-weight:800;margin-bottom:8px}
+.hero h1 span{background:linear-gradient(90deg,#F0ABFC,#FDE68A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:660px;opacity:.94;margin-bottom:14px}
+.progresso{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:18px}
+.pbar{height:14px;background:#E7EAF3;border-radius:999px;overflow:hidden;margin:8px 0}
+.pbar>div{height:100%;background:linear-gradient(90deg,var(--amber),#EA580C,var(--purple));border-radius:999px;transition:width .5s}
+.rankline{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.rk{font-size:.75rem;font-weight:800;padding:5px 11px;border-radius:999px;background:#EEF1F8;color:#8A93AC}
+.rk.on{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mod-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.mod-head{padding:15px 17px;color:#fff;display:flex;gap:11px;align-items:center}
+.mod-head .memo{font-size:1.7rem;filter:drop-shadow(0 3px 5px rgba(0,0,0,.25))}
+.mod-head h3{font-size:.98rem}
+.mod-head small{opacity:.9;font-weight:600;font-size:.75rem}
+.hh1{background:linear-gradient(135deg,#F97316,#C2410C)}
+.hh2{background:linear-gradient(135deg,var(--blue),#1D4ED8)}
+.hh3{background:linear-gradient(135deg,var(--rosa),#BE185D)}
+.hh4{background:linear-gradient(135deg,var(--teal),#0F766E)}
+.hh5{background:linear-gradient(135deg,var(--purple),#5B21B6)}
+.hh6{background:linear-gradient(135deg,var(--green),#15803D)}
+.hh7{background:linear-gradient(135deg,#06B6D4,#0E7490)}
+.hh8{background:linear-gradient(135deg,#6366F1,#4338CA)}
+.mod-body{padding:10px 14px 14px}
+.les-btn{display:flex;align-items:center;gap:9px;width:100%;border:none;background:#F4F6FB;font-family:inherit;text-align:left;font-size:.86rem;font-weight:700;color:var(--ink);border-radius:11px;padding:11px 13px;margin-top:7px;cursor:pointer;transition:all .15s}
+.les-btn:hover{background:#EDF2FF;transform:translateX(3px)}
+.les-btn.done{background:#E9FBEF;color:#15803D}
+.les-btn .ic{font-size:1rem}
+/* lição */
+.lesson{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:28px 26px;max-width:820px;margin:0 auto}
+.crumb{margin-bottom:12px}
+.chip{display:inline-block;color:#fff;font-size:.72rem;font-weight:800;padding:5px 13px;border-radius:999px}
+.lesson h2{color:var(--navy);font-size:1.45rem;margin-bottom:12px}
+.lesson h4{color:var(--navy);margin:16px 0 8px}
+.lesson p{line-height:1.75;margin-bottom:12px}
+.lesson mark{background:linear-gradient(120deg,#FDE68A,#FCD34D);padding:1px 6px;border-radius:6px;font-weight:700}
+.lesson code{background:#EEF1F8;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;font-size:.88em;color:#B4308F}
+.tbl{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:.88rem}
+.tbl th{background:var(--navy);color:#fff;padding:9px 11px;text-align:left}
+.tbl td{padding:9px 11px;border-bottom:1px solid var(--line);line-height:1.5}
+.codebox{background:#0F1B3D;border-radius:13px;margin:12px 0;overflow:hidden}
+.cb-top{background:#1B2A55;color:#8FA3D8;font-size:.72rem;font-weight:800;padding:7px 13px}
+.codebox pre{padding:13px 15px;color:#D6E1FF;font-family:Consolas,monospace;font-size:.84rem;line-height:1.7;overflow-x:auto;white-space:pre-wrap}
+.tk-tag{color:#7DD3FC}.tk-attr{color:#FDE047}.tk-str{color:#86EFAC}.tk-com{color:#64748B;font-style:italic}
+.box{border-radius:13px;padding:13px 15px;margin:13px 0;font-size:.9rem;line-height:1.65}
+.box .bt{font-weight:800;margin-bottom:4px}
+.box.tip{background:#EDF2FF;border-left:5px solid var(--blue)}
+.box.warn{background:#FEF3C7;border-left:5px solid var(--amber)}
+.box.gold{background:linear-gradient(120deg,#FEF3C7,#FDE68A);border-left:5px solid #D97706}
+.box.danger{background:#FEE2E2;border-left:5px solid var(--red)}
+.prof{display:flex;gap:11px;margin:14px 0;align-items:flex-start}
+.prof .face{width:44px;height:44px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.4)}
+.prof .bubble{background:#F4F6FB;border-radius:4px 16px 16px 16px;padding:12px 15px;font-size:.9rem;line-height:1.65}
+.done-btn{margin-top:16px}
+.done-flag{display:none;margin-top:10px;font-weight:800;color:#15803D}
+.done-flag.show{display:block;animation:pop .3s ease}
+.lnav{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
+/* playground */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.pg-lab{font-size:.72rem;font-weight:800;color:#5A6482;margin-bottom:4px}
+.pg textarea{width:100%;min-height:170px;border:2px solid #C9D2E6;border-radius:12px;padding:11px;font-family:Consolas,monospace;font-size:16px;line-height:1.55;resize:vertical;background:#0F1B3D;color:#D6E1FF}
+.pg iframe{width:100%;min-height:170px;height:100%;border:2px solid var(--line);border-radius:12px;background:#fff}
+/* lacunas */
+.fill{background:#F4F6FB;border-radius:14px;padding:14px;margin:12px 0}
+.fill .fdesc{font-size:.88rem;font-weight:700;margin-bottom:8px}
+.fill pre{background:#0F1B3D;color:#D6E1FF;border-radius:11px;padding:13px;font-family:Consolas,monospace;font-size:.9rem;line-height:2.1;overflow-x:auto;white-space:pre-wrap}
+.lac{width:110px;border:none;border-bottom:3px solid var(--amber);background:#1B2A55;color:#FDE047;font-family:Consolas,monospace;font-size:16px;font-weight:700;padding:3px 8px;border-radius:8px 8px 0 0;text-align:center}
+.lac:focus{outline:none;border-color:var(--blue)}
+.lac.ok{border-color:var(--green);color:#86EFAC}
+.lac.err{border-color:var(--red);color:#FCA5A5;animation:treme .3s}
+@keyframes treme{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.fill-msg{margin-top:9px;font-weight:800;font-size:.88rem;display:none}
+.fill-msg.show{display:block}
+/* montagem (blocos) */
+.mt{background:#F4F6FB;border-radius:16px;padding:14px;margin:12px 0}
+.mt-obj{background:linear-gradient(120deg,#EDF2FF,#F3EDFF);border-radius:11px;padding:10px 13px;font-size:.88rem;font-weight:700;margin-bottom:10px;line-height:1.5}
+.mt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt-pilha{min-height:130px;background:#fff;border:2px dashed #C9D2E6;border-radius:13px;padding:9px}
+.mt-pilha .vazio{color:#8A93AC;font-weight:700;font-size:.82rem;text-align:center;padding:24px 8px}
+.mt iframe{width:100%;min-height:150px;height:100%;border:2px solid var(--line);border-radius:13px;background:#fff}
+.bloco{position:relative;border:none;font-family:Consolas,monospace;color:#fff;font-weight:700;font-size:.82rem;padding:11px 14px 10px;border-radius:9px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.22),0 6px 12px rgba(20,31,60,.15);transition:transform .12s;display:flex;width:fit-content;align-items:center;gap:7px;margin:7px 6px 3px 0}
+.bloco:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
+.bloco::before,.bloco::after{content:'';position:absolute;top:-6px;width:14px;height:6px;border-radius:4px 4px 0 0;background:inherit;filter:brightness(1.13)}
+.bloco::before{left:10px}.bloco::after{left:31px}
+.bloco .x{opacity:.75;font-size:.75rem}
+.bk-texto{background:linear-gradient(180deg,#3B82F6,#2563EB)}
+.bk-lista{background:linear-gradient(180deg,#22C55E,#16A34A)}
+.bk-midia{background:linear-gradient(180deg,#F59E0B,#D97706);color:#3B2A00}
+.bk-link{background:linear-gradient(180deg,#EC4899,#BE185D)}
+.bk-form{background:linear-gradient(180deg,#F97316,#C2410C)}
+.bk-estr{background:linear-gradient(180deg,#8B5CF6,#6D28D9)}
+.mt-caixa{border-left:9px solid #16A34A;border-radius:0 11px 11px 9px;background:#E9FBEF;padding:4px 8px 8px 11px;margin:6px 0;width:fit-content;min-width:190px}
+.mt-caixa.roxa{border-color:#6D28D9;background:#F3EDFF}
+.mt-solo{border:2px dashed #86EFAC;border-radius:9px;padding:5px 9px;margin-top:4px;font-size:.75rem;font-weight:800;color:#15803D;cursor:pointer;background:#fff;width:fit-content}
+.mt-solo.ativo{background:#FDE047;border-color:#EAB308;color:#713F12;animation:pulsar 1.1s ease infinite}
+@keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.mt-msg{margin-top:9px;border-radius:11px;padding:10px 12px;font-size:.87rem;font-weight:700;display:none;line-height:1.5}
+.mt-msg.show{display:block}
+.mt-msg.ok{background:#D1FAE5;color:#065F46}
+.mt-msg.err{background:#FEE2E2;color:#991B1B}
+/* quiz */
+.qq{background:#F4F6FB;border-radius:14px;padding:15px;margin:12px 0}
+.qq .qp{font-weight:800;margin-bottom:9px;line-height:1.5}
+.qopt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:11px;padding:11px 13px;margin-top:7px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
+.qopt:hover{border-color:var(--blue)}
+.qopt.certa{border-color:var(--green);background:#E9FBEF}
+.qopt.errada{border-color:var(--red);background:#FEE2E2}
+.qwhy{display:none;margin-top:9px;font-size:.85rem;background:#EDF2FF;border-radius:10px;padding:10px 12px;line-height:1.6}
+.qwhy.show{display:block}
+/* modais */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:70;padding:18px}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:22px;padding:30px 26px;text-align:center;width:min(430px,94vw);animation:pop .35s ease;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modal .me{font-size:2.8rem}
+.modal h3{color:var(--navy);margin:6px 0 8px}
+.modal p{color:#5A6482;font-size:.92rem;line-height:1.6;margin-bottom:14px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:.9rem;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;transition:all .3s;z-index:80;max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+@media(max-width:700px){
+  .pg,.mt-grid{grid-template-columns:1fr}
+  .lesson{padding:22px 16px}
+  .hero{padding:24px 18px}.hero h1{font-size:1.5rem}
+  .hrow{row-gap:8px}.pill{font-size:.7rem;padding:5px 9px}.btn-ghost{font-size:.7rem;padding:6px 9px}
+  .tbl{display:block;overflow-x:auto}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+.jbox{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
+.jbox textarea{width:100%;min-height:240px;border:2px solid #C9D2E6;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:.84rem;line-height:1.5;background:#0F172A;color:#E2E8F0;resize:vertical}
+.jbox textarea:focus{outline:none;border-color:#7C4DFF}
+.jb-console{background:#0B1120;color:#4ADE80;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:.84rem;min-height:52px;white-space:pre-wrap;border:2px solid #1E293B;margin:0}
+.jb-console.jb-err{color:#FCA5A5}
+.jb-run{background:linear-gradient(135deg,#22C55E,#15803D);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 14px rgba(34,197,94,.35);transition:transform .15s}
+.jb-run:hover{transform:translateY(-2px)}
+.jb-test{background:linear-gradient(135deg,#F59E0B,#D97706);color:#3B2A00;border:none;border-radius:10px;padding:10px 22px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 14px rgba(245,158,11,.35);transition:transform .15s}
+.jb-test:hover{transform:translateY(-2px)}
+.jb-lab{font-size:.72rem;font-weight:800;color:#5A6482;text-transform:uppercase;letter-spacing:.6px;margin:8px 0 5px}
+.stage{position:relative;background:#0B1120;border-radius:16px;padding:10px;border:2px solid #1E293B;margin:10px 0}
+.stage canvas{width:100%;height:auto;border-radius:10px;display:block;background:#8EC5FF}
+.pe-touch{position:absolute;bottom:20px;left:20px;right:20px;display:flex;gap:10px;justify-content:space-between;pointer-events:none}
+.pe-tb{pointer-events:auto;border:none;border-radius:14px;padding:14px 20px;font-size:1.1rem;font-weight:900;background:rgba(20,31,60,.55);color:#fff;backdrop-filter:blur(4px);cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+.pe-tb-pulo{background:rgba(124,77,255,.65)}
+.mtest{margin-top:10px;border-radius:12px;padding:12px 14px;background:#F6F8FE;border:2px dashed #C9D2E6;display:none}
+.mtest.show{display:block}
+.mtest .li{padding:4px 0;font-size:.92rem}
+.mtest .li.ok{color:#15803D}
+.mtest .li.bad{color:#B91C1C}
+</style>
+</head>
+<body class="locked">
+<header>
+  <div class="hrow">
+    <div class="logo" onclick="go('home')"><div class="ast">✱</div><div>Primeiro <span style="font-weight:400;opacity:.85">Jogo</span></div></div>
+    <a class="btn-ghost" href="index.html" style="margin-left:6px">🏠 Dev Academy</a>
+    <div class="hspace"></div>
+    <div class="pill xp">⚡ <span id="xpVal">0</span> XP</div>
+    <div class="pill">🎖️ <span id="rankVal">Sonhador(a)</span></div>
+    <button class="btn-ghost" id="acctBtn" onclick="authUi()">👤</button>
+    <button class="btn-ghost" id="dysBtn" onclick="toggleDys()">👓 Leitura fácil</button>
+  </div>
+</header>
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="screen active" id="home">
+  <div class="hero">
+    <div class="bigast">🕹️</div>
+    <h1>Java: do avançado ao <span>seu primeiro jogo</span></h1>
+    <p>Aqui você não vai LER sobre jogos — vai CONSTRUIR um, classe por classe, em Java, jogável nesta página. Um plataforma completo estilo clássico: física, pulo, colisão, moedas, inimigos, câmera e fases. Cada missão adiciona uma peça REAL do jogo, com teste automático dizendo se sua engenharia passou. Ao final: um jogo que é SEU, com fase criada por você. Pré-requisito: o curso Java Completo.</p>
+    <button class="btn amber" onclick="go('g1l1')">▶ Apertar START</button>
+  </div>
+  <div class="progresso">
+    <b>Seu desenvolvimento</b>
+    <div class="pbar"><div id="pfill" style="width:0%"></div></div>
+    <div id="plabel" style="font-size:.85rem;color:#5A6482">0 de 40 etapas</div>
+    <div class="rankline" id="rankline"></div>
+  </div>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="mod-head hh1"><span class="memo">💓</span><div><h3>Módulo 1 · O coração de todo jogo</h3><small>O loop, o palco e o mundo em texto</small></div></div><div class="mod-body" id="mod1list"></div></div>
+    <div class="mod-card"><div class="mod-head hh2"><span class="memo">🐣</span><div><h3>Módulo 2 · O herói nasce</h3><small>A classe Heroi: corpo e movimento</small></div></div><div class="mod-body" id="mod2list"></div></div>
+    <div class="mod-card"><div class="mod-head hh3"><span class="memo">🪂</span><div><h3>Módulo 3 · Física</h3><small>Gravidade, chão e o PULO</small></div></div><div class="mod-body" id="mod3list"></div></div>
+    <div class="mod-card"><div class="mod-head hh4"><span class="memo">🧱</span><div><h3>Módulo 4 · O mundo sólido</h3><small>Tiles e colisão de gente grande</small></div></div><div class="mod-body" id="mod4list"></div></div>
+    <div class="mod-card"><div class="mod-head hh5"><span class="memo">⭐</span><div><h3>Módulo 5 · Recompensas</h3><small>Moedas, pontos e HUD</small></div></div><div class="mod-body" id="mod5list"></div></div>
+    <div class="mod-card"><div class="mod-head hh6"><span class="memo">👾</span><div><h3>Módulo 6 · Perigo</h3><small>Inimigos, dano, vidas e o pisão</small></div></div><div class="mod-body" id="mod6list"></div></div>
+    <div class="mod-card"><div class="mod-head hh7"><span class="memo">🎥</span><div><h3>Módulo 7 · Mundo grande</h3><small>Câmera, fase longa e a bandeira</small></div></div><div class="mod-body" id="mod7list"></div></div>
+    <div class="mod-card"><div class="mod-head hh8"><span class="memo">🏆</span><div><h3>Módulo 8 · SEU jogo</h3><small>Sua fase, seu polimento, seus créditos</small></div></div><div class="mod-body" id="mod8list"></div></div>
+  </div>
+</section>
+
+<!-- ================= M1 ================= -->
+<section class="screen" id="g1l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 1 de 4</span></div>
+  <h2>💓 O segredo de todo jogo: o loop</h2>
+  <p>Do Pong ao jogo mais moderno do mundo, TODOS são o mesmo animal: um loop infinito (controlado!) que, <mark>60 vezes por segundo</mark>, faz duas coisas:</p>
+  <div class="codebox"><div class="cb-top">o coração, em pseudocódigo</div>
+  <pre><span class="tk-tag">enquanto</span> (oJogoEstiverAberto) {
+    <span class="tk-attr">atualizar()</span>;   <span class="tk-com">// 1. mover tudo: física, inimigos, cliques (a LÓGICA)</span>
+    <span class="tk-attr">desenhar()</span>;    <span class="tk-com">// 2. pintar o quadro na tela (a IMAGEM)</span>
+}</pre></div>
+  <p>Cada volta é um <b>frame</b>. 60 frames por segundo = a ilusão de movimento, igualzinho ao cinema. Quando um jogo "roda a 60fps", é ISTO: o loop dando 60 voltas por segundo. Quando "trava", é o loop demorando demais numa volta.</p>
+  <table class="tbl">
+    <tr><th>No loop</th><th>Quem faz</th><th>Neste curso</th></tr>
+    <tr><td>atualizar()</td><td>A LÓGICA do jogo: posições, colisões, pontos</td><td><b>VOCÊ escreve, em Java</b> 💪</td></tr>
+    <tr><td>desenhar()</td><td>Pintar o quadro</td><td>Você desenha o herói; o palco pinta o mundo</td></tr>
+    <tr><td>o loop em si + teclado</td><td>A infraestrutura</td><td>A engine da Academy (pronta, você vai LER o código dela)</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">É exatamente assim na indústria: devs de gameplay escrevem a LÓGICA em cima de uma engine (Unity, Godot, Unreal) que cuida de loop, tela e input. Você vai trabalhar do jeito profissional desde a missão 1 — só que entendendo o que a engine faz por baixo, porque a nossa é pequena e aberta.</div></div>
+  <button class="btn green done-btn" onclick="complete('g1l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g1l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g1l2')">Próxima: O contrato com a engine →</button></div>
+</div></section>
+
+<section class="screen" id="g1l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 2 de 4</span></div>
+  <h2>🤝 O contrato: o que a engine te dá, o que ela espera</h2>
+  <p>Toda engine é um contrato. A nossa te entrega quatro ferramentas prontas, disponíveis dentro do seu Java:</p>
+  <table class="tbl">
+    <tr><th>Ferramenta</th><th>O que oferece</th></tr>
+    <tr><td><code>Pincel g</code></td><td><code>g.ret(x, y, larg, alt, cor)</code> desenha retângulo · <code>g.circulo(x, y, raio, cor)</code> · <code>g.texto(t, x, y, tam, cor)</code></td></tr>
+    <tr><td><code>Teclas t</code></td><td><code>t.esquerda</code>, <code>t.direita</code>, <code>t.pulo</code> — booleans que dizem o que o jogador está apertando AGORA</td></tr>
+    <tr><td><code>Fisica</code></td><td>As constantes da casa: <code>Fisica.GRAVIDADE</code> (0.5), <code>Fisica.PULO</code> (-10), <code>Fisica.VELOCIDADE</code> (3), <code>Fisica.LARGURA</code> (24), <code>Fisica.ALTURA</code> (28)</td></tr>
+    <tr><td><code>Mundo</code></td><td><code>Mundo.colide(x, y, larg, alt)</code> — true se o retângulo encosta em bloco sólido · <code>Mundo.chao()</code>, <code>Mundo.largura()</code></td></tr>
+  </table>
+  <p>E ela espera de você, ao longo das missões, uma classe <code>Heroi</code> com campos (<code>x, y, vx, vy, noChao, pontos, vidas</code>) e métodos que ELA chama a cada frame: <code>atualizar(Teclas t)</code> e <code>desenhar(Pincel g)</code>. O loop é dela; o cérebro é seu.</p>
+  <div class="box tip"><div class="bt">💡 As coordenadas do palco</div>x cresce para a DIREITA, y cresce para BAIXO (herança das telas antigas — todo canvas é assim). Então "cair" é y AUMENTANDO, e pular é dar um empurrão NEGATIVO no y. Guarde isso: vai explicar por que Fisica.PULO é -10.</div>
+  <button class="btn green done-btn" onclick="complete('g1l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g1l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g1l1')">← Anterior</button><button class="btn small" onclick="go('g1l3')">Próxima: MISSÃO 1 →</button></div>
+</div></section>
+
+<section class="screen" id="g1l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 3 de 4 · 🎮 MISSÃO 1</span></div>
+  <h2>🎨 MISSÃO 1: pinte o seu mundo</h2>
+  <p>Primeira missão de dev: a classe <code>Fundo</code>. A engine chama <code>desenhar(g, frame)</code> dela a cada quadro, ANTES de pintar os blocos — é o cenário. O <code>frame</code> é o número do quadro atual (sobe 60 por segundo): use-o para ANIMAR. Complete os TODO, rode, e teste a missão:</p>
+  <div class="stage"><canvas id="mg1-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg1">class Fundo {
+    void desenhar(Pincel g, int frame) {
+        // O sol (um círculo amarelo no alto à direita):
+        g.circulo(540, 60, 32, "#FDE68A");
+
+        // TODO 1: uma montanha ao longe
+        // (um retângulo cinza-azulado largo, encostado no chão)
+        g.ret(60, 160, 220, 130, "#94A3B8");
+
+        // TODO 2: uma nuvem que ANDA sozinha
+        // (use o frame para mover: x = frame / 4)
+        g.circulo(frame / 4, 70, 18, "white");
+        g.circulo(frame / 4 + 22, 76, 14, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg1')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg1')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg1-test"></div>
+    <pre class="jb-console" id="mg1-out">(rode para compilar seu cenário)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ Você acabou de animar</div>A nuvem anda porque a POSIÇÃO dela depende do frame — que muda a cada volta do loop. Nenhum "comando de animação" existe: animação É desenhar em posições diferentes ao longo do tempo. Este é o segredo inteiro, do Pac-Man à Pixar.</div>
+  <button class="btn green done-btn" onclick="complete('g1l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g1l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g1l2')">← Anterior</button><button class="btn small" onclick="go('g1l4')">Próxima: O mundo em texto →</button></div>
+</div></section>
+
+<section class="screen" id="g1l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 4 de 4</span></div>
+  <h2>🗺️ O mundo é uma String: os mapas de tiles</h2>
+  <p>Como se guarda uma fase inteira? Nos clássicos (e aqui): o mundo é uma GRADE de blocos de 32px — e a fase é literalmente um texto, um caractere por bloco:</p>
+  <div class="codebox"><div class="cb-top">uma fase de verdade deste curso</div>
+  <pre>"                          F  "
+"P         C    E        ###  "
+"#####   #####################"
+
+<span class="tk-com">#  = bloco sólido      C = moeda       E = inimigo
+P  = onde o herói nasce (spawn)        F = a bandeira do fim
+espaço = ar (repare no BURACO entre os dois grupos de #!)</span></pre></div>
+  <p>A engine lê esse texto com um loop aninhado (linha por linha, coluna por coluna — o padrão que você dominou no Java Completo!) e monta o mundo: cada <code>#</code> vira um bloco em <code>x = coluna × 32, y = linha × 32</code>.</p>
+  <div class="box tip"><div class="bt">💡 Por que os profissionais amam isso</div>Fase como texto = criar fases virou EDITAR TEXTO. Sem ferramenta, sem banco de dados: apaga um #, nasce um buraco. No Módulo 8, você desenha a SUA fase assim. (Jogos comerciais usam a mesmíssima ideia, só que com editores visuais que geram esses dados.)</div>
+  <button class="btn green done-btn" onclick="complete('g1l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g1l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g1l3')">← Anterior</button><button class="btn amber small" onclick="go('qg1')">🎯 Quiz do Módulo 1 →</button></div>
+</div></section>
+
+<section class="screen" id="qg1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Quiz · Módulo 1</span></div>
+  <h2>🎯 Quiz: O coração de todo jogo</h2>
+  <div id="quiz-qg1"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g2l1')">Módulo 2 →</button></div>
+</div></section>
+
+<!-- ================= M2 ================= -->
+<section class="screen" id="g2l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 1 de 4</span></div>
+  <h2>🐣 A classe Heroi: a ficha do personagem</h2>
+  <p>Todo personagem de todo jogo é, no fundo, uma classe com estado. A nossa ficha oficial — repare como cada campo responde uma pergunta do jogo:</p>
+  <div class="codebox"><div class="cb-top">a anatomia do herói</div>
+  <pre><span class="tk-tag">class</span> Heroi {
+    <span class="tk-tag">double</span> x;  <span class="tk-tag">double</span> y;       <span class="tk-com">// ONDE ele está</span>
+    <span class="tk-tag">double</span> vx; <span class="tk-tag">double</span> vy;     <span class="tk-com">// PARA ONDE está indo (velocidades)</span>
+    <span class="tk-tag">boolean</span> noChao;           <span class="tk-com">// está pisando em algo? (o pulo depende disso!)</span>
+    <span class="tk-tag">int</span> pontos; <span class="tk-tag">int</span> vidas;   <span class="tk-com">// o placar da aventura</span>
+
+    Heroi(<span class="tk-tag">double</span> x, <span class="tk-tag">double</span> y) { ... }   <span class="tk-com">// nasce no spawn do mapa</span>
+    <span class="tk-tag">void</span> atualizar(Teclas t) { ... }    <span class="tk-com">// chamado 60x/segundo: a LÓGICA</span>
+    <span class="tk-tag">void</span> desenhar(Pincel g) { ... }     <span class="tk-com">// chamado 60x/segundo: a IMAGEM</span>
+}</pre></div>
+  <p>A separação posição (x, y) vs velocidade (vx, vy) é A decisão de design da física de jogos: <mark>as forças mexem na VELOCIDADE; a velocidade mexe na POSIÇÃO</mark>. Todo o resto do curso é consequência dessa frase — releia-a.</p>
+  <button class="btn green done-btn" onclick="complete('g2l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g2l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg1')">← Anterior</button><button class="btn small" onclick="go('g2l2')">Próxima: MISSÃO 2 →</button></div>
+</div></section>
+
+<section class="screen" id="g2l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 2 de 4 · 🎮 MISSÃO 2</span></div>
+  <h2>🎨 MISSÃO 2: dê um corpo ao herói</h2>
+  <p>Nosso herói é o <b>✱sterisco</b>, mascote da Academy: um bloco roxo de 24×28 com olhos. Ele está parado no palco esperando VOCÊ desenhá-lo. Os olhos são a alma — capriche (e invente: antena? boné? mude as cores!):</p>
+  <div class="stage"><canvas id="mg2-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg2">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        // (missão 3 — por enquanto ele fica parado)
+    }
+
+    void desenhar(Pincel g) {
+        // O corpo (um retângulo na posição do herói):
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+
+        // TODO: os OLHOS — dois quadradinhos brancos 5x5
+        // (dica: this.x + 4 e this.x + 15, na altura this.y + 7)
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg2')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg2')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg2-test"></div>
+    <pre class="jb-console" id="mg2-out">(rode para ver seu herói)</pre>
+  </div>
+  <div class="box tip"><div class="bt">💡 Por que desenhar em this.x e this.y?</div>Porque quando o herói se MOVER (próxima missão!), o desenho vai junto de graça — ele sempre se pinta ONDE ESTÁ. Desenho amarrado ao estado: o princípio nº 1 da renderização.</div>
+  <button class="btn green done-btn" onclick="complete('g2l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g2l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g2l1')">← Anterior</button><button class="btn small" onclick="go('g2l3')">Próxima: MISSÃO 3 →</button></div>
+</div></section>
+
+<section class="screen" id="g2l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 3 de 4 · 🎮 MISSÃO 3</span></div>
+  <h2>🏃 MISSÃO 3: ele ANDA</h2>
+  <p>Agora o <code>atualizar</code> ganha vida. A receita do movimento, direto da lição de anatomia: <mark>teclas definem a velocidade; a velocidade move a posição</mark>. Complete e USE AS SETAS (◀ ▶ no celular):</p>
+  <div class="stage"><canvas id="mg3-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg3">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        // 1. Zera a velocidade horizontal (sem tecla = parado)
+        this.vx = 0;
+
+        // 2. TODO: se t.esquerda, vx = -Fisica.VELOCIDADE
+        if (t.esquerda) {
+            this.vx = -Fisica.VELOCIDADE;
+        }
+
+        // 3. TODO: se t.direita, vx = +Fisica.VELOCIDADE
+        if (t.direita) {
+            this.vx = Fisica.VELOCIDADE;
+        }
+
+        // 4. A velocidade move a posição:
+        this.x += this.vx;
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg3')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg3')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg3-test"></div>
+    <pre class="jb-console" id="mg3-out">(rode e use as setas!)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ Sinta o que aconteceu</div>3 pixels por frame × 60 frames = 180 pixels por segundo. Você não escreveu "ande suavemente" — escreveu uma REGRA que, repetida 60x/s, VIRA suavidade. Jogos são regras simples em alta frequência. Essa é a epifania da profissão.</div>
+  <button class="btn green done-btn" onclick="complete('g2l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g2l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g2l2')">← Anterior</button><button class="btn small" onclick="go('g2l4')">Próxima: As constantes →</button></div>
+</div></section>
+
+<section class="screen" id="g2l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 4 de 4</span></div>
+  <h2>🎛️ Game feel: por que constantes, e não números soltos</h2>
+  <p>Repare: você escreveu <code>Fisica.VELOCIDADE</code>, não <code>3</code>. Isso tem nome — <b>tuning</b> (afinação). O "gostinho" de um jogo (pesado? flutuante? nervoso?) mora nesses poucos números, e mantê-los num lugar só permite afinar o jogo inteiro mexendo em uma linha:</p>
+  <table class="tbl">
+    <tr><th>Constante</th><th>Valor da casa</th><th>Se aumentar...</th></tr>
+    <tr><td><code>VELOCIDADE</code></td><td>3</td><td>Herói apressado, controle mais "escorregadio"</td></tr>
+    <tr><td><code>GRAVIDADE</code></td><td>0.5</td><td>Mundo mais pesado, pulos curtos e secos</td></tr>
+    <tr><td><code>PULO</code></td><td>-10</td><td>(mais negativo) Salto de super-herói</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Curiosidade da indústria: nos clássicos de plataforma, times passavam MESES só afinando esses números — a física "gostosa" de controlar de certos jogos famosos é literalmente meia dúzia de constantes escolhidas com carinho obsessivo. A partir da missão do pulo, você vai poder afinar as suas.</div></div>
+  <button class="btn green done-btn" onclick="complete('g2l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g2l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g2l3')">← Anterior</button><button class="btn amber small" onclick="go('qg2')">🎯 Quiz do Módulo 2 →</button></div>
+</div></section>
+
+<section class="screen" id="qg2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Quiz · Módulo 2</span></div>
+  <h2>🎯 Quiz: O herói nasce</h2>
+  <div id="quiz-qg2"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g3l1')">Módulo 3 →</button></div>
+</div></section>
+
+<!-- ================= M3 · FÍSICA ================= -->
+<section class="screen" id="g3l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 1 de 4</span></div>
+  <h2>🍎 Gravidade: o mundo puxa para baixo</h2>
+  <p>A gravidade de jogo é DUAS linhas — e a ordem delas é a própria física:</p>
+  <div class="codebox"><div class="cb-top">Newton em Java</div>
+  <pre>this.vy += Fisica.GRAVIDADE;   <span class="tk-com">// 1. a força ACELERA (mexe na velocidade)</span>
+this.y += this.vy;             <span class="tk-com">// 2. a velocidade MOVE (mexe na posição)</span></pre></div>
+  <p>Frame 1: vy = 0.5. Frame 2: vy = 1.0. Frame 10: vy = 5... A queda fica cada vez mais rápida — <mark>aceleração de verdade</mark>, saída de duas linhas repetidas 60x/s. E quando ele pisa no chão, a engine (por enquanto) zera o vy e liga o <code>noChao</code>.</p>
+  <div class="box tip"><div class="bt">💡 O y cresce pra baixo, lembra?</div>Por isso a gravidade é vy AUMENTANDO (desce), e o pulo será um vy bem NEGATIVO (sobe). A placa mais importante do trânsito dos jogos 2D.</div>
+  <button class="btn green done-btn" onclick="complete('g3l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g3l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg2')">← Anterior</button><button class="btn small" onclick="go('g3l2')">Próxima: MISSÃO 4 →</button></div>
+</div></section>
+
+<section class="screen" id="g3l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 2 de 4 · 🎮 MISSÃO 4</span></div>
+  <h2>🪂 MISSÃO 4: ligue a gravidade</h2>
+  <p>O herói agora NASCE NO AR. Adicione as duas linhas sagradas no fim do atualizar e veja-o cair e pousar (a engine segura o chão por enquanto — no Módulo 4 essa responsabilidade vira sua):</p>
+  <div class="stage"><canvas id="mg4-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg4">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+
+        // TODO — as duas linhas da gravidade:
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg4')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg4')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg4-test"></div>
+    <pre class="jb-console" id="mg4-out">(rode e veja a queda!)</pre>
+  </div>
+  <button class="btn green done-btn" onclick="complete('g3l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g3l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g3l1')">← Anterior</button><button class="btn small" onclick="go('g3l3')">Próxima: MISSÃO 5, o PULO →</button></div>
+</div></section>
+
+<section class="screen" id="g3l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 3 de 4 · 🎮 MISSÃO 5</span></div>
+  <h2>🦘 MISSÃO 5: o PULO (o momento mais importante do curso)</h2>
+  <p>O pulo é um empurrão único de velocidade para CIMA — a gravidade cuida do resto (subida desacelerando, parada no ápice, queda). Mas há uma condição de ouro: <mark>só pode pular quem está NO CHÃO</mark> (senão, voa batendo asas). Complete:</p>
+  <div class="stage"><canvas id="mg5-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg5">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+
+        // TODO — O PULO: se apertou pulo E está no chão,
+        // dê o empurrão para cima e desligue o noChao:
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg5')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg5')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg5-test"></div>
+    <pre class="jb-console" id="mg5-out">(rode — ESPAÇO ou ⭡ para pular!)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ PULE. Sinta.</div>Segure a direita e pule buracos imaginários. Esse arco perfeito de subida-e-queda? É o SEU vy negativo brigando com a SUA gravidade, 60 vezes por segundo. Nenhum tutorial do mundo substitui este momento: você fez um personagem pular. Bem-vindo(a) ao clube dos que fizeram. 🎮</div>
+  <button class="btn green done-btn" onclick="complete('g3l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g3l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g3l2')">← Anterior</button><button class="btn small" onclick="go('g3l4')">Próxima: A oficina de afinação →</button></div>
+</div></section>
+
+<section class="screen" id="g3l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 4 de 4</span></div>
+  <h2>🎚️ Oficina de afinação: quebre a física de propósito</h2>
+  <p>Volte à Missão 5 e faça estes experimentos (é assim que se APRENDE física de jogo — quebrando):</p>
+  <table class="tbl">
+    <tr><th>Experimento</th><th>Troque</th><th>O que sentir</th></tr>
+    <tr><td>🌙 Lua</td><td><code>vy += 0.15;</code> em vez de GRAVIDADE</td><td>Pulos flutuantes de astronauta</td></tr>
+    <tr><td>🪨 Chumbo</td><td><code>vy += 1.5;</code></td><td>Mundo pesado, pulos secos</td></tr>
+    <tr><td>🚀 Foguete</td><td><code>vy = -18;</code> no pulo</td><td>Salto absurdo (e queda longa)</td></tr>
+    <tr><td>🐛 O bug do voo</td><td>Apague o <code>&& this.noChao</code></td><td>Segure pulo e VOE — entenda por que a condição existe</td></tr>
+  </table>
+  <div class="box tip"><div class="bt">💡 O experimento 4 é o mais importante</div>Ver o bug do voo com os próprios olhos grava a lição para sempre: toda condição num if está lá protegendo contra um comportamento indesejado ESPECÍFICO. Código bom é uma coleção de bugs que alguém já viu.</div>
+  <button class="btn green done-btn" onclick="complete('g3l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g3l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g3l3')">← Anterior</button><button class="btn amber small" onclick="go('qg3')">🎯 Quiz do Módulo 3 →</button></div>
+</div></section>
+
+<section class="screen" id="qg3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Quiz · Módulo 3</span></div>
+  <h2>🎯 Quiz: Física</h2>
+  <div id="quiz-qg3"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g4l1')">Módulo 4 →</button></div>
+</div></section>
+
+<!-- ================= M4 · MUNDO SÓLIDO ================= -->
+<section class="screen" id="g4l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 1 de 5</span></div>
+  <h2>🧱 A missão mais "dev" do curso começa aqui</h2>
+  <p>Até agora, a engine segurava o chão pra você com um truque simples (um chão plano fixo). Acabou a mordomia: neste módulo, VOCÊ escreve a colisão de verdade — a que permite plataformas flutuantes, paredes, buracos e degraus. É o código mais importante de qualquer plataforma, e o que separa quem "seguiu tutorial" de quem ENTENDE.</p>
+  <p>A ferramenta: <code>Mundo.colide(x, y, larg, alt)</code> — responde <code>true</code> se um retângulo naquela posição encosta em algum bloco <code>#</code>. A pergunta que sua lógica fará 60x/s: <mark>"se eu der este passo, vou entrar dentro de uma parede?"</mark></p>
+  <div class="codebox"><div class="cb-top">a estratégia: tente → deu ruim? → desfaça</div>
+  <pre>this.x += this.vx;                        <span class="tk-com">// 1. dá o passo</span>
+<span class="tk-tag">if</span> (Mundo.colide(this.x, this.y, L, A)) { <span class="tk-com">// 2. entrou na parede?</span>
+    this.x -= this.vx;                    <span class="tk-com">// 3. volta o passo. Parede venceu.</span>
+}</pre></div>
+  <div class="box gold"><div class="bt">✱ Por que UM EIXO DE CADA VEZ</div>O segredo dos profissionais: resolver X e Y SEPARADOS. Se testar o movimento diagonal inteiro de uma vez, encostar no chão também travaria o andar (o teste acusaria colisão e desfaria TUDO). Separando: bateu na parede? Só o X desfaz — o Y continua caindo livre. Duas missões, um eixo cada.</div>
+  <button class="btn green done-btn" onclick="complete('g4l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g4l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg3')">← Anterior</button><button class="btn small" onclick="go('g4l2')">Próxima: AABB →</button></div>
+</div></section>
+
+<section class="screen" id="g4l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 2 de 5</span></div>
+  <h2>📐 AABB: como máquinas percebem "encostou"</h2>
+  <p>O nome pomposo — <i>Axis-Aligned Bounding Box</i> — esconde uma ideia de criança: cada coisa é um RETÂNGULO invisível, e dois retângulos se sobrepõem quando se sobrepõem NOS DOIS EIXOS ao mesmo tempo:</p>
+  <div class="codebox"><div class="cb-top">a pergunta dos 4 lados (é o que Mundo.colide faz por dentro)</div>
+  <pre>sobrepoe = a.x < b.x + b.largura  <span class="tk-com">// A começa antes de B terminar...</span>
+        && a.x + a.largura > b.x  <span class="tk-com">// ...e termina depois de B começar (eixo X ✔)</span>
+        && a.y < b.y + b.altura   <span class="tk-com">// mesma dança no eixo Y...</span>
+        && a.y + a.altura > b.y;  <span class="tk-com">// ...✔ → ENCOSTOU!</span></pre></div>
+  <p>É literalmente o && do Java Completo fazendo o trabalho pesado: quatro comparações, zero mistério. Praticamente todo jogo 2D da história — inclusive os que você ama — detecta colisões assim (e a engine checa os cantos do seu herói contra a grade de tiles, que é ainda mais barato).</p>
+  <div class="box tip"><div class="bt">💡 Por isso o herói é 24×28, não 32×32</div>Um herói mais MAGRO que o tile entra em passagens de 1 bloco sem raspar — conforto de controle clássico. Detalhes invisíveis assim são 90% do "esse jogo é gostoso".</div>
+  <button class="btn green done-btn" onclick="complete('g4l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g4l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g4l1')">← Anterior</button><button class="btn small" onclick="go('g4l3')">Próxima: MISSÃO 6 →</button></div>
+</div></section>
+
+<section class="screen" id="g4l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 3 de 5 · 🎮 MISSÃO 6</span></div>
+  <h2>🚧 MISSÃO 6: a parede que segura (eixo X)</h2>
+  <p>Este mapa tem uma torre no meio. Sem colisão, seu herói a ATRAVESSA como fantasma (rode e veja!). Aplique o tente-desfaça no eixo X — a partir de agora, a engine não segura mais nada no X:</p>
+  <div class="stage"><canvas id="mg6-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg6">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+
+        // EIXO X: tenta o passo...
+        this.x += this.vx;
+        // TODO: ...entrou em parede? DESFAÇA:
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg6')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg6')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg6-test"></div>
+    <pre class="jb-console" id="mg6-out">(rode e tente atravessar a torre)</pre>
+  </div>
+  <button class="btn green done-btn" onclick="complete('g4l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g4l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g4l2')">← Anterior</button><button class="btn small" onclick="go('g4l4')">Próxima: MISSÃO 7 →</button></div>
+</div></section>
+
+<section class="screen" id="g4l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 4 de 5 · 🎮 MISSÃO 7</span></div>
+  <h2>🏔️ MISSÃO 7: chão de verdade (eixo Y) — a formatura da física</h2>
+  <p>A missão-chefe. O eixo Y tem um extra: ao colidir CAINDO (vy > 0), além de desfazer o passo, você descobriu que há chão sob os pés → ligue o <code>noChao</code>. E zere o vy (bateu, parou). Com isso, plataformas flutuantes FUNCIONAM — e a engine se aposenta da física por completo:</p>
+  <div class="stage"><canvas id="mg7-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="mg7">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+
+        // EIXO Y: gravidade, passo...
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        // TODO: colidiu no Y? desfaça; se estava CAINDO, é chão:
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) {
+                this.noChao = true;
+            }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg7')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg7')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg7-test"></div>
+    <pre class="jb-console" id="mg7-out">(rode — pule pelas plataformas!)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ Pare e olhe o que você tem</div>Um personagem que anda, cai, pula, para em paredes e pousa em plataformas — com física escrita 100% POR VOCÊ, em Java, do zero. Isso que está no seu textarea é, sem exagero, o núcleo de motor de um jogo de plataforma. A partir daqui é recheio: moedas, perigo e mundo. O difícil... já era. 🏆</div>
+  <button class="btn green done-btn" onclick="complete('g4l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g4l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g4l3')">← Anterior</button><button class="btn small" onclick="go('g4l5')">Próxima: O código comentado →</button></div>
+</div></section>
+
+<section class="screen" id="g4l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 5 de 5</span></div>
+  <h2>📖 Leitura de mestre: seu atualizar, linha a linha</h2>
+  <p>Ritual de dev sênior: reler o próprio código e narrar POR QUE cada linha existe. O seu atualizar, na ordem, virou uma coreografia com lógica de ferro:</p>
+  <table class="tbl">
+    <tr><th>Bloco</th><th>Por que nesta ordem</th></tr>
+    <tr><td>1. Input → vx</td><td>A intenção do jogador entra primeiro — tudo reage a ela</td></tr>
+    <tr><td>2. Move X + desfaz</td><td>Paredes resolvidas SOZINHAS, sem contaminar a queda</td></tr>
+    <tr><td>3. Gravidade → vy → move Y + desfaz</td><td>A queda acontece por último no movimento; ao desfazer descobrimos o chão (vy > 0 = estava descendo = pousei)</td></tr>
+    <tr><td>4. noChao true/false</td><td>O else é crucial: saiu da plataforma andando? noChao DESLIGA — sem ele, dá pra pular no ar após cair da beirada</td></tr>
+    <tr><td>5. Pulo por último</td><td>Usa o noChao FRESQUINHO, calculado neste mesmo frame — informação do presente, não do passado</td></tr>
+  </table>
+  <div class="box tip"><div class="bt">💡 Guarde esta habilidade</div>"Por que essa linha está AQUI e não ali?" é a pergunta que separa copiar de compreender. Você acabou de responder cinco vezes. Nos seus sistemas (e nas entrevistas), essa narração vale ouro.</div>
+  <button class="btn green done-btn" onclick="complete('g4l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g4l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g4l4')">← Anterior</button><button class="btn amber small" onclick="go('qg4')">🎯 Quiz do Módulo 4 →</button></div>
+</div></section>
+
+<section class="screen" id="qg4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Quiz · Módulo 4</span></div>
+  <h2>🎯 Quiz: O mundo sólido</h2>
+  <div id="quiz-qg4"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g5l1')">Módulo 5 →</button></div>
+</div></section>
+
+<!-- ================= M5 · RECOMPENSAS ================= -->
+<section class="screen" id="g5l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 1 de 3</span></div>
+  <h2>⭐ Moedas: o contrato aoPegarMoeda</h2>
+  <p>As moedas (<code>C</code> no mapa) são da engine: ela as desenha girando e detecta quando seu herói encosta (AABB de novo!). Ao encostar, ela chama um método SEU — se existir: <code>aoPegarMoeda()</code>. É o padrão profissional de <b>callback</b>: <mark>a engine avisa o evento; VOCÊ decide a consequência</mark>.</p>
+  <div class="codebox"><div class="cb-top">o contrato dos eventos do herói</div>
+  <pre><span class="tk-tag">void</span> aoPegarMoeda() { ... }   <span class="tk-com">// encostei numa moeda (ela já some sozinha)</span>
+<span class="tk-tag">void</span> aoDerrotar()   { ... }   <span class="tk-com">// pisei num inimigo (módulo 6)</span>
+<span class="tk-tag">void</span> aoLevarDano()  { ... }   <span class="tk-com">// um inimigo me pegou (módulo 6)</span></pre></div>
+  <div class="box tip"><div class="bt">💡 Você já viu esse padrão duas vezes</div>No curso de HTML: <code>onclick="..."</code> — o navegador avisa o clique, você decide o que fazer. Na interface do Java Completo: o contrato de métodos prometidos. Eventos + contratos = como sistemas grandes conversam sem se conhecerem por dentro.</div>
+  <button class="btn green done-btn" onclick="complete('g5l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g5l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg4')">← Anterior</button><button class="btn small" onclick="go('g5l2')">Próxima: MISSÃO 8 →</button></div>
+</div></section>
+
+<section class="screen" id="g5l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 2 de 3 · 🎮 MISSÃO 8</span></div>
+  <h2>💰 MISSÃO 8: colete e pontue</h2>
+  <p>Fase com moedas espalhadas (inclusive umas no alto, cobrando pulos precisos). Implemente o <code>aoPegarMoeda</code> somando pontos — e colete TODAS:</p>
+  <div class="stage"><canvas id="mg8-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java (física completa + o novo contrato)</div><textarea id="mg8">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) { this.noChao = true; }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    // TODO: a consequência de pegar uma moeda:
+    void aoPegarMoeda() {
+        this.pontos = this.pontos + 1;
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg8')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg8')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg8-test"></div>
+    <pre class="jb-console" id="mg8-out">(rode e colete as 6 moedas!)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ Experimento de designer</div>Troque a recompensa: <code>this.pontos += 10;</code>? Moeda que dá vida (<code>this.vidas++</code>)? Uma linha, outro jogo. Regras de jogo são só métodos — e agora os métodos são seus.</div>
+  <button class="btn green done-btn" onclick="complete('g5l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g5l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g5l1')">← Anterior</button><button class="btn small" onclick="go('g5l3')">Próxima: O HUD →</button></div>
+</div></section>
+
+<section class="screen" id="g5l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 3 de 3</span></div>
+  <h2>🖥️ O HUD: a interface por cima do mundo</h2>
+  <p>Aquela barrinha <code>⭐ ❤️ ⏱</code> no canto do palco é o <b>HUD</b> (Heads-Up Display). Repare em dois segredos de como a engine o desenha:</p>
+  <table class="tbl">
+    <tr><th>Segredo</th><th>Por quê</th></tr>
+    <tr><td>É desenhado POR ÚLTIMO no frame</td><td>Desenho é como pintura: o que vem depois cobre o que veio antes. HUD por cima de tudo = HUD pintado no fim</td></tr>
+    <tr><td>Ignora a câmera (posição fixa na TELA)</td><td>O mundo rola; o placar não. Coordenadas de MUNDO vs coordenadas de TELA — a distinção que todo dev de jogo carrega</td></tr>
+    <tr><td>Só LÊ seus campos (pontos, vidas)</td><td>Você nunca "atualiza o placar" — ele exibe o estado. Interface reativa: o mesmo princípio dos frameworks web modernos</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Esse terceiro segredo merece moldura: <b>o estado é a verdade; a tela é um espelho</b>. No CORTEX, nos jogos, no React — sempre. Quando a interface "mente", o bug está em alguém editando o espelho em vez do estado.</div></div>
+  <button class="btn green done-btn" onclick="complete('g5l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g5l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g5l2')">← Anterior</button><button class="btn amber small" onclick="go('qg5')">🎯 Quiz do Módulo 5 →</button></div>
+</div></section>
+
+<section class="screen" id="qg5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Quiz · Módulo 5</span></div>
+  <h2>🎯 Quiz: Recompensas</h2>
+  <div id="quiz-qg5"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g6l1')">Módulo 6 →</button></div>
+</div></section>
+
+<!-- ================= M6 · PERIGO ================= -->
+<section class="screen" id="g6l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 1 de 4</span></div>
+  <h2>👾 A IA do inimigo: 3 linhas de "inteligência"</h2>
+  <p>Hora de ler código da engine — o inimigo vermelho patrulha com esta lógica, por frame:</p>
+  <div class="codebox"><div class="cb-top">a "IA" completa do patrulheiro (código real da engine)</div>
+  <pre>inimigo.x += inimigo.vx;                       <span class="tk-com">// 1. anda na direção atual</span>
+frente = (vx > 0) ? direita : esquerda;
+<span class="tk-tag">if</span> (Mundo.colide(frente) || !temChao(frente)) { <span class="tk-com">// 2. parede à frente OU beirada?</span>
+    inimigo.vx *= -1;                          <span class="tk-com">// 3. DÁ MEIA-VOLTA</span>
+}</pre></div>
+  <p>Só isso. Anda; se vai bater ou CAIR, inverte. E no palco parece um bichinho "esperto" que patrulha a plataforma sem despencar. A lição valiosa: <mark>comportamento convincente ≠ código complexo</mark> — os goombas da história dos games são variações disso.</p>
+  <div class="box tip"><div class="bt">💡 O detalhe genial do "!temChao"</div>Checar se há chão UM PASSO À FRENTE é o que faz o inimigo respeitar beiradas. Tire mentalmente essa condição: ele cairia de toda plataforma. Uma negação booleana = a diferença entre patrulha e suicídio. 😄</div>
+  <button class="btn green done-btn" onclick="complete('g6l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g6l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg5')">← Anterior</button><button class="btn small" onclick="go('g6l2')">Próxima: MISSÃO 9 →</button></div>
+</div></section>
+
+<section class="screen" id="g6l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 2 de 4 · 🎮 MISSÃO 9</span></div>
+  <h2>💔 MISSÃO 9: dano, vidas e respawn</h2>
+  <p>Encostou de LADO no inimigo → a engine chama seu <code>aoLevarDano()</code> e te devolve ao início (respawn), com uns segundos de invencibilidade piscante. Implemente a consequência — perder uma vida — e sobreviva à travessia:</p>
+  <div class="stage"><canvas id="mg9-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java (adicione só o aoLevarDano — física já incluída)</div><textarea id="mg9">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) { this.noChao = true; }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void aoPegarMoeda() {
+        this.pontos = this.pontos + 1;
+    }
+
+    // TODO: a consequência do dano:
+    void aoLevarDano() {
+        this.vidas = this.vidas - 1;
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg9')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg9')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg9-test"></div>
+    <pre class="jb-console" id="mg9-out">(rode — e cuidado com os vermelhos)</pre>
+  </div>
+  <button class="btn green done-btn" onclick="complete('g6l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g6l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g6l1')">← Anterior</button><button class="btn small" onclick="go('g6l3')">Próxima: MISSÃO 10, o pisão →</button></div>
+</div></section>
+
+<section class="screen" id="g6l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 3 de 4 · 🎮 MISSÃO 10</span></div>
+  <h2>🦶 MISSÃO 10: o PISÃO — a regra mais famosa dos plataformas</h2>
+  <p>Mesma colisão, destino oposto: se você encosta no inimigo <mark>CAINDO por cima</mark> (vy > 0, pés na cabeça dele), quem sofre é ELE — e você quica. A engine distingue os dois casos e chama <code>aoDerrotar()</code>. Implemente a recompensa (+5) e vá à caça:</p>
+  <div class="stage"><canvas id="mg10-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java (adicione o aoDerrotar)</div><textarea id="mg10">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) { this.noChao = true; }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void aoPegarMoeda() {
+        this.pontos = this.pontos + 1;
+    }
+
+    void aoLevarDano() {
+        this.vidas = this.vidas - 1;
+    }
+
+    // TODO: a recompensa do pisão (+5 pontos):
+    void aoDerrotar() {
+        this.pontos = this.pontos + 5;
+    }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg10')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg10')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg10-test"></div>
+    <pre class="jb-console" id="mg10-out">(rode — pule NA CABEÇA deles!)</pre>
+  </div>
+  <div class="box tip"><div class="bt">💡 O quique após o pisão</div>Sentiu o pulinho automático ao derrotar? A engine faz <code>vy = Fisica.PULO * 0.6</code> — 60% de um pulo. Sem ele, você "gruda" no inimigo derrotado; com ele, dá pra emendar pisões em sequência. Game feel é feito desses 0.6.</div>
+  <button class="btn green done-btn" onclick="complete('g6l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g6l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g6l2')">← Anterior</button><button class="btn small" onclick="go('g6l4')">Próxima: Game over →</button></div>
+</div></section>
+
+<section class="screen" id="g6l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 4 de 4</span></div>
+  <h2>💀 Game over, invencibilidade e o ciclo do desafio</h2>
+  <p>Três mecânicas de "morte justa" que a engine implementa — e o raciocínio de design por trás:</p>
+  <table class="tbl">
+    <tr><th>Mecânica</th><th>Como</th><th>Por que existe</th></tr>
+    <tr><td>Invencibilidade pós-dano</td><td>60 frames (1s) sem novo dano</td><td>Sem ela, encostar num inimigo drenaria as 3 vidas em 3 frames — punição dupla é a morte da diversão</td></tr>
+    <tr><td>Cair do mundo</td><td>y passou do fim do mapa → respawn + vida a menos</td><td>Buracos viram perigo REAL — e o level design ganha dentes</td></tr>
+    <tr><td>vidas == 0</td><td>O loop para de atualizar; tela de GAME OVER</td><td>Risco de verdade dá peso a cada pulo. Jogo sem derrota é passeio</td></tr>
+  </table>
+  <div class="box gold"><div class="bt">✱ A régua do bom desafio</div>Regra de bolso dos designers: a culpa da morte tem que ser SEMPRE do jogador ("fui afobado"), nunca do jogo ("isso foi injusto"). Invencibilidade, hitbox magra, quique do pisão — tudo que você viu existe para manter a culpa do lado certo.</div>
+  <button class="btn green done-btn" onclick="complete('g6l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g6l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g6l3')">← Anterior</button><button class="btn amber small" onclick="go('qg6')">🎯 Quiz do Módulo 6 →</button></div>
+</div></section>
+
+<section class="screen" id="qg6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Quiz · Módulo 6</span></div>
+  <h2>🎯 Quiz: Perigo</h2>
+  <div id="quiz-qg6"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g7l1')">Módulo 7 →</button></div>
+</div></section>
+
+<!-- ================= M7 · MUNDO GRANDE ================= -->
+<section class="screen" id="g7l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 1 de 4</span></div>
+  <h2>🎥 A câmera: o truque de mágica dos mundos grandes</h2>
+  <p>Como um mundo de 2000px cabe numa tela de 640? Revelação: <mark>a câmera não existe</mark>. O que existe é desenhar tudo DESLOCADO:</p>
+  <div class="codebox"><div class="cb-top">a mágica inteira (código real da engine)</div>
+  <pre>cam.x = heroi.x - larguraTela / 2;          <span class="tk-com">// 1. "câmera" = herói no centro</span>
+cam.x = clamp(cam.x, 0, mundo - tela);      <span class="tk-com">// 2. sem mostrar além das bordas</span>
+
+<span class="tk-com">// 3. TUDO se desenha subtraindo a câmera:</span>
+g.ret(x <span class="tk-attr">- cam.x</span>, y, ...);</pre></div>
+  <p>O herói "anda pra frente"? Ilusão: na tela, ele fica quase parado no centro — é o MUNDO que desliza para trás. O clamp segura a câmera nas pontas (por isso, no comecinho da fase, o herói fica à esquerda e não no centro — repare nos clássicos: todos fazem isso!).</p>
+  <div class="box tip"><div class="bt">💡 Seu Pincel já sabia</div>Você desenhou o herói a curso inteiro em this.x sem pensar em câmera — porque o Pincel da engine desconta o cam.x por dentro. Abstração boa é isso: você escreveu código "de mundo" e ganhou código "de tela" de graça.</div>
+  <button class="btn green done-btn" onclick="complete('g7l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g7l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg6')">← Anterior</button><button class="btn small" onclick="go('g7l2')">Próxima: MISSÃO 11 →</button></div>
+</div></section>
+
+<section class="screen" id="g7l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 2 de 4 · 🎮 MISSÃO 11</span></div>
+  <h2>🏁 MISSÃO 11: a fase completa — do spawn à bandeira</h2>
+  <p>Tudo ligado pela primeira vez: mundo LARGO com câmera, degraus, moedas, um patrulheiro e a BANDEIRA no fim. Seu código é o consolidado das 10 missões — a engenharia está pronta; agora, chegue vivo:</p>
+  <div class="stage"><canvas id="mg11-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java (o herói completo)</div><textarea id="mg11">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) { this.noChao = true; }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void aoPegarMoeda() { this.pontos = this.pontos + 1; }
+    void aoLevarDano() { this.vidas = this.vidas - 1; }
+    void aoDerrotar() { this.pontos = this.pontos + 5; }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg11')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg11')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg11-test"></div>
+    <pre class="jb-console" id="mg11-out">(rode — e vá até a bandeira! 🏁)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ Aquele "🏁 FASE COMPLETA"</div>que apareceu na tela? É a soma de TUDO: seu movimento, sua física, sua colisão, seus callbacks — mais câmera, mapa e bandeira. Um jogo de plataforma inteiro, funcional, com o cérebro escrito por você em Java. Falta só uma coisa: ser SEU de verdade. Módulo 8.</div>
+  <button class="btn green done-btn" onclick="complete('g7l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g7l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g7l1')">← Anterior</button><button class="btn small" onclick="go('g7l3')">Próxima: Level design →</button></div>
+</div></section>
+
+<section class="screen" id="g7l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 3 de 4</span></div>
+  <h2>🗺️ Level design: as 5 regras de ouro</h2>
+  <p>Fase boa não é sorte — é ofício. As cinco regras que os clássicos seguem religiosamente (e que você vai usar na sua fase):</p>
+  <table class="tbl">
+    <tr><th>Regra</th><th>Na prática</th></tr>
+    <tr><td>1. Ensine sem palavras</td><td>O primeiro obstáculo é a versão FÁCIL do desafio da fase — o jogador aprende jogando, não lendo</td></tr>
+    <tr><td>2. Escale a pressão</td><td>Mesmo desafio, apostas maiores: primeiro o pulo, depois o pulo sobre buraco, depois sobre buraco COM inimigo</td></tr>
+    <tr><td>3. Recompense a curiosidade</td><td>Moedas no alto/fora do caminho: quem explora, ganha — o caminho principal continua justo pra quem não</td></tr>
+    <tr><td>4. Respiro entre picos</td><td>Depois de um trecho tenso, um corredor calmo. Tensão SEMPRE alta = dormência</td></tr>
+    <tr><td>5. O final é clímax, não pedágio</td><td>O último trecho antes da bandeira usa TUDO que a fase ensinou, de uma vez</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Releia a fase da Missão 11 com esses óculos: degrau fácil → degrau duplo → moeda alta opcional → respiro → inimigo → bandeira. Não foi acaso. 😉 Agora projete a SUA com intenção — papel e lápis antes do teclado é o segredo dos level designers de verdade.</div></div>
+  <button class="btn green done-btn" onclick="complete('g7l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g7l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g7l2')">← Anterior</button><button class="btn small" onclick="go('g7l4')">Próxima: O desafio da Academy →</button></div>
+</div></section>
+
+<section class="screen" id="g7l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 4 de 4 · 🎮 DESAFIO</span></div>
+  <h2>💀 O DESAFIO DA ACADEMY: zere esta fase</h2>
+  <p>A prova de fogo: buracos de verdade, dois patrulheiros, moedas que cobram coragem. Seu código completo, seus reflexos — e as 5 regras de ouro escondidas no traçado (repare!). Zere-a com pelo menos 5 moedas:</p>
+  <div class="stage"><canvas id="mg12-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">✍️ Seu código Java (edite se quiser afinar sua física!)</div><textarea id="mg12">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) { this.noChao = true; }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void aoPegarMoeda() { this.pontos = this.pontos + 1; }
+    void aoLevarDano() { this.vidas = this.vidas - 1; }
+    void aoDerrotar() { this.pontos = this.pontos + 5; }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarMissao('mg12')">▶ Rodar no palco</button><button class="jb-test" onclick="testarMissao('mg12')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mg12-test"></div>
+    <pre class="jb-console" id="mg12-out">(boa sorte, dev. 🫡)</pre>
+  </div>
+  <button class="btn green done-btn" onclick="complete('g7l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g7l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g7l3')">← Anterior</button><button class="btn amber small" onclick="go('qg7')">🎯 Quiz do Módulo 7 →</button></div>
+</div></section>
+
+<section class="screen" id="qg7"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Quiz · Módulo 7</span></div>
+  <h2>🎯 Quiz: Mundo grande</h2>
+  <div id="quiz-qg7"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('g8l1')">Módulo 8 →</button></div>
+</div></section>
+
+<!-- ================= M8 · SEU JOGO ================= -->
+<section class="screen" id="g8l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 1 de 4 · 🎮 MISSÃO FINAL</span></div>
+  <h2>🏗️ MISSÃO FINAL: crie a SUA fase</h2>
+  <p>O momento de virar level designer: o mapa agora é um textarea SEU. Desenhe com os caracteres (<code>#</code> bloco, <code>C</code> moeda, <code>E</code> inimigo, <code>P</code> spawn, <code>F</code> bandeira), rode, jogue, ajuste — o ciclo sagrado do design. Regras de ouro na parede, capriche:</p>
+  <div class="stage"><canvas id="mgF-canvas" width="640" height="320"></canvas></div>
+  <div class="jbox">
+    <div><div class="jb-lab">🗺️ SEU MAPA (edite à vontade!)</div><textarea id="mgF-mapa" style="min-height:190px;background:#1E293B;color:#FDE68A">                                        
+                                        
+              C                         
+             ###          C C           
+                         #####          
+   P     C        C                 F   
+  ###   ###      ###   E          ###   
+                ########################
+########   #############################
+########   #############################</textarea>
+    <div class="jb-lab">✍️ Seu código Java (o herói é seu — personalize cores e regras!)</div><textarea id="mgF">class Heroi {
+    double x; double y; double vx; double vy;
+    boolean noChao; int pontos; int vidas;
+
+    Heroi(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.vidas = 3;
+    }
+
+    void atualizar(Teclas t) {
+        this.vx = 0;
+        if (t.esquerda) { this.vx = -Fisica.VELOCIDADE; }
+        if (t.direita) { this.vx = Fisica.VELOCIDADE; }
+        this.x += this.vx;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.x -= this.vx;
+        }
+        this.vy += Fisica.GRAVIDADE;
+        this.y += this.vy;
+        if (Mundo.colide(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA)) {
+            this.y -= this.vy;
+            if (this.vy > 0) { this.noChao = true; }
+            this.vy = 0;
+        } else {
+            this.noChao = false;
+        }
+        if (t.pulo && this.noChao) {
+            this.vy = Fisica.PULO;
+            this.noChao = false;
+        }
+    }
+
+    void aoPegarMoeda() { this.pontos = this.pontos + 1; }
+    void aoLevarDano() { this.vidas = this.vidas - 1; }
+    void aoDerrotar() { this.pontos = this.pontos + 5; }
+
+    void desenhar(Pincel g) {
+        g.ret(this.x, this.y, Fisica.LARGURA, Fisica.ALTURA, "#7C4DFF");
+        g.ret(this.x + 4, this.y + 7, 5, 5, "white");
+        g.ret(this.x + 15, this.y + 7, 5, 5, "white");
+    }
+}</textarea>
+    <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap"><button class="jb-run" onclick="rodarFase()">▶ Rodar a MINHA fase</button><button class="jb-test" onclick="testarMissao('mgF')">🧪 Testar missão</button></div>
+    <div class="mtest" id="mgF-test"></div>
+    <pre class="jb-console" id="mgF-out">(desenhe, rode, jogue, repita)</pre>
+  </div>
+  <div class="box gold"><div class="bt">✱ Isto é desenvolvimento de jogos</div>Editar → rodar → jogar → sentir → editar. O loop de iteração que você acabou de viver é EXATAMENTE o dia a dia de um estúdio — só muda a escala. Guarde seu mapa num bloco de notas com orgulho: é sua primeira fase autoral. 🗺️</div>
+  <button class="btn green done-btn" onclick="complete('g8l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g8l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qg7')">← Anterior</button><button class="btn small" onclick="go('g8l2')">Próxima: Sons e polimento →</button></div>
+</div></section>
+
+<section class="screen" id="g8l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 2 de 4</span></div>
+  <h2>🔊 Sons e polimento: os 10% que parecem 90%</h2>
+  <p>Percebeu os bipes? Moeda aguda (880Hz), pisão médio (660Hz), dano grave (180Hz), vitória festiva (1320Hz). A engine os sintetiza NA HORA com WebAudio — zero arquivos de som:</p>
+  <div class="codebox"><div class="cb-top">um bipe de fliperama em 5 linhas (código real da engine)</div>
+  <pre>oscilador = audio.createOscillator();
+oscilador.frequency.value = 880;      <span class="tk-com">// agudo = feliz; grave = perigo</span>
+oscilador.type = <span class="tk-str">'square'</span>;            <span class="tk-com">// onda quadrada = a voz dos 8-bits</span>
+oscilador.start();
+oscilador.stop(agora + 0.09);         <span class="tk-com">// 90 milissegundos e tchau</span></pre></div>
+  <p>E o resto do polimento que você talvez nem notou conscientemente: a moeda PULSA (raio varia com o frame), o herói PISCA invencível, o quique do pisão, a sombrinha nos blocos. Nenhum muda as regras — todos mudam a SENSAÇÃO. A indústria chama de <b>juice</b>.</p>
+  <div class="box tip"><div class="bt">💡 A hierarquia do juice</div>Regra dos estúdios: primeiro o jogo FUNCIONA (módulos 1-7), depois ele COMUNICA (sons, flashes, tremidas). Juice em cima de jogo quebrado é maquiagem em bug. Você fez na ordem certa.</div>
+  <button class="btn green done-btn" onclick="complete('g8l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g8l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g8l1')">← Anterior</button><button class="btn small" onclick="go('g8l3')">Próxima: A estrada do game dev →</button></div>
+</div></section>
+
+<section class="screen" id="g8l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 3 de 4</span></div>
+  <h2>🛣️ A estrada do game dev: e agora?</h2>
+  <table class="tbl">
+    <tr><th>Próximo passo</th><th>O quê</th><th>Por que vale</th></tr>
+    <tr><td>🟩 Godot</td><td>Engine gratuita e leve, ótima pra 2D</td><td>Seus conceitos (loop, física, tiles, câmera) transferem DIRETO — você vai reconhecer tudo</td></tr>
+    <tr><td>☕ LibGDX</td><td>Framework de jogos EM JAVA</td><td>O caminho natural: seu Java + jogos de verdade publicáveis</td></tr>
+    <tr><td>⛏️ Minecraft</td><td>O 3º curso desta trilha</td><td>Ver estes MESMOS padrões (tick, entidades, eventos) num jogo de bilhões</td></tr>
+    <tr><td>🎮 Game jams</td><td>Ludum Dare, GMTK (fim de semana, tema surpresa)</td><td>Onde game devs nascem de verdade: prazo curto, escopo pequeno, jogo PRONTO</td></tr>
+  </table>
+  <div class="box gold"><div class="bt">✱ O conselho dos veteranos</div>Termine jogos PEQUENOS. Um Pong acabado ensina mais que um "MMORPG dos sonhos" abandonado no módulo 2. Você já tem UM jogo terminado — está oficialmente à frente da maioria que "sempre quis fazer jogos". Mantenha o ritmo: um projetinho por mês.</div>
+  <button class="btn green done-btn" onclick="complete('g8l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g8l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g8l2')">← Anterior</button><button class="btn small" onclick="go('g8l4')">Próxima: Os créditos →</button></div>
+</div></section>
+
+<section class="screen" id="g8l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 4 de 4</span></div>
+  <h2>🎬 Os créditos do SEU jogo</h2>
+  <p>Todo jogo termina com créditos. Os do seu, cargo a cargo — repare QUEM assina cada um:</p>
+  <table class="tbl">
+    <tr><th>Cargo</th><th>Entrega</th><th>Assinatura</th></tr>
+    <tr><td>Programador(a) de gameplay</td><td>Movimento, física, pulo — o atualizar inteiro</td><td><b>VOCÊ</b></td></tr>
+    <tr><td>Engenheiro(a) de física</td><td>Colisão AABB eixo-a-eixo com tiles</td><td><b>VOCÊ</b></td></tr>
+    <tr><td>Designer de sistemas</td><td>Moedas, dano, pisão, vidas (os callbacks)</td><td><b>VOCÊ</b></td></tr>
+    <tr><td>Level designer</td><td>Uma fase autoral com as 5 regras de ouro</td><td><b>VOCÊ</b></td></tr>
+    <tr><td>Direção de arte do herói</td><td>O ✱sterisco e seus olhinhos</td><td><b>VOCÊ</b></td></tr>
+    <tr><td>Engine, câmera, som e palco</td><td>Infraestrutura</td><td>Dev Academy ✱ (como toda engine — e você LEU o código dela)</td></tr>
+  </table>
+  <p>O quiz final e o certificado <b>🕹️ Criador(a) de Jogos</b> te esperam. E lá no Minecraft, você vai reencontrar cada um desses conceitos... em escala planetária.</p>
+  <button class="btn green done-btn" onclick="complete('g8l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-g8l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('g8l3')">← Anterior</button><button class="btn amber small" onclick="go('qg8')">🎯 QUIZ FINAL →</button></div>
+</div></section>
+
+<section class="screen" id="qg8"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Quiz FINAL · Módulo 8</span></div>
+  <h2>🎯 Quiz Final: Seu primeiro jogo</h2>
+  <div id="quiz-qg8"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button></div>
+</div></section>
+
+</main>
+
+<!-- MODAIS -->
+<div class="overlay" id="badgeOverlay"><div class="modal">
+  <div class="me" id="badgeEmo">🏅</div>
+  <h3 id="badgeTit">Medalha!</h3>
+  <p id="badgeTxt"></p>
+  <button class="btn" onclick="document.getElementById('badgeOverlay').classList.remove('show')">Continuar ✨</button>
+</div></div>
+<div class="overlay" id="diplomaOverlay"><div class="modal">
+  <div class="me">🎓</div>
+  <h3>JOGO COMPLETO!</h3>
+  <p>Loop, física, colisão, moedas, inimigos, câmera, fase autoral: você construiu um jogo de plataforma em Java, peça por peça, e ele RODA. O certificado <b>🕹️ Criador(a) de Jogos</b> já está na aba Certificados. Próxima parada da trilha: o Minecraft por dentro. ✱</p>
+  <a class="btn" href="certificados.html">🎓 Ver meu certificado</a>
+  <button class="btn outline" onclick="document.getElementById('diplomaOverlay').classList.remove('show')" style="margin-top:8px">Continuar explorando</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="config.js?v=3"></script>
+<script src="shared/dev-academy.js?v=3"></script>
+<script src="shared/javabox.js?v=3"></script>
+<script src="shared/plat-engine.js?v=3"></script>
+<script>
+/* ============ ESTADO ============ */
+const CURSO_ID = 'java-jogo-plataforma';
+let xp = 0, done = new Set(), dys = false, badges = [], dip = false, dipEm = null, uid = null;
+const $ = id => document.getElementById(id);
+const RANKS = [[0,'Sonhador(a) 🎮'],[100,'Aprendiz de Pixel 🟪'],[200,'Domador(a) da Gravidade 🪂'],[300,'Level Designer 🗺️'],[390,'Criador(a) de Mundos 👑']];
+const MODS = {
+ mod1:{items:[['g1l1','O loop de todo jogo'],['g1l2','O contrato com a engine'],['g1l3','🎮 M1: pinte o mundo'],['g1l4','Mapas em texto'],['qg1','🎯 Quiz']],badge:{emo:'💓',tit:'Coração Ligado!',txt:'Módulo 1 completo: você entende o pulso de todo jogo.'}},
+ mod2:{items:[['g2l1','A classe Heroi'],['g2l2','🎮 M2: o corpo do herói'],['g2l3','🎮 M3: ele ANDA'],['g2l4','Game feel: as constantes'],['qg2','🎯 Quiz']],badge:{emo:'🐣',tit:'Deu Vida!',txt:'Módulo 2 completo: seu herói existe e obedece.'}},
+ mod3:{items:[['g3l1','Gravidade: 2 linhas'],['g3l2','🎮 M4: ligue a gravidade'],['g3l3','🎮 M5: o PULO'],['g3l4','Oficina de afinação'],['qg3','🎯 Quiz']],badge:{emo:'🪂',tit:'Físico(a) de Jogos!',txt:'Módulo 3 completo: gravidade e pulo com a sua assinatura.'}},
+ mod4:{items:[['g4l1','Tente → desfaça'],['g4l2','AABB'],['g4l3','🎮 M6: eixo X'],['g4l4','🎮 M7: eixo Y'],['g4l5','Leitura de mestre'],['qg4','🎯 Quiz']],badge:{emo:'🧱',tit:'Engenheiro(a) de Colisão!',txt:'Módulo 4 completo: a física mais difícil, dominada.'}},
+ mod5:{items:[['g5l1','Callbacks de evento'],['g5l2','🎮 M8: colete e pontue'],['g5l3','O HUD'],['qg5','🎯 Quiz']],badge:{emo:'⭐',tit:'Caçador(a) de Moedas!',txt:'Módulo 5 completo: recompensas e placar no ar.'}},
+ mod6:{items:[['g6l1','A IA do patrulheiro'],['g6l2','🎮 M9: dano e vidas'],['g6l3','🎮 M10: o PISÃO'],['g6l4','Game over justo'],['qg6','🎯 Quiz']],badge:{emo:'👾',tit:'Domador(a) de Perigo!',txt:'Módulo 6 completo: risco, dano e pisão calibrados.'}},
+ mod7:{items:[['g7l1','A câmera'],['g7l2','🎮 M11: a fase completa'],['g7l3','Level design: 5 regras'],['g7l4','🎮 DESAFIO da Academy'],['qg7','🎯 Quiz']],badge:{emo:'🎥',tit:'Diretor(a) de Fase!',txt:'Módulo 7 completo: mundo grande, câmera e bandeira.'}},
+ mod8:{items:[['g8l1','🎮 MISSÃO FINAL: sua fase'],['g8l2','Sons e juice'],['g8l3','A estrada do game dev'],['g8l4','Os créditos'],['qg8','🎯 Quiz FINAL']],badge:{emo:'🏆',tit:'Criador(a) de Mundos!',txt:'Módulo 8 completo: um jogo com fase autoral. SEU.'}}
+};
+const TOTAL = Object.values(MODS).reduce((s,m)=>s+m.items.length,0);
+/* ============ QUIZ ============ */
+const QUIZ = {
+ qg1:[
+  {q:'O loop de um jogo faz, ~60x por segundo:',o:['atualizar (a lógica) e desenhar (o quadro)','Só desenhar','Salvar o progresso','Compilar o código'],c:0,w:'Cada volta é um frame — 60 por segundo viram movimento.'},
+  {q:'Um "frame" é:',o:['Uma volta do loop: um quadro da animação','Um tipo de classe','A moldura do canvas','Um erro'],c:0,w:'Como no cinema: quadros rápidos = ilusão de movimento.'},
+  {q:'Neste curso, quem escreve a LÓGICA (atualizar) é:',o:['Você, em Java — a engine cuida do loop, tela e teclado','A engine, tudo','O navegador','Ninguém'],c:0,w:'O jeito profissional: gameplay seu, infraestrutura da engine.'}],
+ qg2:[
+  {q:'Os campos vx e vy guardam:',o:['As VELOCIDADES (para onde está indo)','As posições','Os pontos','O tamanho'],c:0,w:'x,y = onde está; vx,vy = para onde vai.'},
+  {q:'A frase sagrada da física de jogos:',o:['Forças mexem na velocidade; a velocidade mexe na posição','Posição mexe na força','Tudo mexe em tudo','Velocidade é fixa'],c:0,w:'gravidade→vy, teclas→vx; depois x+=vx, y+=vy.'},
+  {q:'Desenhar em this.x/this.y garante que:',o:['O desenho acompanha o herói quando ele se move','O código compila','A cor fica certa','O canvas limpa'],c:0,w:'Desenho amarrado ao estado — princípio nº 1 da renderização.'}],
+ qg3:[
+  {q:'A gravidade em jogo é:',o:['vy += GRAVIDADE; depois y += vy','x += vx','Um comando pronto "cair()"','Um tipo de loop'],c:0,w:'A força acelera a velocidade; a velocidade move — 60x/s vira queda real.'},
+  {q:'O pulo exige "&& noChao" para:',o:['Impedir o voo infinito (pular no ar de novo e de novo)','Ficar bonito','Economizar memória','Nada'],c:0,w:'Sem a condição: segure pulo e voe — o famoso bug do experimento 4.'},
+  {q:'Fisica.PULO é NEGATIVO (-10) porque:',o:['No canvas o y cresce para BAIXO — subir é y diminuir','É um erro histórico','Números negativos são mais rápidos','O Java exige'],c:0,w:'A placa de trânsito dos jogos 2D: cair = y aumentando.'}],
+ qg4:[
+  {q:'Resolvemos colisão UM EIXO DE CADA VEZ porque:',o:['Assim bater na parede não cancela a queda (e vice-versa)','É mais bonito','O Java obriga','Fica mais rápido'],c:0,w:'Testar o passo diagonal inteiro desfaria TUDO ao encostar no chão.'},
+  {q:'AABB detecta sobreposição com:',o:['4 comparações ligadas por && (dois eixos ao mesmo tempo)','Inteligência artificial','Análise da imagem','Raio laser'],c:0,w:'a.x < b.x+larg && a.x+larg > b.x && ... — só isso, o jogo todo.'},
+  {q:'Na colisão do eixo Y, "vy > 0" significa:',o:['Estava CAINDO — logo, o que encostei é CHÃO → noChao = true','Estava subindo','Estava parado','Deu erro'],c:0,w:'Subindo (vy<0) seria teto — bate a cabeça e não liga o noChao.'}],
+ qg5:[
+  {q:'aoPegarMoeda() é um exemplo de:',o:['Callback: a engine avisa o evento, você decide a consequência','Loop','Construtor','Exceção'],c:0,w:'Igual ao onclick do HTML — eventos + contratos.'},
+  {q:'O HUD é desenhado POR ÚLTIMO porque:',o:['Desenho é pintura: o que vem depois cobre o de antes','É mais rápido','O canvas exige','Sorte'],c:0,w:'HUD no fim = HUD por cima de tudo.'},
+  {q:'"O estado é a verdade; a tela é um espelho" quer dizer:',o:['A interface só EXIBE os campos — nunca se edita o espelho','A tela guarda os dados','Estado e tela são iguais','Nada'],c:0,w:'O HUD lê pontos/vidas; ninguém "atualiza o placar" na mão.'}],
+ qg6:[
+  {q:'O "!temChao(frente)" da IA evita que o inimigo:',o:['Caia das beiradas ao patrulhar','Ande rápido demais','Fique invisível','Pule'],c:0,w:'Checar o chão UM PASSO à frente = patrulha respeita a plataforma.'},
+  {q:'A invencibilidade pós-dano existe para:',o:['Evitar punição dupla (perder 3 vidas em 3 frames no mesmo toque)','Deixar fácil demais','Economizar processamento','Nada'],c:0,w:'Justiça de design: um erro, uma vida.'},
+  {q:'O pisão acontece quando o herói encosta no inimigo:',o:['CAINDO por cima (vy > 0, pés na cabeça dele)','Por baixo','Pelo lado','Parado'],c:0,w:'Mesma colisão, destino oposto — a regra mais famosa dos plataformas.'}],
+ qg7:[
+  {q:'A "câmera" é, na verdade:',o:['Desenhar tudo deslocado (subtraindo cam.x)','Um objeto físico','Um segundo canvas','Zoom'],c:0,w:'O herói fica ~parado no centro; o MUNDO desliza para trás.'},
+  {q:'O clamp da câmera serve para:',o:['Não mostrar além das bordas do mundo','Acelerar o jogo','Aumentar o mapa','Nada'],c:0,w:'Por isso o herói fica à esquerda no comecinho da fase.'},
+  {q:'Regra nº 1 do level design:',o:['Ensinar sem palavras: o 1º obstáculo é a versão fácil do desafio','Começar impossível','Esconder a bandeira','Encher de inimigos'],c:0,w:'O jogador aprende JOGANDO — os clássicos são aulas silenciosas.'}],
+ qg8:[
+  {q:'O "juice" (sons, pulsos, piscadas) entra:',o:['DEPOIS do jogo funcionar — polimento sobre base sólida','Antes de tudo','No lugar da física','Nunca'],c:0,w:'Juice em cima de jogo quebrado é maquiagem em bug.'},
+  {q:'O conselho de ouro dos veteranos:',o:['Termine jogos PEQUENOS — um Pong acabado vale mais que um épico abandonado','Só faça jogos grandes','Nunca mostre seu jogo','Copie tudo'],c:0,w:'Você já tem 1 jogo terminado — mantenha o ritmo.'},
+  {q:'No mapa-string, o caractere # representa:',o:['Bloco sólido','Moeda','O herói','A bandeira'],c:0,w:'C = moeda, E = inimigo, P = spawn, F = bandeira, espaço = ar.'}]
+};
+const quizOk = {};
+function renderQuizzes(){
+  Object.keys(QUIZ).forEach(qid=>{
+    const box = $('quiz-'+qid); if(!box) return;
+    quizOk[qid] = quizOk[qid] || new Set();
+    box.innerHTML = (done.has(qid) ? '<div class="box gold"><div class="bt">✅ Quiz concluído!</div>Pode refazer para revisar — o XP já é seu.</div>' : '') +
+      QUIZ[qid].map((p,pi)=>{
+        const ops = p.o.map((t,oi)=>({t,oi})).sort(()=>Math.random()-.5);
+        return '<div class="qq"><div class="qp">'+(pi+1)+'. '+p.q+'</div>'+
+          ops.map(o=>`<button class="qopt" data-oi="${o.oi}" onclick="quizResp('${qid}',${pi},${o.oi},this)">${o.t}</button>`).join('')+
+          '<div class="qwhy" id="why-'+qid+'-'+pi+'"></div></div>';
+      }).join('');
+  });
+}
+function quizResp(qid,pi,oi,el){
+  const p = QUIZ[qid][pi], pai = el.parentElement;
+  pai.querySelectorAll('.qopt').forEach(b=>{ b.classList.remove('certa','errada'); if(+b.dataset.oi===p.c) b.classList.add('certa'); });
+  if(oi!==p.c) el.classList.add('errada');
+  const why = $('why-'+qid+'-'+pi);
+  why.innerHTML = (oi===p.c?'🎉 <b>Certíssimo!</b> ':'💭 <b>A certa está em verde.</b> ')+p.w;
+  why.classList.add('show');
+  if(oi===p.c){ quizOk[qid].add(pi); if(quizOk[qid].size===QUIZ[qid].length && !done.has(qid)) complete(qid); }
+}
+/* ============ MISSÕES ============ */
+const CHAO20 = '####################';
+const M_PLANO = ['                    ','                    ','                    ','                    ','                    ','                    ','                    ','  P                 ',CHAO20,CHAO20];
+const MISSOES = {
+ mg1:{opts:{mapa:M_PLANO, sistemas:{chaoSimples:true}},
+   checks:[
+    {txt:'O código compila sem erros', fn:c=>{ compilarM(c, M_PLANO); return true; }},
+    {txt:'A classe Fundo existe', fn:c=> compilarM(c, M_PLANO).Fundo !== null},
+    {txt:'O desenhar(g, frame) pinta pelo menos 3 formas', fn:c=>{ const mod=compilarM(c,M_PLANO); const f={n:0,ret(){this.n++},circulo(){this.n++},texto(){this.n++}}; new mod.Fundo().desenhar(f,0); return f.n>=3; }},
+    {txt:'Algo se move com o frame (frame 0 ≠ frame 120)', fn:c=>{ const mod=compilarM(c,M_PLANO); const reg=fr=>{const it=[];const f={ret:(...a)=>it.push('r'+a.slice(0,2).join(',')),circulo:(...a)=>it.push('c'+a.slice(0,2).join(',')),texto:()=>{}};new mod.Fundo().desenhar(f,fr);return it.join('|')}; return reg(0)!==reg(120); }}
+   ]},
+ mg2:{opts:{mapa:M_PLANO, sistemas:{chaoSimples:true}},
+   checks:[
+    {txt:'A classe Heroi existe e compila', fn:c=> compilarM(c, M_PLANO).Heroi !== null},
+    {txt:'O desenhar pinta o corpo E os olhos (3+ formas)', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:M_PLANO, frames:5, sistemas:{chaoSimples:true}}); return r.pincel.chamadas>=3; }}
+   ]},
+ mg3:{opts:{mapa:M_PLANO, sistemas:{chaoSimples:true}},
+   checks:[
+    {txt:'Segurando a DIREITA, ele anda para a direita', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:M_PLANO, frames:60, sistemas:{chaoSimples:true}, roteiro:t=>{t.direita=true;}}); return r.heroi.x > 64+80; }},
+    {txt:'Segurando a ESQUERDA, ele volta', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:M_PLANO, frames:40, sistemas:{chaoSimples:true}, roteiro:t=>{t.esquerda=true;}}); return r.heroi.x < 64; }},
+    {txt:'Sem teclas, ele fica parado (vx zera)', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:M_PLANO, frames:40, sistemas:{chaoSimples:true}}); return Math.abs(r.heroi.x-64)<2; }}
+   ]},
+ mg4:{opts:{mapa:['                    ','  P                 ','                    ','                    ','                    ','                    ','                    ','                    ',CHAO20,CHAO20], sistemas:{chaoSimples:true}},
+   checks:[
+    {txt:'Ele CAI (gravidade puxa)', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg4.opts.mapa, frames:20, sistemas:{chaoSimples:true}}); return r.heroi.y > 60; }},
+    {txt:'Ele POUSA no chão e para (noChao liga)', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg4.opts.mapa, frames:90, sistemas:{chaoSimples:true}}); return r.heroi.noChao===true && Math.abs((r.heroi.y+28)-256)<2; }}
+   ]},
+ mg5:{opts:{mapa:M_PLANO, sistemas:{chaoSimples:true}},
+   checks:[
+    {txt:'Apertando PULO no chão, ele SOBE', fn:c=>{ let minY=999; PlatEngine.simular({code:c, mapa:M_PLANO, frames:60, sistemas:{chaoSimples:true}, roteiro:(t,f,h)=>{ if(f===30)t.pulo=true; if(h) minY=Math.min(minY,h.y); }}); return minY < 256-28-30; }},
+    {txt:'A gravidade o traz de volta ao chão', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:M_PLANO, frames:120, sistemas:{chaoSimples:true}, roteiro:(t,f)=>{ if(f===30)t.pulo=true; }}); return r.heroi.noChao===true; }}
+   ]},
+ mg6:{opts:{mapa:['                    ','                    ','                    ','                    ','                    ','          #         ','          #         ','  P       #         ',CHAO20,CHAO20], sistemas:{chaoSimples:true}},
+   checks:[
+    {txt:'Ele ainda anda normalmente', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:M_PLANO, frames:40, sistemas:{chaoSimples:true}, roteiro:t=>{t.direita=true;}}); return r.heroi.x > 130; }},
+    {txt:'A TORRE o segura (não atravessa!)', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg6.opts.mapa, frames:120, sistemas:{chaoSimples:true}, roteiro:t=>{t.direita=true;}}); return r.heroi.x <= 297 && r.heroi.x > 150; }}
+   ]},
+ mg7:{opts:{mapa:['                    ','       P            ','                    ','             ###    ','                    ','      #####         ','                    ','                    ',CHAO20,CHAO20], sistemas:{}},
+   checks:[
+    {txt:'Ele POUSA na plataforma flutuante', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg7.opts.mapa, frames:90, sistemas:{}}); return r.heroi.noChao===true && Math.abs((r.heroi.y+28)-160)<2; }},
+    {txt:'E consegue PULAR a partir dela', fn:c=>{ let minY=999; PlatEngine.simular({code:c, mapa:MISSOES.mg7.opts.mapa, frames:150, sistemas:{}, roteiro:(t,f,h)=>{ if(f===100)t.pulo=true; if(h&&f>100) minY=Math.min(minY,h.y); }}); return minY < 132-25; }}
+   ]},
+ mg8:{opts:{mapa:['                    ','                    ','                    ','                    ','        C  C        ','       ##  ##       ','                    ','  P   C  C  C       ',CHAO20,CHAO20], sistemas:{moedas:true}},
+   checks:[
+    {txt:'aoPegarMoeda existe (a engine consegue avisar)', fn:c=>{ const mod=compilarM(c,M_PLANO); return typeof mod.Heroi.prototype.aoPegarMoeda === 'function'; }},
+    {txt:'Andando pela fase, os PONTOS sobem (3 moedas do chão)', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg8.opts.mapa, frames:160, sistemas:{moedas:true}, roteiro:t=>{t.direita=true;}}); return r.heroi.pontos>=3; }}
+   ]},
+ mg9:{opts:{mapa:['                    ','                    ','                    ','                    ','                    ','                    ','                    ','  P      E #        ',CHAO20,CHAO20], sistemas:{inimigos:true}},
+   checks:[
+    {txt:'aoLevarDano existe', fn:c=>{ const mod=compilarM(c,M_PLANO); return typeof mod.Heroi.prototype.aoLevarDano === 'function'; }},
+    {txt:'Ao encostar de lado: perde 1 vida e volta ao início', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg9.opts.mapa, frames:110, sistemas:{inimigos:true}, roteiro:t=>{ t.direita=true; }}); return r.heroi.vidas===2; }}
+   ]},
+ mg10:{opts:{mapa:['                    ','       P            ','                    ','                    ','                    ','                    ','                    ','      #E#           ',CHAO20,CHAO20], sistemas:{inimigos:true}},
+   checks:[
+    {txt:'aoDerrotar existe', fn:c=>{ const mod=compilarM(c,M_PLANO); return typeof mod.Heroi.prototype.aoDerrotar === 'function'; }},
+    {txt:'Caindo em cima: o inimigo é DERROTADO e você ganha +5', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg10.opts.mapa, frames:70, sistemas:{inimigos:true}}); return r.mapa.inimigos[0].vivo===false && r.heroi.pontos>=5 && r.heroi.vidas===3; }}
+   ]},
+ mg11:{opts:{mapa:[
+   '                                        ',
+   '                                        ',
+   '                                        ',
+   '                                        ',
+   '                                        ',
+   '                       C                ',
+   '                      ###               ',
+   ' P   C   C        ##      C  E      F   ',
+   '########################################',
+   '########################################'], sistemas:{moedas:true,inimigos:true,bandeira:true,camera:true}},
+   checks:[
+    {txt:'O herói completo compila (física + 3 callbacks)', fn:c=>{ const mod=compilarM(c,M_PLANO); const p=mod.Heroi.prototype; return ['atualizar','desenhar','aoPegarMoeda','aoLevarDano','aoDerrotar'].every(m=>typeof p[m]==='function'); }},
+    {txt:'Piloto automático (direita + pulos) chega à BANDEIRA 🏁', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg11.opts.mapa, frames:700, sistemas:{moedas:true,bandeira:true,camera:true}, roteiro:(t,f)=>{ t.direita=true; if(f%45===0)t.pulo=true; }}); return r.vitoria===true; }}
+   ]},
+ mg12:{opts:{mapa:[
+   '                                            ',
+   '                                            ',
+   '              C                 C C         ',
+   '             ###               #####        ',
+   '                                            ',
+   '     C            C                         ',
+   '    ###          ###     E                  ',
+   ' P            C         ###    E        F   ',
+   '########  ##################  ##############',
+   '########  ##################  ##############'], sistemas:{moedas:true,inimigos:true,bandeira:true,camera:true}},
+   checks:[
+    {txt:'Código compila com todos os 5 métodos do contrato', fn:c=>{ const mod=compilarM(c,M_PLANO); const p=mod.Heroi.prototype; return ['atualizar','desenhar','aoPegarMoeda','aoLevarDano','aoDerrotar'].every(m=>typeof p[m]==='function'); }},
+    {txt:'A física segura o teste da parede', fn:c=>{ const r=PlatEngine.simular({code:c, mapa:MISSOES.mg6.opts.mapa, frames:120, sistemas:{}, roteiro:t=>{t.direita=true;}}); return r.heroi.x <= 297; }}
+   ]},
+ mgF:{opts:{sistemas:{moedas:true,inimigos:true,bandeira:true,camera:true}},
+   checks:[
+    {txt:'Seu mapa tem um spawn (P) e uma bandeira (F)', fn:()=>{ const m=$('mgF-mapa').value; return m.includes('P') && m.includes('F'); }},
+    {txt:'Pelo menos 3 moedas (C) e 1 inimigo (E)', fn:()=>{ const m=$('mgF-mapa').value; return (m.match(/C/g)||[]).length>=3 && m.includes('E'); }},
+    {txt:'Pelo menos 10 blocos (#) para pisar', fn:()=>{ const m=$('mgF-mapa').value; return (m.match(/#/g)||[]).length>=10; }},
+    {txt:'Seu código Java compila', fn:c=>{ compilarM(c, M_PLANO); return true; }}
+   ]}
+};
+function compilarM(code, mapa){
+  return PlatEngine.compilar(code, PlatEngine.fazerMundoAPI(PlatEngine.parseMapa(mapa)));
+}
+function rodarMissao(id){
+  const opts = Object.assign({}, MISSOES[id].opts);
+  PlatEngine.jogar(id, opts);
+}
+function rodarFase(){
+  const linhas = $('mgF-mapa').value.split('\n');
+  PlatEngine.jogar('mgF', {mapa:linhas, sistemas:{moedas:true,inimigos:true,bandeira:true,camera:true}});
+}
+function testarMissao(id){
+  const spec = MISSOES[id];
+  const code = $(id) ? $(id).value : '';
+  const box = $(id+'-test');
+  let todos = true;
+  const linhas = spec.checks.map(ch=>{
+    let ok=false, err='';
+    try{ ok = !!ch.fn(code); }catch(e){ ok=false; err=' — 💥 '+(e.message||e); }
+    if(!ok) todos=false;
+    return '<div class="li '+(ok?'ok':'bad')+'">'+(ok?'✔':'✘')+' '+ch.txt+(ok?'':err)+'</div>';
+  });
+  box.innerHTML = linhas.join('') + (todos
+    ? '<div class="li ok" style="font-weight:800;margin-top:6px">🏆 MISSÃO CUMPRIDA! Pode concluir a lição com orgulho.</div>'
+    : '<div class="li bad" style="margin-top:6px">🔧 Ajuste e teste de novo — os TODO do código são o mapa do tesouro.</div>');
+  box.classList.add('show');
+  if(todos) DA.confetti();
+}
+/* ============ ENGINE ============ */
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
+function snapshot(){ return {xp, done:[...done], dys, badges, dip, dip_em:dipEm}; }
+async function saveState(){
+  const s = snapshot();
+  try{ localStorage.setItem('da-espelho:'+CURSO_ID+':'+uid, JSON.stringify(s)); }catch(e){}
+  DA.saveProgress(CURSO_ID, s);
+}
+function mergeStates(a,b){
+  if(!a) return b; if(!b) return a;
+  const d = new Set([...(a.done||[]),...(b.done||[])]);
+  return {xp:Math.max(a.xp||0,b.xp||0,d.size*10), done:[...d], dys:b.dys||a.dys||false,
+    badges:[...new Set([...(a.badges||[]),...(b.badges||[])])], dip:a.dip||b.dip||false, dip_em:a.dip_em||b.dip_em||null};
+}
+function apply(s){
+  if(!s) return;
+  done = new Set(s.done||[]); xp = s.xp||done.size*10; dys = !!s.dys; badges = s.badges||[]; dip = !!s.dip; dipEm = s.dip_em||null;
+  document.body.classList.toggle('dys', dys);
+}
+function rank(){ let r=RANKS[0][1]; RANKS.forEach(([m,n])=>{ if(xp>=m) r=n; }); return r; }
+function refreshUI(){
+  $('xpVal').textContent = xp;
+  $('rankVal').textContent = rank();
+  $('pfill').style.width = Math.round(done.size/TOTAL*100)+'%';
+  $('plabel').textContent = done.size+' de '+TOTAL+' etapas · '+Math.round(done.size/TOTAL*100)+'%';
+  $('rankline').innerHTML = RANKS.map(([m,n])=>'<span class="rk'+(xp>=m?' on':'')+'">'+n+' · '+m+' XP</span>').join('');
+  Object.entries(MODS).forEach(([mid,m])=>{
+    $(mid+'list').innerHTML = m.items.map(([id,rot])=>
+      `<button class="les-btn ${done.has(id)?'done':''}" onclick="go('${id}')"><span class="ic">${done.has(id)?'✅':'▶️'}</span> ${rot}</button>`).join('');
+  });
+  done.forEach(id=>{ const f=$('f-'+id); if(f) f.classList.add('show'); });
+}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const alvo = $(id); if(alvo) alvo.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function complete(id){
+  if(done.has(id)){ toast('Você já concluiu esta etapa! ✔'); return; }
+  done.add(id); xp += 10;
+  const f = $('f-'+id); if(f) f.classList.add('show');
+  DA.confetti(); refreshUI();
+  const mod = Object.entries(MODS).find(([k,m])=>m.items.some(([i])=>i===id));
+  if(mod && mod[1].items.every(([i])=>done.has(i)) && !badges.includes(mod[0])){
+    badges.push(mod[0]);
+    $('badgeEmo').textContent = mod[1].badge.emo; $('badgeTit').textContent = mod[1].badge.tit; $('badgeTxt').textContent = mod[1].badge.txt;
+    setTimeout(()=>$('badgeOverlay').classList.add('show'), 500);
+  }
+  if(done.size===TOTAL && !dip){ dip = true; dipEm = new Date().toISOString(); setTimeout(()=>$('diplomaOverlay').classList.add('show'), 900); }
+  saveState();
+  renderQuizzes();
+}
+function toggleDys(){ dys = !dys; document.body.classList.toggle('dys', dys); saveState(); toast(dys?'👓 Leitura fácil ativada':'Leitura fácil desativada'); }
+function authUi(){ if(confirm('Sair da sua conta?')) DA.logout(); }
+/* ============ INÍCIO ============ */
+(async function init(){
+  const u = await DA.requireAuth(); if(!u) return;
+  uid = u.id;
+  let nuvem = null;
+  try{ const r = await DA.loadProgress(CURSO_ID); nuvem = r.estado; }catch(e){}
+  let local = null;
+  try{ local = JSON.parse(localStorage.getItem('da-espelho:'+CURSO_ID+':'+uid)); }catch(e){}
+  apply(mergeStates(local, nuvem));
+  renderQuizzes(); refreshUI(); saveState();
+})();
+</script>
+</body>
+</html>
