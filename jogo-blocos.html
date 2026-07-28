@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Lógica com Blocos · Dev Academy</title>
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#141F3C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dev Academy">
+<link rel="stylesheet" href="shared/dev-academy.css?v=3">
+<style>
+.jg-wrap{max-width:1060px;margin:0 auto;padding:18px 14px 70px}
+.jg-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.jg-top h1{font-size:1.3rem;color:var(--navy)}
+.jg-niveis{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.jg-niv{border:none;font-family:inherit;font-weight:800;font-size:.85rem;padding:8px 12px;border-radius:12px;background:#fff;color:var(--navy);box-shadow:0 3px 8px rgba(20,31,60,.12);cursor:pointer;transition:all .15s}
+.jg-niv:hover{transform:translateY(-2px)}
+.jg-niv.on{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}
+.jg-niv.lock{opacity:.45;cursor:not-allowed}
+.jg-niv small{display:block;font-size:.62rem;font-weight:700;opacity:.85}
+.jg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:760px){.jg-grid{grid-template-columns:1fr}}
+.jg-card{background:#fff;border-radius:18px;box-shadow:0 8px 22px rgba(20,31,60,.10);border:1px solid var(--line);padding:14px}
+.jg-card h3{font-size:.95rem;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.jg-dica{background:linear-gradient(120deg,#EDF2FF,#F3EDFF);border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.5;margin-bottom:10px}
+.jg-dica b{color:var(--navy)}
+/* ---- palco ---- */
+#palco{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#DFE6F5;touch-action:manipulation}
+#cels{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr)}
+.cel{display:flex;align-items:center;justify-content:center;font-size:clamp(18px,5.5vw,34px);border:1px solid rgba(20,31,60,.06)}
+.cel.a{background:#E9EFFB}.cel.b{background:#DFE8F8}
+.cel.muro{background:linear-gradient(135deg,#B45309,#92400E);box-shadow:inset 0 0 0 3px rgba(0,0,0,.15), inset 0 4px 0 rgba(255,255,255,.15);border-radius:6px}
+#robo{position:absolute;width:20%;height:20%;display:flex;align-items:center;justify-content:center;font-size:clamp(20px,6vw,38px);transition:transform .28s ease;z-index:3;filter:drop-shadow(0 4px 6px rgba(20,31,60,.35))}
+#robo .seta{position:absolute;width:0;height:0;border:7px solid transparent}
+#robo.d0 .seta{border-left:10px solid var(--amber);right:2%;top:50%;transform:translateY(-50%)}
+#robo.d1 .seta{border-top:10px solid var(--amber);bottom:2%;left:50%;transform:translateX(-50%)}
+#robo.d2 .seta{border-right:10px solid var(--amber);left:2%;top:50%;transform:translateY(-50%)}
+#robo.d3 .seta{border-bottom:10px solid var(--amber);top:2%;left:50%;transform:translateX(-50%)}
+#robo.bonk{animation:bonk .45s ease}
+@keyframes bonk{0%,100%{margin-left:0}25%{margin-left:-7px}50%{margin-left:7px}75%{margin-left:-4px}}
+#robo.win{animation:winho .6s ease 2}
+@keyframes winho{0%,100%{transform-origin:center;scale:1}50%{scale:1.25}}
+.jg-msg{margin-top:10px;border-radius:12px;padding:10px 12px;font-size:.9rem;font-weight:700;display:none;line-height:1.5}
+.jg-msg.show{display:block}
+.jg-msg.ok{background:#D1FAE5;color:#065F46}
+.jg-msg.err{background:#FEE2E2;color:#991B1B}
+.jg-msg.info{background:#EDF2FF;color:#1D3F8F}
+/* ---- blocos lego ---- */
+.bloco{position:relative;border:none;font-family:inherit;color:#fff;font-weight:800;font-size:.92rem;padding:13px 16px 12px;border-radius:10px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.22), 0 6px 12px rgba(20,31,60,.18);transition:transform .12s;display:inline-flex;align-items:center;gap:8px;margin:8px 6px 2px 0}
+.bloco:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
+.bloco::before,.bloco::after{content:'';position:absolute;top:-6px;width:16px;height:7px;border-radius:4px 4px 0 0;background:inherit;filter:brightness(1.12)}
+.bloco::before{left:12px}.bloco::after{left:36px}
+.b-andar{background:linear-gradient(180deg,#3B82F6,#2563EB)}
+.b-ve{background:linear-gradient(180deg,#A855F7,#7C3AED)}
+.b-vd{background:linear-gradient(180deg,#F59E0B,#D97706);color:#3B2A00}
+.b-rep{background:linear-gradient(180deg,#22C55E,#16A34A)}
+#paleta .bloco{font-size:1rem}
+#prog{min-height:120px;background:#F4F6FB;border:2px dashed #C9D2E6;border-radius:14px;padding:10px;margin-bottom:6px}
+#prog .vazio{color:#8A93AC;font-weight:700;font-size:.88rem;text-align:center;padding:26px 8px}
+#prog .bloco{display:flex;width:fit-content;margin:6px 0}
+.bloco .num{background:rgba(255,255,255,.3);border-radius:8px;padding:2px 9px;font-size:.85rem}
+.bloco .x{opacity:.75;font-size:.8rem;margin-left:2px}
+.bloco.exec{outline:4px solid #FDE047;outline-offset:2px}
+.rep-caixa{border-left:10px solid #16A34A;border-radius:0 12px 12px 10px;background:#E9FBEF;padding:4px 8px 8px 12px;margin:6px 0;width:fit-content;min-width:200px}
+.rep-caixa .rep-solo{border:2px dashed #86EFAC;border-radius:10px;padding:6px 10px;margin-top:4px;font-size:.8rem;font-weight:800;color:#15803D;cursor:pointer;background:#fff;width:fit-content}
+.rep-caixa .rep-solo.ativo{background:#FDE047;border-color:#EAB308;color:#713F12;animation:pulsar 1.1s ease infinite}
+@keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.jg-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.jg-cont{font-size:.8rem;font-weight:800;color:#5A6482;margin-top:6px}
+/* ---- vitória ---- */
+#vit{position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:70;padding:18px}
+#vit.show{display:flex}
+.vit-card{background:#fff;border-radius:22px;padding:30px 26px;text-align:center;width:min(400px,94vw);animation:pop .35s ease;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.vit-card .est{font-size:2.6rem;letter-spacing:4px;margin:6px 0}
+.vit-card h2{color:var(--navy);margin-bottom:4px}
+.vit-card p{color:#5A6482;font-size:.92rem;margin-bottom:14px;line-height:1.5}
+</style>
+</head>
+<body class="locked">
+<div class="jg-wrap">
+  <div class="jg-top">
+    <h1>🧱 Lógica com Blocos</h1>
+    <span class="da-pill" id="jgEst">⭐ 0</span>
+    <span class="da-pill" id="jgTot">🏁 0/10 missões</span>
+  </div>
+  <div class="jg-niveis" id="niveis"></div>
+  <div class="jg-grid">
+    <div class="jg-card">
+      <h3>📺 A tela do Robô Bip <span style="margin-left:auto;font-size:.75rem;color:#8A93AC" id="nivNome"></span></h3>
+      <div id="palco">
+        <div id="cels"></div>
+        <div id="robo" class="d0">🤖<span class="seta"></span></div>
+      </div>
+      <div class="jg-msg" id="msg"></div>
+    </div>
+    <div class="jg-card">
+      <h3>🧩 Monte o código do Bip</h3>
+      <div class="jg-dica" id="dica"></div>
+      <div id="prog"></div>
+      <div class="jg-cont" id="cont"></div>
+      <div id="paleta"></div>
+      <div class="jg-acoes">
+        <button class="da-btn green" id="btnRun" onclick="rodar()">▶ Testar</button>
+        <button class="da-btn outline" onclick="limpar()">🧹 Limpar blocos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="vit"><div class="vit-card">
+  <div style="font-size:2.6rem">🎉</div>
+  <h2>Missão cumprida!</h2>
+  <div class="est" id="vitEst"></div>
+  <p id="vitTxt"></p>
+  <button class="da-btn" id="vitProx" onclick="proximaMissao()">Próxima missão →</button>
+  <button class="da-btn outline" onclick="fecharVit()">Ficar aqui</button>
+</div></div>
+
+<script src="config.js?v=3"></script>
+<script src="shared/dev-academy.js?v=3"></script>
+<script>
+/* ================= MISSÕES ================= */
+const NIVEIS = [
+ {nome:'Primeiros passos', dica:'O Bip olha para a <b>direita</b> (veja a setinha). Toque no bloco <b>andar</b> até ele chegar na bandeira 🏁 — e aperte <b>▶ Testar</b>!', mapa:['.....','.....','R..G.','.....','.....'], otimo:3, blocos:['andar']},
+ {nome:'A curva', dica:'Novo bloco: <b>virar à direita ↪</b>. Virar não anda — só gira o Bip no lugar. Direita 2 casas, gira, desce 2!', mapa:['.....','.....','R....','.....','..G..'], otimo:5, blocos:['andar','vd']},
+ {nome:'Olhando pra cima', dica:'Agora o <b>virar à esquerda ↩</b> também entrou na caixa. Para SUBIR, o Bip (que olha pra direita) vira para a esquerda!', mapa:['.....','.....','..G..','.....','R....'], otimo:5, blocos:['andar','ve','vd']},
+ {nome:'A estrela', dica:'Passe POR CIMA da ⭐ para pegá-la no caminho — o Bip coleta sozinho. Pegue a estrela E chegue na bandeira!', mapa:['.....','.....','R.*.G','.....','.....'], otimo:4, blocos:['andar','ve','vd']},
+ {nome:'O bloco mágico: repetir', dica:'O bloco verde <b>repetir</b> executa o que está DENTRO dele várias vezes. Toque no espaço amarelo <b>“+ aqui dentro”</b> e depois no bloco que quer repetir. Desafio: chegue lá com só <b>2 blocos</b>! (Toque no 2× para mudar o número.)', mapa:['.....','.....','R...G','.....','.....'], otimo:2, max:2, blocos:['andar','rep']},
+ {nome:'A escadinha', dica:'Desça a escada: <b>anda, vira ↪, anda, vira ↩</b>... percebeu o padrão que se repete? O repetir adora padrões! Máximo: 7 blocos.', mapa:['R....','..*..','...G.','.....','.....'], otimo:6, max:7, blocos:['andar','ve','vd','rep']},
+ {nome:'O muro', dica:'Tem um muro no meio! Se o Bip bater, ele para e te mostra <b>qual bloco</b> deu errado — aí é só consertar. Isso tem nome chique: <b>debugar</b>! 🐞', mapa:['.....','..#..','R.#.G','..#..','.....'], otimo:12, blocos:['andar','ve','vd','rep']},
+ {nome:'Caça às estrelas', dica:'TRÊS estrelas para coletar antes da bandeira. Planeje a rota no dedo antes de montar os blocos — programador pensa primeiro, monta depois!', mapa:['..*..','.....','R*.*G','.....','.....'], otimo:12, blocos:['andar','ve','vd','rep']},
+ {nome:'A grande volta', dica:'Um corredor gigante... contar 4 “andar” cansa. Deixa o <b>repetir</b> trabalhar! Máximo: 6 blocos.', mapa:['R..*.','.....','.....','....*','....G'], otimo:5, max:6, blocos:['andar','ve','vd','rep']},
+ {nome:'MISSÃO FINAL 👑', dica:'O labirinto da formatura: 3 estrelas, muros e no máximo <b>6 blocos</b>. Dica de mestre: a escadinha inteira cabe DENTRO de um repetir... Você consegue!', mapa:['R.#..','#*...','##*..','.##*.','..##G'], otimo:5, max:6, blocos:['andar','ve','vd','rep']}
+];
+const DX = [1,0,-1,0], DY = [0,1,0,-1]; // 0=direita 1=baixo 2=esquerda 3=cima
+const CURSO_ID = 'blocos-logica';
+let estado = { niv:0, estrelas:{}, xp:0, dip:false, dip_em:null };
+let nivel = 0, prog = [], uidSeq = 1, slotAtivo = null, rodando = false;
+let robo = {x:0,y:0,d:0}, mapa = [], estrelasMapa = [], meta = {x:0,y:0};
+const $ = id => document.getElementById(id);
+
+/* ================= NÍVEL ================= */
+function carregarNivel(n){
+  nivel = n; prog = []; slotAtivo = null; rodando = false;
+  const N = NIVEIS[n];
+  $('nivNome').textContent = 'Missão '+(n+1)+' · '+N.nome;
+  $('dica').innerHTML = '✱ ' + N.dica;
+  mapa = N.mapa.map(l=>l.split(''));
+  estrelasMapa = [];
+  for(let y=0;y<5;y++) for(let x=0;x<5;x++){
+    const c = mapa[y][x];
+    if(c==='R'){ robo = {x, y, d:0}; mapa[y][x]='.'; }
+    if(c==='G'){ meta = {x,y}; }
+    if(c==='*'){ estrelasMapa.push({x,y,pega:false}); mapa[y][x]='.'; }
+  }
+  desenharPalco(); desenharPaleta(); desenharProg(); desenharNiveis();
+  msg(null); $('btnRun').disabled = false;
+}
+function desenharPalco(){
+  const cels = $('cels'); let h = '';
+  for(let y=0;y<5;y++) for(let x=0;x<5;x++){
+    const par = (x+y)%2 ? 'b' : 'a';
+    const muro = mapa[y][x]==='#';
+    const est = estrelasMapa.find(e=>e.x===x&&e.y===y&&!e.pega);
+    const g = meta.x===x&&meta.y===y;
+    h += '<div class="cel '+par+(muro?' muro':'')+'" id="cel-'+x+'-'+y+'">'+(muro?'':(est?'⭐':(g?'🏁':'')))+'</div>';
+  }
+  cels.innerHTML = h;
+  moverRoboVisual(false);
+}
+function moverRoboVisual(anim){
+  const r = $('robo');
+  if(!anim) r.style.transition = 'none';
+  r.style.transform = 'translate('+(robo.x*100)+'%,'+(robo.y*100)+'%)';
+  r.className = 'd'+robo.d + (rodando?'':'');
+  if(!anim){ r.offsetHeight; r.style.transition = ''; }
+}
+/* ================= PROGRAMA (blocos) ================= */
+const ROTULOS = { andar:'🦶 andar', ve:'↩ virar à esquerda', vd:'↪ virar à direita' };
+function desenharPaleta(){
+  $('paleta').innerHTML = NIVEIS[nivel].blocos.map(t =>
+    t==='rep'
+      ? '<button class="bloco b-rep" onclick="addBloco(\'rep\')">🔁 repetir <span class="num">2×</span></button>'
+      : '<button class="bloco b-'+t+'" onclick="addBloco(\''+t+'\')">'+ROTULOS[t]+'</button>'
+  ).join('');
+}
+function contarBlocos(lista){ return (lista||prog).reduce((s,b)=> s + 1 + (b.t==='rep' ? contarBlocos(b.kids) : 0), 0); }
+function addBloco(t){
+  if(rodando) return;
+  const N = NIVEIS[nivel];
+  if(N.max && contarBlocos() >= N.max){
+    DA.toast('🧱 Os blocos acabaram! O desafio é caber em '+N.max+' — o repetir ajuda 😉');
+    return;
+  }
+  const b = t==='rep' ? {t:'rep', n:2, kids:[], uid:uidSeq++} : {t, uid:uidSeq++};
+  if(slotAtivo !== null){
+    const alvo = prog.find(p=>p.uid===slotAtivo);
+    if(alvo && t!=='rep'){ alvo.kids.push(b); desenharProg(); return; }
+    if(alvo && t==='rep'){ DA.toast('Um repetir dentro do outro é nível ninja — vamos deixar pra próxima versão! 😄'); return; }
+  }
+  prog.push(b); desenharProg();
+}
+function tocarBloco(uid, dentro){
+  if(rodando) return;
+  if(dentro !== undefined){
+    const pai = prog.find(p=>p.uid===dentro);
+    pai.kids = pai.kids.filter(k=>k.uid!==uid);
+  } else {
+    if(slotAtivo === uid) slotAtivo = null;
+    prog = prog.filter(p=>p.uid!==uid);
+  }
+  desenharProg();
+}
+function ativarSlot(uid){ if(rodando) return; slotAtivo = (slotAtivo===uid ? null : uid); desenharProg(); }
+function mudarN(uid){
+  if(rodando) return;
+  const b = prog.find(p=>p.uid===uid);
+  b.n = b.n >= 5 ? 2 : b.n+1;
+  desenharProg();
+}
+function blocoHtml(b, dentro){
+  const del = 'onclick="tocarBloco('+b.uid+(dentro!==undefined?','+dentro:'')+')"';
+  if(b.t==='rep'){
+    return '<div class="rep-caixa" data-uid="'+b.uid+'">'+
+      '<button class="bloco b-rep" data-uid="'+b.uid+'" '+del+'>🔁 repetir <span class="num" onclick="event.stopPropagation();mudarN('+b.uid+')">'+b.n+'×</span><span class="x">✕</span></button>'+
+      b.kids.map(k=>blocoHtml(k, b.uid)).join('')+
+      '<div class="rep-solo'+(slotAtivo===b.uid?' ativo':'')+'" onclick="ativarSlot('+b.uid+')">'+(slotAtivo===b.uid?'👇 agora toque num bloco da caixa!':'+ aqui dentro')+'</div>'+
+    '</div>';
+  }
+  return '<button class="bloco b-'+b.t+'" data-uid="'+b.uid+'" '+del+'>'+ROTULOS[b.t]+'<span class="x">✕</span></button>';
+}
+function desenharProg(){
+  const N = NIVEIS[nivel];
+  $('prog').innerHTML = prog.length === 0
+    ? '<div class="vazio">👇 Toque nos blocos coloridos lá embaixo para montar o código aqui</div>'
+    : prog.map(b=>blocoHtml(b)).join('');
+  $('cont').textContent = 'Blocos usados: '+contarBlocos()+(N.max?' de no máximo '+N.max:'')+' · Recorde da missão: '+N.otimo;
+}
+function limpar(){ if(rodando) return; prog=[]; slotAtivo=null; desenharProg(); msg(null); resetRobo(); }
+function resetRobo(){
+  const N = NIVEIS[nivel];
+  for(let y=0;y<5;y++) for(let x=0;x<5;x++) if(N.mapa[y][x]==='R') robo={x,y,d:0};
+  estrelasMapa.forEach(e=>e.pega=false);
+  desenharPalco();
+}
+/* ================= EXECUÇÃO ================= */
+function achatar(lista){
+  const passos = [];
+  lista.forEach(b=>{
+    if(b.t==='rep'){ for(let i=0;i<b.n;i++) achatar(b.kids).forEach(p=>passos.push(p)); }
+    else passos.push({t:b.t, uid:b.uid});
+  });
+  return passos;
+}
+const PASSO = () => window.__PASSO !== undefined ? window.__PASSO : 420;
+const dormir = ms => new Promise(r=>setTimeout(r, ms));
+function msg(t, tipo){
+  const m = $('msg');
+  if(!t){ m.className='jg-msg'; m.innerHTML=''; return; }
+  m.className = 'jg-msg show '+tipo; m.innerHTML = t;
+}
+async function rodar(){
+  if(rodando) return;
+  if(prog.length===0){ msg('🤖 O Bip está sem instruções! Monte os blocos primeiro.', 'info'); return; }
+  rodando = true; $('btnRun').disabled = true; msg('🤖 Bip executando...', 'info');
+  resetRobo(); slotAtivo=null; desenharProg();
+  await dormir(PASSO());
+  const passos = achatar(prog);
+  let falhou = null;
+  for(let i=0;i<passos.length;i++){
+    const p = passos[i];
+    document.querySelectorAll('#prog .bloco').forEach(b=>b.classList.remove('exec'));
+    document.querySelectorAll('#prog .bloco[data-uid="'+p.uid+'"]').forEach(b=>b.classList.add('exec'));
+    if(p.t==='ve'){ robo.d=(robo.d+3)%4; moverRoboVisual(true); }
+    else if(p.t==='vd'){ robo.d=(robo.d+1)%4; moverRoboVisual(true); }
+    else {
+      const nx=robo.x+DX[robo.d], ny=robo.y+DY[robo.d];
+      if(nx<0||nx>4||ny<0||ny>4){ falhou={i, motivo:'o Bip ia <b>cair da mesa</b>! 🙀'}; break; }
+      if(mapa[ny][nx]==='#'){ falhou={i, motivo:'o Bip <b>bateu no muro</b>! 🧱'}; break; }
+      robo.x=nx; robo.y=ny; moverRoboVisual(true);
+      const e = estrelasMapa.find(e=>e.x===nx&&e.y===ny&&!e.pega);
+      if(e){ e.pega=true; const cel=$('cel-'+nx+'-'+ny); if(cel) cel.textContent=''; DA.confetti(); }
+    }
+    await dormir(PASSO());
+  }
+  document.querySelectorAll('#prog .bloco').forEach(b=>b.classList.remove('exec'));
+  if(falhou){
+    $('robo').classList.add('bonk'); setTimeout(()=>$('robo').classList.remove('bonk'), 500);
+    msg('💥 Ops! No passo <b>'+(falhou.i+1)+'</b> (bloco piscando), '+falhou.motivo+' Ajuste os blocos e teste de novo — errar faz parte, é assim que os programadores aprendem!', 'err');
+    const p = passos[falhou.i];
+    document.querySelectorAll('#prog .bloco[data-uid="'+p.uid+'"]').forEach(b=>b.classList.add('exec'));
+  } else {
+    const faltamEst = estrelasMapa.filter(e=>!e.pega).length;
+    const naMeta = robo.x===meta.x && robo.y===meta.y;
+    if(naMeta && faltamEst===0){ await vitoria(); }
+    else if(naMeta) msg('🏁 Chegou na bandeira, mas ficaram <b>'+faltamEst+' ⭐</b> para trás! Refaça a rota passando por cima delas.', 'err');
+    else msg('🤔 O código acabou e o Bip parou aqui. O que falta para chegar na 🏁? Ajuste e teste de novo!', 'info');
+  }
+  rodando = false; $('btnRun').disabled = false;
+}
+/* ================= VITÓRIA + PROGRESSO ================= */
+async function vitoria(){
+  $('robo').classList.add('win');
+  const N = NIVEIS[nivel], usados = contarBlocos();
+  const est = usados <= N.otimo ? 3 : usados <= N.otimo+2 ? 2 : 1;
+  const antes = estado.estrelas[nivel] || 0;
+  estado.estrelas[nivel] = Math.max(antes, est);
+  estado.niv = Math.max(estado.niv, Math.min(nivel+1, NIVEIS.length-1));
+  const total = Object.values(estado.estrelas).reduce((a,b)=>a+b,0);
+  estado.xp = total * 10;
+  if(Object.keys(estado.estrelas).length === NIVEIS.length && !estado.dip){
+    estado.dip = true; estado.dip_em = new Date().toISOString();
+  }
+  atualizarTopo(); desenharNiveis();
+  DA.saveProgress(CURSO_ID, estado);
+  DA.confetti(); DA.confetti();
+  $('vitEst').textContent = '⭐'.repeat(est) + '☆'.repeat(3-est);
+  $('vitTxt').innerHTML = est===3
+    ? 'PERFEITO! Você usou <b>'+usados+' blocos</b> — igual (ou melhor que) o recorde. Cérebro de programador(a)! 🧠'
+    : 'Missão feita com <b>'+usados+' blocos</b>. O recorde é <b>'+N.otimo+'</b>... quer tentar de novo mais enxuto? O repetir é seu amigo!';
+  $('vitProx').style.display = nivel < NIVEIS.length-1 ? '' : 'none';
+  if(nivel === NIVEIS.length-1 && estado.dip)
+    $('vitTxt').innerHTML += '<br><br>👑 <b>VOCÊ ZEROU O JOGO!</b> Seu certificado de Mestre(a) dos Blocos já apareceu na aba Certificados! 🎓';
+  $('vit').classList.add('show');
+}
+function fecharVit(){ $('vit').classList.remove('show'); }
+function proximaMissao(){ fecharVit(); carregarNivel(nivel+1); }
+function atualizarTopo(){
+  const total = Object.values(estado.estrelas).reduce((a,b)=>a+b,0);
+  $('jgEst').textContent = '⭐ '+total+' de '+(NIVEIS.length*3);
+  $('jgTot').textContent = '🏁 '+Object.keys(estado.estrelas).length+'/'+NIVEIS.length+' missões';
+}
+function desenharNiveis(){
+  $('niveis').innerHTML = NIVEIS.map((N,i)=>{
+    const feito = estado.estrelas[i];
+    const aberto = i <= estado.niv;
+    return '<button class="jg-niv'+(i===nivel?' on':'')+(aberto?'':' lock')+'" '+(aberto?'onclick="carregarNivel('+i+')"':'')+'>'+
+      (aberto ? (i+1) : '🔒')+'<small>'+(feito ? '⭐'.repeat(feito) : (aberto?'jogar':''))+'</small></button>';
+  }).join('');
+}
+/* ================= INÍCIO ================= */
+(async function init(){
+  const u = await DA.requireAuth(); if(!u) return;
+  DA.nav('cursos');
+  const r = await DA.loadProgress(CURSO_ID);
+  if(r.estado && r.estado.estrelas) estado = Object.assign(estado, r.estado);
+  atualizarTopo();
+  carregarNivel(Math.min(estado.niv, NIVEIS.length-1));
+})();
+</script>
+</body>
+</html>

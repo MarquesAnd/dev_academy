@@ -33,6 +33,10 @@
   DA.nav('cursos');
   const { rows } = await DA.listProgress();
   const cx = rows.find(r=>r.curso_id==='cortex-fundamentos');
+  const jg = rows.find(r=>r.curso_id==='blocos-logica');
+  const je = jg ? (jg.estado||{}) : {};
+  const jm = Object.keys(je.estrelas||{}).length;
+  const jstars = Object.values(je.estrelas||{}).reduce((a,b)=>a+b,0);
   const estado = cx ? (cx.estado||{}) : {};
   const pct = Math.min(100, Math.round(((estado.done||[]).length/61)*100));
   const lista = document.getElementById('lista');
@@ -44,6 +48,15 @@
         '<div class="da-prog"><div style="width:'+pct+'%"></div></div>'+
         '<div class="da-note">'+(pct===0?'Ainda não iniciado':(pct===100?'🏆 100% concluído — Diretor(a) Clínico(a) do Código!':pct+'% concluído · ⚡ '+(estado.xp||0)+' XP'))+'</div>'+
         '<a class="da-btn" href="curso-cortex.html" style="margin-top:auto">'+(pct===0?'▶ Começar':'▶ Continuar')+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="da-card">'+
+      '<div class="top g-green"><span class="emo">🧱</span><div><h3>Lógica com Blocos</h3><small>Jogo · para crianças e iniciantes</small></div></div>'+
+      '<div class="body">'+
+        '<div class="da-note">Monte o código com blocos de encaixar e veja o Robô Bip obedecer na tela. 10 missões com estrelas, muros e o poderoso bloco repetir.</div>'+
+        '<div class="da-prog"><div style="width:'+Math.round(jm/10*100)+'%"></div></div>'+
+        '<div class="da-note">'+(jm===0?'Ainda não iniciado':(je.dip?'👑 Jogo zerado! ⭐ '+jstars+' de 30':jm+'/10 missões · ⭐ '+jstars))+'</div>'+
+        '<a class="da-btn green" href="jogo-blocos.html" style="margin-top:auto">'+(jm===0?'🎮 Jogar':'🎮 Continuar')+'</a>'+
       '</div>'+
     '</div>'+
     [['🗄️','SQL Avançado na prática','Relatórios, índices e performance direto no banco do CORTEX.'],

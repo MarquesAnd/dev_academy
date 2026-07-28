@@ -33,7 +33,18 @@
   DA.nav('certificados');
   const { rows } = await DA.listProgress();
   const area = document.getElementById('area');
-  const NOMES = { 'cortex-fundamentos': 'CORTEX Academy — Programação do Zero ao Projeto Final' };
+  const NOMES = {
+    'cortex-fundamentos': 'CORTEX Academy — Programação do Zero ao Projeto Final',
+    'blocos-logica': 'Lógica com Blocos — As 10 Missões do Robô Bip'
+  };
+  const SELOS = {
+    'cortex-fundamentos': '👑 Diretor(a) Clínico(a) do Código',
+    'blocos-logica': '🤖 Mestre(a) dos Blocos'
+  };
+  const DESCR = {
+    'cortex-fundamentos': 'dominando HTML, CSS, JavaScript, SQL/Supabase e o protocolo profissional de manutenção',
+    'blocos-logica': 'dominando sequências, direções e repetições — os fundamentos do pensamento computacional'
+  };
   const certs = rows.filter(r => r.estado && r.estado.dip);
   if(certs.length === 0){
     const cx = rows.find(r=>r.curso_id==='cortex-fundamentos');
@@ -54,8 +65,8 @@
       '<div class="sub">A <b>Dev Academy · Equilibrium</b> certifica que</div>'+
       '<div class="nome">'+DA.nome()+'</div>'+
       '<div class="sub">concluiu com êxito o curso<br><b>'+(NOMES[c.curso_id]||c.curso_id)+'</b><br>'+
-      'dominando HTML, CSS, JavaScript, SQL/Supabase e o protocolo profissional de manutenção — com <b>⚡ '+(e.xp||0)+' XP</b> conquistados.</div>'+
-      '<div class="selo">👑 Diretor(a) Clínico(a) do Código</div>'+
+      (DESCR[c.curso_id]||'concluindo todas as etapas')+' — com <b>⚡ '+(e.xp||0)+' XP</b> conquistados.</div>'+
+      '<div class="selo">'+(SELOS[c.curso_id]||'🎓 Concluído')+'</div>'+
       '<div class="sub" style="margin-top:14px">Uberlândia/MG · '+data+'</div>'+
       '<div class="sub" style="margin-top:4px">✱ Prof. Asterisco · Dev Academy</div>'+
       '<button class="da-btn no-print" style="margin-top:16px" onclick="window.print()">🖨️ Imprimir / salvar PDF</button>'+
