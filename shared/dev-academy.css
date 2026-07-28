@@ -64,3 +64,21 @@ body.locked:has(#gate)::after{display:none}
 .cert .selo{display:inline-block;margin-top:12px;padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00;font-weight:800}
 @media print{.da-nav,.no-print{display:none!important}body{background:#fff}.da-wrap{padding:0;max-width:none}.cert{border-radius:0;box-shadow:none;min-height:96vh;display:flex;flex-direction:column;justify-content:center}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- celular + app instalado (iOS) ---- */
+.da-nav{padding-top:calc(12px + env(safe-area-inset-top))}
+.da-wrap{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+#gate{padding-top:calc(20px + env(safe-area-inset-top))}
+input, select, textarea{font-size:16px}
+@media(max-width:640px){
+  .da-wrap{padding-left:12px; padding-right:12px; padding-top:16px}
+  .da-hero{padding:22px 18px}
+  .da-hero h1{font-size:1.45rem}
+  .da-nav{gap:8px}
+  .da-logo{font-size:.95rem}
+  .da-links{width:100%; order:3; justify-content:center}
+  .da-links a{padding:7px 11px; font-size:.8rem}
+  .da-user{margin-left:auto; font-size:.75rem; padding:7px 10px}
+  .cert{padding:26px 14px; border-width:6px}
+  .cert .nome{font-size:1.45rem}
+  .cert .marca{font-size:9rem}
+}

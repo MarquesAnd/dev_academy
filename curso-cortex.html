@@ -2,10 +2,21 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>CORTEX Academy — Aprenda programação do zero</title>
-<script src="config.js?v=2"></script>
-<script src="shared/dev-academy.js?v=2"></script>
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#141F3C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dev Academy">
+
+<script src="config.js?v=3"></script>
+<script src="shared/dev-academy.js?v=3"></script>
 <style>
 :root{
   --navy:#141F3C; --blue:#2F6FED; --purple:#7C4DFF; --amber:#F59E0B;
@@ -334,6 +345,22 @@ kbd{background:#101936; color:#fff; border-radius:6px; padding:2px 8px; font-fam
 .rankline{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0;}
 .rk{background:#fff; border:1px solid var(--line); border-radius:999px; padding:5px 14px; font-size:.8rem; font-weight:700;}
 .rk.cur{background:linear-gradient(135deg,var(--amber),#FBBF24); border:none; color:#3B2A00;}
+
+/* ---- celular + app instalado (iOS) ---- */
+header{padding-top:calc(12px + env(safe-area-inset-top))}
+main{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+textarea, input, select{font-size:16px}
+@media(max-width:640px){
+  .hrow{flex-wrap:wrap; row-gap:8px}
+  .pill{font-size:.7rem; padding:5px 9px}
+  .btn-ghost{font-size:.72rem; padding:6px 9px}
+  .hero h1{font-size:1.5rem}
+  .journey{grid-template-columns:repeat(3,1fr)!important; gap:8px}
+  .tbl, .sql-table{display:block; overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .mini-cards{grid-template-columns:1fr 1fr}
+  .mod-grid{grid-template-columns:1fr}
+  .fxi{width:52px}
+}
 </style>
 </head>
 <body class="locked">
