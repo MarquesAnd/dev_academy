@@ -58,6 +58,13 @@
       </div>
     </div>
     <div class="da-card">
+      <div class="top g-amber"><span class="emo">🏗️</span><div><h3>HTML Completo</h3><small>Do zero ao avançado</small></div></div>
+      <div class="body">
+        <div class="da-note" id="htmlNote">A linguagem da web inteira: 8 módulos, 49 etapas, com playgrounds, lacunas e blocos.</div>
+        <a class="da-btn amber" href="curso-html.html" style="margin-top:auto">▶ Estudar HTML</a>
+      </div>
+    </div>
+    <div class="da-card">
       <div class="top g-green"><span class="emo">🧱</span><div><h3>Lógica com Blocos</h3><small>Jogo para as crianças (e para você!)</small></div></div>
       <div class="body">
         <div class="da-note" id="gameNote">Monte blocos de encaixar e veja o Robô Bip obedecer. Programar virando brincadeira.</div>
@@ -135,6 +142,11 @@ async function entrar(){
   document.getElementById('heroRank').textContent = '🎖️ '+DA.rankFor(estado.xp||0);
   document.getElementById('btnCurso').textContent = pct===0 ? '▶ Começar o curso' : (pct===100 ? '🏆 Revisitar o curso' : '▶ Continuar o curso');
   document.getElementById('ctaCurso').textContent = document.getElementById('btnCurso').textContent;
+  const ht = rows.find(r=>r.curso_id === 'html-completo');
+  if(ht && ht.estado && ht.estado.done){
+    const hf = ht.estado.done.length;
+    document.getElementById('htmlNote').innerHTML = (ht.estado.dip?'🎓 Curso concluído! ':'🏗️ '+hf+'/49 etapas · ')+'⚡ '+(ht.estado.xp||0)+' XP';
+  }
   const jg = rows.find(r=>r.curso_id === 'blocos-logica');
   if(jg && jg.estado && jg.estado.estrelas){
     const jm = Object.keys(jg.estado.estrelas).length;

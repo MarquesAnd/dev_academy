@@ -33,6 +33,9 @@
   DA.nav('cursos');
   const { rows } = await DA.listProgress();
   const cx = rows.find(r=>r.curso_id==='cortex-fundamentos');
+  const ht = rows.find(r=>r.curso_id==='html-completo');
+  const he = ht ? (ht.estado||{}) : {};
+  const hfeitos = (he.done||[]).length;
   const jg = rows.find(r=>r.curso_id==='blocos-logica');
   const je = jg ? (jg.estado||{}) : {};
   const jm = Object.keys(je.estrelas||{}).length;
@@ -48,6 +51,15 @@
         '<div class="da-prog"><div style="width:'+pct+'%"></div></div>'+
         '<div class="da-note">'+(pct===0?'Ainda não iniciado':(pct===100?'🏆 100% concluído — Diretor(a) Clínico(a) do Código!':pct+'% concluído · ⚡ '+(estado.xp||0)+' XP'))+'</div>'+
         '<a class="da-btn" href="curso-cortex.html" style="margin-top:auto">'+(pct===0?'▶ Começar':'▶ Continuar')+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="da-card">'+
+      '<div class="top g-amber"><span class="emo">🏗️</span><div><h3>HTML Completo</h3><small>Do zero ao avançado · 8 módulos</small></div></div>'+
+      '<div class="body">'+
+        '<div class="da-note">A linguagem inteira: textos, links, imagens, tabelas, formulários, semântica, mídia e validação — com código ao vivo, lacunas e oficinas de blocos.</div>'+
+        '<div class="da-prog"><div style="width:'+Math.round(hfeitos/49*100)+'%"></div></div>'+
+        '<div class="da-note">'+(hfeitos===0?'Ainda não iniciado':(he.dip?'🎓 Concluído! ⚡ '+(he.xp||0)+' XP':hfeitos+'/49 etapas · ⚡ '+(he.xp||0)+' XP'))+'</div>'+
+        '<a class="da-btn amber" href="curso-html.html" style="margin-top:auto">'+(hfeitos===0?'▶ Começar':'▶ Continuar')+'</a>'+
       '</div>'+
     '</div>'+
     '<div class="da-card">'+
