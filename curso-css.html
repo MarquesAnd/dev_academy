@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CSS Completo · Dev Academy</title>
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#141F3C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dev Academy">
+<style>
+:root{--navy:#141F3C;--blue:#2F6FED;--purple:#7C4DFF;--amber:#F59E0B;--green:#22C55E;--red:#EF4444;--rosa:#EC4899;--teal:#0D9488;--bg:#ECEEF3;--ink:#1B2440;--line:#DCE1EC;--shadow:0 8px 22px rgba(20,31,60,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Verdana,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+body.locked header,body.locked main{display:none}
+body.locked::after{content:'✱';position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;background:linear-gradient(160deg,var(--navy),#23306B);z-index:70;animation:girar 1.6s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+body.dys{font-size:1.06rem;letter-spacing:.02em;word-spacing:.08em}
+body.dys .lesson p, body.dys .lesson li{line-height:2}
+header{position:sticky;top:0;z-index:50;background:linear-gradient(120deg,var(--navy) 0%,#1E2C5C 55%,#2A2560 100%);color:#fff;padding:12px 18px;box-shadow:var(--shadow);padding-top:calc(12px + env(safe-area-inset-top))}
+.hrow{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;cursor:pointer}
+.ast{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.5)}
+.hspace{flex:1}
+.pill{background:rgba(255,255,255,.13);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:800}
+.pill.xp{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.btn-ghost{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:7px 12px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;text-decoration:none}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-inset-bottom))}
+.screen{display:none;animation:pop .3s ease}
+.screen.active{display:block}
+.btn{border:none;font-family:inherit;font-weight:800;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:12px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 16px rgba(47,111,237,.35);transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn.small{padding:9px 14px;font-size:.85rem}
+.btn.green{background:linear-gradient(135deg,var(--green),#15803D);box-shadow:0 6px 16px rgba(34,197,94,.35)}
+.btn.amber{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00;box-shadow:0 6px 16px rgba(245,158,11,.35)}
+.btn.outline{background:#fff;color:var(--blue);border:2px solid var(--blue);box-shadow:none}
+/* hero + home */
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#4C1D95,#7C4DFF 55%,#EC4899);color:#fff;border-radius:22px;padding:32px 28px;margin-bottom:20px;box-shadow:0 18px 44px rgba(124,77,255,.4)}
+.hero .bigast{position:absolute;right:-26px;top:-40px;font-size:13rem;opacity:.10;transform:rotate(12deg)}
+.hero h1{font-size:2rem;line-height:1.25;font-weight:800;margin-bottom:8px}
+.hero h1 span{background:linear-gradient(90deg,#F0ABFC,#FDE68A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:660px;opacity:.94;margin-bottom:14px}
+.progresso{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:18px}
+.pbar{height:14px;background:#E7EAF3;border-radius:999px;overflow:hidden;margin:8px 0}
+.pbar>div{height:100%;background:linear-gradient(90deg,var(--amber),#EA580C,var(--purple));border-radius:999px;transition:width .5s}
+.rankline{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.rk{font-size:.75rem;font-weight:800;padding:5px 11px;border-radius:999px;background:#EEF1F8;color:#8A93AC}
+.rk.on{background:linear-gradient(135deg,var(--amber),#D97706);color:#3B2A00}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mod-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.mod-head{padding:15px 17px;color:#fff;display:flex;gap:11px;align-items:center}
+.mod-head .memo{font-size:1.7rem;filter:drop-shadow(0 3px 5px rgba(0,0,0,.25))}
+.mod-head h3{font-size:.98rem}
+.mod-head small{opacity:.9;font-weight:600;font-size:.75rem}
+.hh1{background:linear-gradient(135deg,#F97316,#C2410C)}
+.hh2{background:linear-gradient(135deg,var(--blue),#1D4ED8)}
+.hh3{background:linear-gradient(135deg,var(--rosa),#BE185D)}
+.hh4{background:linear-gradient(135deg,var(--teal),#0F766E)}
+.hh5{background:linear-gradient(135deg,var(--purple),#5B21B6)}
+.hh6{background:linear-gradient(135deg,var(--green),#15803D)}
+.hh7{background:linear-gradient(135deg,#06B6D4,#0E7490)}
+.hh8{background:linear-gradient(135deg,#6366F1,#4338CA)}
+.mod-body{padding:10px 14px 14px}
+.les-btn{display:flex;align-items:center;gap:9px;width:100%;border:none;background:#F4F6FB;font-family:inherit;text-align:left;font-size:.86rem;font-weight:700;color:var(--ink);border-radius:11px;padding:11px 13px;margin-top:7px;cursor:pointer;transition:all .15s}
+.les-btn:hover{background:#EDF2FF;transform:translateX(3px)}
+.les-btn.done{background:#E9FBEF;color:#15803D}
+.les-btn .ic{font-size:1rem}
+/* lição */
+.lesson{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:28px 26px;max-width:820px;margin:0 auto}
+.crumb{margin-bottom:12px}
+.chip{display:inline-block;color:#fff;font-size:.72rem;font-weight:800;padding:5px 13px;border-radius:999px}
+.lesson h2{color:var(--navy);font-size:1.45rem;margin-bottom:12px}
+.lesson h4{color:var(--navy);margin:16px 0 8px}
+.lesson p{line-height:1.75;margin-bottom:12px}
+.lesson mark{background:linear-gradient(120deg,#FDE68A,#FCD34D);padding:1px 6px;border-radius:6px;font-weight:700}
+.lesson code{background:#EEF1F8;border-radius:6px;padding:2px 7px;font-family:Consolas,monospace;font-size:.88em;color:#B4308F}
+.tbl{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:.88rem}
+.tbl th{background:var(--navy);color:#fff;padding:9px 11px;text-align:left}
+.tbl td{padding:9px 11px;border-bottom:1px solid var(--line);line-height:1.5}
+.codebox{background:#0F1B3D;border-radius:13px;margin:12px 0;overflow:hidden}
+.cb-top{background:#1B2A55;color:#8FA3D8;font-size:.72rem;font-weight:800;padding:7px 13px}
+.codebox pre{padding:13px 15px;color:#D6E1FF;font-family:Consolas,monospace;font-size:.84rem;line-height:1.7;overflow-x:auto;white-space:pre-wrap}
+.tk-tag{color:#7DD3FC}.tk-attr{color:#FDE047}.tk-str{color:#86EFAC}.tk-com{color:#64748B;font-style:italic}
+.box{border-radius:13px;padding:13px 15px;margin:13px 0;font-size:.9rem;line-height:1.65}
+.box .bt{font-weight:800;margin-bottom:4px}
+.box.tip{background:#EDF2FF;border-left:5px solid var(--blue)}
+.box.warn{background:#FEF3C7;border-left:5px solid var(--amber)}
+.box.gold{background:linear-gradient(120deg,#FEF3C7,#FDE68A);border-left:5px solid #D97706}
+.box.danger{background:#FEE2E2;border-left:5px solid var(--red)}
+.prof{display:flex;gap:11px;margin:14px 0;align-items:flex-start}
+.prof .face{width:44px;height:44px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 6px 14px rgba(47,111,237,.4)}
+.prof .bubble{background:#F4F6FB;border-radius:4px 16px 16px 16px;padding:12px 15px;font-size:.9rem;line-height:1.65}
+.done-btn{margin-top:16px}
+.done-flag{display:none;margin-top:10px;font-weight:800;color:#15803D}
+.done-flag.show{display:block;animation:pop .3s ease}
+.lnav{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
+/* playground */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.pg-lab{font-size:.72rem;font-weight:800;color:#5A6482;margin-bottom:4px}
+.pg textarea{width:100%;min-height:170px;border:2px solid #C9D2E6;border-radius:12px;padding:11px;font-family:Consolas,monospace;font-size:16px;line-height:1.55;resize:vertical;background:#0F1B3D;color:#D6E1FF}
+.pg iframe{width:100%;min-height:170px;height:100%;border:2px solid var(--line);border-radius:12px;background:#fff}
+/* lacunas */
+.fill{background:#F4F6FB;border-radius:14px;padding:14px;margin:12px 0}
+.fill .fdesc{font-size:.88rem;font-weight:700;margin-bottom:8px}
+.fill pre{background:#0F1B3D;color:#D6E1FF;border-radius:11px;padding:13px;font-family:Consolas,monospace;font-size:.9rem;line-height:2.1;overflow-x:auto;white-space:pre-wrap}
+.lac{width:110px;border:none;border-bottom:3px solid var(--amber);background:#1B2A55;color:#FDE047;font-family:Consolas,monospace;font-size:16px;font-weight:700;padding:3px 8px;border-radius:8px 8px 0 0;text-align:center}
+.lac:focus{outline:none;border-color:var(--blue)}
+.lac.ok{border-color:var(--green);color:#86EFAC}
+.lac.err{border-color:var(--red);color:#FCA5A5;animation:treme .3s}
+@keyframes treme{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.fill-msg{margin-top:9px;font-weight:800;font-size:.88rem;display:none}
+.fill-msg.show{display:block}
+/* montagem (blocos) */
+.mt{background:#F4F6FB;border-radius:16px;padding:14px;margin:12px 0}
+.mt-obj{background:linear-gradient(120deg,#EDF2FF,#F3EDFF);border-radius:11px;padding:10px 13px;font-size:.88rem;font-weight:700;margin-bottom:10px;line-height:1.5}
+.mt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt-pilha{min-height:130px;background:#fff;border:2px dashed #C9D2E6;border-radius:13px;padding:9px}
+.mt-pilha .vazio{color:#8A93AC;font-weight:700;font-size:.82rem;text-align:center;padding:24px 8px}
+.mt iframe{width:100%;min-height:150px;height:100%;border:2px solid var(--line);border-radius:13px;background:#fff}
+.bloco{position:relative;border:none;font-family:Consolas,monospace;color:#fff;font-weight:700;font-size:.82rem;padding:11px 14px 10px;border-radius:9px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.22),0 6px 12px rgba(20,31,60,.15);transition:transform .12s;display:flex;width:fit-content;align-items:center;gap:7px;margin:7px 6px 3px 0}
+.bloco:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
+.bloco::before,.bloco::after{content:'';position:absolute;top:-6px;width:14px;height:6px;border-radius:4px 4px 0 0;background:inherit;filter:brightness(1.13)}
+.bloco::before{left:10px}.bloco::after{left:31px}
+.bloco .x{opacity:.75;font-size:.75rem}
+.bk-texto{background:linear-gradient(180deg,#3B82F6,#2563EB)}
+.bk-lista{background:linear-gradient(180deg,#22C55E,#16A34A)}
+.bk-midia{background:linear-gradient(180deg,#F59E0B,#D97706);color:#3B2A00}
+.bk-link{background:linear-gradient(180deg,#EC4899,#BE185D)}
+.bk-form{background:linear-gradient(180deg,#F97316,#C2410C)}
+.bk-estr{background:linear-gradient(180deg,#8B5CF6,#6D28D9)}
+.mt-caixa{border-left:9px solid #16A34A;border-radius:0 11px 11px 9px;background:#E9FBEF;padding:4px 8px 8px 11px;margin:6px 0;width:fit-content;min-width:190px}
+.mt-caixa.roxa{border-color:#6D28D9;background:#F3EDFF}
+.mt-solo{border:2px dashed #86EFAC;border-radius:9px;padding:5px 9px;margin-top:4px;font-size:.75rem;font-weight:800;color:#15803D;cursor:pointer;background:#fff;width:fit-content}
+.mt-solo.ativo{background:#FDE047;border-color:#EAB308;color:#713F12;animation:pulsar 1.1s ease infinite}
+@keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.mt-msg{margin-top:9px;border-radius:11px;padding:10px 12px;font-size:.87rem;font-weight:700;display:none;line-height:1.5}
+.mt-msg.show{display:block}
+.mt-msg.ok{background:#D1FAE5;color:#065F46}
+.mt-msg.err{background:#FEE2E2;color:#991B1B}
+/* quiz */
+.qq{background:#F4F6FB;border-radius:14px;padding:15px;margin:12px 0}
+.qq .qp{font-weight:800;margin-bottom:9px;line-height:1.5}
+.qopt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:11px;padding:11px 13px;margin-top:7px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
+.qopt:hover{border-color:var(--blue)}
+.qopt.certa{border-color:var(--green);background:#E9FBEF}
+.qopt.errada{border-color:var(--red);background:#FEE2E2}
+.qwhy{display:none;margin-top:9px;font-size:.85rem;background:#EDF2FF;border-radius:10px;padding:10px 12px;line-height:1.6}
+.qwhy.show{display:block}
+/* modais */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.66);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:70;padding:18px}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:22px;padding:30px 26px;text-align:center;width:min(430px,94vw);animation:pop .35s ease;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modal .me{font-size:2.8rem}
+.modal h3{color:var(--navy);margin:6px 0 8px}
+.modal p{color:#5A6482;font-size:.92rem;line-height:1.6;margin-bottom:14px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:.9rem;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;transition:all .3s;z-index:80;max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+@media(max-width:700px){
+  .pg,.mt-grid{grid-template-columns:1fr}
+  .lesson{padding:22px 16px}
+  .hero{padding:24px 18px}.hero h1{font-size:1.5rem}
+  .hrow{row-gap:8px}.pill{font-size:.7rem;padding:5px 9px}.btn-ghost{font-size:.7rem;padding:6px 9px}
+  .tbl{display:block;overflow-x:auto}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+.mtc-prev{display:grid;gap:10px}
+.mtc-prev iframe{min-height:120px}
+.meta-tag{display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#3B2A00;font-size:.68rem;font-weight:800;border-radius:999px;padding:3px 10px;margin-bottom:4px}
+.sua-tag{display:inline-block;background:linear-gradient(135deg,#22C55E,#15803D);color:#fff;font-size:.68rem;font-weight:800;border-radius:999px;padding:3px 10px;margin-bottom:4px}
+</style>
+</head>
+<body class="locked">
+<header>
+  <div class="hrow">
+    <div class="logo" onclick="go('home')"><div class="ast">✱</div><div>CSS <span style="font-weight:400;opacity:.85">Completo</span></div></div>
+    <a class="btn-ghost" href="index.html" style="margin-left:6px">🏠 Dev Academy</a>
+    <div class="hspace"></div>
+    <div class="pill xp">⚡ <span id="xpVal">0</span> XP</div>
+    <div class="pill">🎖️ <span id="rankVal">Rabiscador(a)</span></div>
+    <button class="btn-ghost" id="acctBtn" onclick="authUi()">👤</button>
+    <button class="btn-ghost" id="dysBtn" onclick="toggleDys()">👓 Leitura fácil</button>
+  </div>
+</header>
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="screen active" id="home">
+  <div class="hero">
+    <div class="bigast">🎨</div>
+    <h1>CSS Completo: <span>vista seu HTML</span> de profissional</h1>
+    <p>O HTML é o esqueleto — o CSS é a pele, a roupa e o estilo. Cores, fontes, caixas, flexbox, grid, animações e design que se adapta ao celular: 8 módulos com código ao vivo, lacunas e o jogo de montar estilos batendo a meta visual. Depois deste curso, seus sites deixam de PARECER de 1995.</p>
+    <button class="btn amber" onclick="go('c1l1')">▶ Começar a pintar</button>
+  </div>
+  <div class="progresso">
+    <b>Seu ateliê</b>
+    <div class="pbar"><div id="pfill" style="width:0%"></div></div>
+    <div id="plabel" style="font-size:.85rem;color:#5A6482">0 de 47 etapas</div>
+    <div class="rankline" id="rankline"></div>
+  </div>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="mod-head hh1"><span class="memo">🖌️</span><div><h3>Módulo 1 · Primeiras tintas</h3><small>O que é CSS, seletores e cores</small></div></div><div class="mod-body" id="mod1list"></div></div>
+    <div class="mod-card"><div class="mod-head hh2"><span class="memo">🔤</span><div><h3>Módulo 2 · Texto e fontes</h3><small>Tipografia que respira</small></div></div><div class="mod-body" id="mod2list"></div></div>
+    <div class="mod-card"><div class="mod-head hh3"><span class="memo">📦</span><div><h3>Módulo 3 · O modelo de caixa</h3><small>padding, margin, borda e sombra</small></div></div><div class="mod-body" id="mod3list"></div></div>
+    <div class="mod-card"><div class="mod-head hh4"><span class="memo">📍</span><div><h3>Módulo 4 · Display e posição</h3><small>Quem fica onde na página</small></div></div><div class="mod-body" id="mod4list"></div></div>
+    <div class="mod-card"><div class="mod-head hh5"><span class="memo">🤸</span><div><h3>Módulo 5 · Flexbox</h3><small>O coração do layout moderno</small></div></div><div class="mod-body" id="mod5list"></div></div>
+    <div class="mod-card"><div class="mod-head hh6"><span class="memo">🏙️</span><div><h3>Módulo 6 · Grid</h3><small>A planta da página em colunas</small></div></div><div class="mod-body" id="mod6list"></div></div>
+    <div class="mod-card"><div class="mod-head hh7"><span class="memo">✨</span><div><h3>Módulo 7 · Vida: hover e animações</h3><small>A página que responde</small></div></div><div class="mod-body" id="mod7list"></div></div>
+    <div class="mod-card"><div class="mod-head hh8"><span class="memo">📱</span><div><h3>Módulo 8 · Responsivo e mestria</h3><small>Media queries, variáveis e a obra final</small></div></div><div class="mod-body" id="mod8list"></div></div>
+  </div>
+</section>
+
+<!-- ================= M1 · PRIMEIRAS TINTAS ================= -->
+<section class="screen" id="c1l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 1 de 5</span></div>
+  <h2>🎨 O que é CSS — e as 3 formas de conectar</h2>
+  <p>CSS = <i>Cascading Style Sheets</i>, as folhas de estilo. Se o HTML diz O QUE cada coisa É ("isto é um título"), o CSS diz COMO ela FICA ("títulos são roxos, grandes e centralizados"). São dois idiomas parceiros — e há três jeitos de apresentá-los:</p>
+  <table class="tbl">
+    <tr><th>Forma</th><th>Como</th><th>Veredito</th></tr>
+    <tr><td>Inline</td><td><code>&lt;p style="color:red"&gt;</code></td><td>Quebra-galho. Espalha estilo pelo HTML — vira bagunça rápido</td></tr>
+    <tr><td>Interna</td><td><code>&lt;style&gt;...&lt;/style&gt;</code> no head</td><td>Ótima para aprender e para páginas de arquivo único</td></tr>
+    <tr><td>Externa</td><td><code>&lt;link rel="stylesheet" href="estilo.css"&gt;</code></td><td>👑 A profissional: um arquivo .css veste o site INTEIRO</td></tr>
+  </table>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Bem-vindo(a) de volta! Neste curso vamos usar a forma interna nos playgrounds (tudo num quadro só) — mas guarde: em projeto de verdade, o estilo mora num <b>arquivo separado</b>. Um lugar para mudar, o site inteiro obedece. É o mesmo princípio que salva sistemas grandes.</div></div>
+  <div class="box tip"><div class="bt">💡 O nome faz sentido</div>"Cascading" = em cascata: os estilos escorrem de cima para baixo e podem ser sobrescritos por regras mais específicas. Essa cascata tem regras de quem-ganha-de-quem — e no Módulo 8 você vira juiz dessa briga.</div>
+  <button class="btn green done-btn" onclick="complete('c1l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c1l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c1l2')">Próxima: A anatomia da regra →</button></div>
+</div></section>
+
+<section class="screen" id="c1l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 2 de 5</span></div>
+  <h2>🔬 A anatomia da regra CSS</h2>
+  <p>TODO CSS do mundo é variação de uma única frase:</p>
+  <div class="codebox"><div class="cb-top">a frase universal</div>
+  <pre><span class="tk-tag">h1</span> {                      <span class="tk-com">/* SELETOR: quem vai ser estilizado */</span>
+  <span class="tk-attr">color</span>: <span class="tk-str">purple</span>;          <span class="tk-com">/* propriedade: valor; */</span>
+  <span class="tk-attr">font-size</span>: <span class="tk-str">40px</span>;       <span class="tk-com">/* outra declaração */</span>
+}</pre></div>
+  <p>Leia: "Ei, <b>todos os h1</b>: cor roxa e letra de 40 pixels." O seletor mira; as chaves <code>{ }</code> abraçam; cada <mark>propriedade: valor;</mark> é uma ordem — e o ponto-e-vírgula fecha cada ordem (esquecer ele é O erro clássico da profissão inteira).</p>
+  <h4>🧪 Sua primeira pintura — mude cores, tamanhos, invente:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc1" oninput="pgUp('pc1')"><style>
+  h1 {
+    color: purple;
+    font-size: 40px;
+  }
+  p {
+    color: gray;
+  }
+</style>
+
+<h1>Padaria da Ana</h1>
+<p>Agora com estilo!</p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc1-out"></iframe></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ Os comentários mudaram de roupa</div>No CSS, comentário é <code>/* assim */</code> — o <code>&lt;!-- --&gt;</code> é só do HTML. Cada idioma com seu sotaque.</div>
+  <button class="btn green done-btn" onclick="complete('c1l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c1l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c1l1')">← Anterior</button><button class="btn small" onclick="go('c1l3')">Próxima: Seletores →</button></div>
+</div></section>
+
+<section class="screen" id="c1l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 3 de 5</span></div>
+  <h2>🎯 Seletores: tag, .classe e #id</h2>
+  <p>O seletor é a mira. As três miras fundamentais — e olha os velhos conhecidos do HTML voltando:</p>
+  <table class="tbl">
+    <tr><th>Seletor</th><th>Mira em...</th><th>Exemplo</th></tr>
+    <tr><td><code>p</code></td><td>TODAS as tags daquele tipo</td><td><code>p { color: gray; }</code></td></tr>
+    <tr><td><code>.destaque</code></td><td>Quem tiver <code>class="destaque"</code></td><td><code>.destaque { background: yellow; }</code></td></tr>
+    <tr><td><code>#topo</code></td><td>O ÚNICO elemento com <code>id="topo"</code></td><td><code>#topo { color: white; }</code></td></tr>
+  </table>
+  <h4>🧪 Repare: a MESMA tag p, três destinos diferentes:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc2" oninput="pgUp('pc2')"><style>
+  p { color: gray; }
+  .destaque {
+    background: gold;
+    font-weight: bold;
+  }
+  #assinatura { color: #7C4DFF; }
+</style>
+
+<p>Um parágrafo comum.</p>
+<p class="destaque">Este tem a classe destaque!</p>
+<p>Outro comum.</p>
+<p id="assinatura">— Ana, a padeira ✱</p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc2-out"></iframe></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ A regra de bolso da profissão</div>No dia a dia, <b>.classe é a rainha do CSS</b> — reutilizável, combinável, clara. Seletor de tag para o básico geral; #id quase nunca para estilo (ele é mais do JavaScript e das âncoras). CPF pra burocracia, profissão pra vestir. 😄</div>
+  <button class="btn green done-btn" onclick="complete('c1l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c1l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c1l2')">← Anterior</button><button class="btn small" onclick="go('c1l4')">Próxima: Cores →</button></div>
+</div></section>
+
+<section class="screen" id="c1l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 4 de 5</span></div>
+  <h2>🌈 Cores: nomes, hexadecimal e rgb</h2>
+  <p>Três dialetos para dizer a mesma cor:</p>
+  <table class="tbl">
+    <tr><th>Dialeto</th><th>Exemplo</th><th>Quando</th></tr>
+    <tr><td>Nome</td><td><code>red</code>, <code>gold</code>, <code>tomato</code></td><td>Rascunho rápido (são ~140 nomes)</td></tr>
+    <tr><td>Hexadecimal</td><td><code>#7C4DFF</code></td><td>👑 O padrão do design: # + 6 dígitos (RR GG BB)</td></tr>
+    <tr><td>rgb / rgba</td><td><code>rgba(124, 77, 255, 0.5)</code></td><td>Quando precisa de TRANSPARÊNCIA (o 4º número, 0 a 1)</td></tr>
+  </table>
+  <p>O hex é só vermelho-verde-azul em código: <code>#FF0000</code> = só vermelho no talo. <code>#000000</code> = tudo desligado (preto). <code>#FFFFFF</code> = tudo aceso (branco). Designers trocam paletas por hex — inclusive a desta escola:</p>
+  <div class="codebox"><div class="cb-top">a paleta oficial da Dev Academy (roube à vontade)</div>
+  <pre>#141F3C  <span class="tk-com">/* navy — o fundo sério */</span>
+#2F6FED  <span class="tk-com">/* azul — a ação */</span>
+#7C4DFF  <span class="tk-com">/* roxo — a identidade */</span>
+#F59E0B  <span class="tk-com">/* âmbar — o destaque */</span>
+#22C55E  <span class="tk-com">/* verde — a vitória */</span></pre></div>
+  <h4>🧪 Pinte com os três dialetos (troque os valores!):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc3" oninput="pgUp('pc3')"><style>
+  body { background: #141F3C; }
+  h1 { color: gold; }
+  p { color: rgba(255, 255, 255, 0.75); }
+</style>
+
+<h1>Noite na padaria</h1>
+<p>Texto branco meio transparente
+sobre fundo navy. Elegante!</p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc3-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c1l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c1l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c1l3')">← Anterior</button><button class="btn small" onclick="go('c1l5')">Próxima: MONTAGEM →</button></div>
+</div></section>
+
+<section class="screen" id="c1l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Módulo 1 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE ESTILO: pinte o cartão</h2>
+  <p>O jogo de montar mudou de fase: agora os blocos são <b>declarações CSS</b>. Você recebe uma <b>🎯 META visual</b> — monte a pilha de declarações que deixa o SEU cartão idêntico ao dela. Cuidado: a caixa tem blocos-armadilha que não fazem parte da meta! (E aqui a ordem dos blocos não importa — no CSS, o conjunto é o que conta.)</p>
+  <div class="mt" id="mtc1"></div>
+  <button class="btn green done-btn" onclick="complete('c1l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c1l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c1l4')">← Anterior</button><button class="btn amber small" onclick="go('qc1')">🎯 Quiz do Módulo 1 →</button></div>
+</div></section>
+
+<section class="screen" id="qc1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#C2410C">Quiz · Módulo 1</span></div>
+  <h2>🎯 Quiz: Primeiras tintas</h2>
+  <div id="quiz-qc1"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c2l1')">Módulo 2 →</button></div>
+</div></section>
+
+<!-- ================= M2 · TEXTO E FONTES ================= -->
+<section class="screen" id="c2l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 1 de 5</span></div>
+  <h2>🔤 font-size e font-family: tamanho e voz</h2>
+  <p>A tipografia é 90% do design de um site de conteúdo. As duas alavancas principais:</p>
+  <div class="codebox"><div class="cb-top">tamanho e família</div>
+  <pre><span class="tk-tag">body</span> {
+  <span class="tk-attr">font-size</span>: <span class="tk-str">18px</span>;
+  <span class="tk-attr">font-family</span>: <span class="tk-str">'Segoe UI', Arial, sans-serif</span>;
+}</pre></div>
+  <p>O <code>font-family</code> é uma <mark>fila de espera</mark>: o navegador tenta a primeira fonte; não tem? Tenta a segunda; no fim, o plano C genérico (<code>sans-serif</code> = sem serifa, <code>serif</code> = com os pezinhos, <code>monospace</code> = de máquina). Sempre termine com um genérico — é o paraquedas.</p>
+  <div class="box tip"><div class="bt">💡 px vs rem, versão simples</div><code>px</code> = tamanho fixo. <code>rem</code> = múltiplo do tamanho-base do navegador (1rem ≈ 16px por padrão) — respeita quem aumentou a letra nas configurações por precisar enxergar melhor. Aprenda com px, migre pra rem quando pegar o jeito; no Módulo 8 fechamos essa conta.</div>
+  <h4>🧪 Sinta as famílias:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc4" oninput="pgUp('pc4')"><style>
+  .serifada { font-family: Georgia, serif; }
+  .limpa { font-family: Arial, sans-serif; }
+  .maquina { font-family: Consolas, monospace; }
+  p { font-size: 20px; }
+</style>
+
+<p class="serifada">Jornal de domingo (serif).</p>
+<p class="limpa">Aplicativo moderno (sans-serif).</p>
+<p class="maquina">console.log("código!")</p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc4-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c2l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c2l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc1')">← Anterior</button><button class="btn small" onclick="go('c2l2')">Próxima: Peso e decoração →</button></div>
+</div></section>
+
+<section class="screen" id="c2l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 2 de 5</span></div>
+  <h2>💪 font-weight, font-style e text-decoration</h2>
+  <table class="tbl">
+    <tr><th>Propriedade</th><th>Valores úteis</th><th>Faz</th></tr>
+    <tr><td><code>font-weight</code></td><td><code>normal</code>, <code>bold</code>, ou 100–900</td><td>O peso: 400 = normal, 700 = negrito, 800+ = pesadão de título</td></tr>
+    <tr><td><code>font-style</code></td><td><code>italic</code>, <code>normal</code></td><td>Itálico</td></tr>
+    <tr><td><code>text-decoration</code></td><td><code>underline</code>, <code>line-through</code>, <code>none</code></td><td>Sublinha, risca... e o famoso <b>none</b></td></tr>
+  </table>
+  <p>Por que o <code>none</code> é famoso? Porque links nascem sublinhados — e o primeiro ato de estilo de todo iniciante da história é: <code>a { text-decoration: none; }</code>. Bem-vindo(a) ao clube. 😄</p>
+  <h4>🧪 O clube do none (e o preço riscado da promoção):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc5" oninput="pgUp('pc5')"><style>
+  a {
+    text-decoration: none;
+    color: #2F6FED;
+    font-weight: 700;
+  }
+  .preco-velho {
+    text-decoration: line-through;
+    color: gray;
+  }
+  .preco-novo { font-weight: 800; color: #22C55E; }
+</style>
+
+<p><a href="#">Ver cardápio</a> (sem sublinhado!)</p>
+<p>Sonho: <span class="preco-velho">R$ 8,00</span>
+   <span class="preco-novo">R$ 6,50</span></p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc5-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c2l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c2l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c2l1')">← Anterior</button><button class="btn small" onclick="go('c2l3')">Próxima: Alinhamento e respiro →</button></div>
+</div></section>
+
+<section class="screen" id="c2l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 3 de 5</span></div>
+  <h2>🧘 text-align, line-height e letter-spacing</h2>
+  <table class="tbl">
+    <tr><th>Propriedade</th><th>Faz</th><th>Segredo profissional</th></tr>
+    <tr><td><code>text-align</code></td><td><code>left / center / right / justify</code></td><td>Título centrado, texto corrido à esquerda</td></tr>
+    <tr><td><code>line-height</code></td><td>Espaço entre linhas</td><td><mark>1.5 a 1.8 sem unidade</mark> — o respiro que torna texto longo legível</td></tr>
+    <tr><td><code>letter-spacing</code></td><td>Espaço entre letras</td><td>1–3px em TÍTULOS dá ar de marca cara</td></tr>
+  </table>
+  <div class="box gold"><div class="bt">✱ O upgrade invisível</div>Se você fizer UMA única coisa desta lição para o resto da vida, que seja <code>line-height: 1.6</code> no body. É a diferença entre texto sufocado e texto que se lê com prazer — e 90% das pessoas nem sabe dizer POR QUE seu site ficou mais gostoso de ler. Este curso que você está lendo usa 1.75. 😉</div>
+  <h4>🧪 Ligue e desligue o respiro para SENTIR:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código (mude o 1.7 para 1.0)</div><textarea id="pc6" oninput="pgUp('pc6')"><style>
+  h1 {
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  p { line-height: 1.7; }
+</style>
+
+<h1>A ARTE DO PÃO</h1>
+<p>Fazer pão é um exercício de paciência.
+A massa precisa de tempo, o forno precisa
+de calor constante, e o padeiro precisa
+acordar antes do sol. No fim, o cheiro
+que toma a rua recompensa tudo.</p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc6-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c2l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c2l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c2l2')">← Anterior</button><button class="btn small" onclick="go('c2l4')">Próxima: Lacunas de tipografia →</button></div>
+</div></section>
+
+<section class="screen" id="c2l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 4 de 5</span></div>
+  <h2>✏️ Treino: complete a tipografia</h2>
+  <p>Hora de fixar digitando — as propriedades certas nos lugares certos:</p>
+  <div class="fill" id="fc1">
+    <div class="fdesc">Um blog legível: letra 18px, respiro 1.6, títulos centralizados e links sem sublinhado.</div>
+    <pre>body {
+  <input class="lac" data-r="font-size" style="width:105px">: 18px;
+  <input class="lac" data-r="line-height" style="width:115px">: 1.6;
+}
+h1 { <input class="lac" data-r="text-align" style="width:105px">: center; }
+a { text-decoration: <input class="lac" data-r="none" style="width:75px">; }</pre>
+    <button class="btn small" onclick="fillCheck('fc1')">Conferir ✔</button>
+    <div class="fill-msg"></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Decorou ou entendeu?</div>Se você preencheu pensando "letra... tamanho... font-size!", perfeito: é assim que a memória de programador funciona — pela LÓGICA do nome, não pela decoreba. As propriedades CSS são inglês honesto: text-align alinha texto, line-height é altura da linha.</div>
+  <button class="btn green done-btn" onclick="complete('c2l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c2l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c2l3')">← Anterior</button><button class="btn small" onclick="go('c2l5')">Próxima: MONTAGEM do título →</button></div>
+</div></section>
+
+<section class="screen" id="c2l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Módulo 2 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE ESTILO: o título perfeito</h2>
+  <p>Meta visual: transformar um título sem-graça num letreiro de marca. Escolha só as declarações que batem a meta — e desconfie das armadilhas.</p>
+  <div class="mt" id="mtc2"></div>
+  <button class="btn green done-btn" onclick="complete('c2l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c2l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c2l4')">← Anterior</button><button class="btn amber small" onclick="go('qc2')">🎯 Quiz do Módulo 2 →</button></div>
+</div></section>
+
+<section class="screen" id="qc2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#1D4ED8">Quiz · Módulo 2</span></div>
+  <h2>🎯 Quiz: Texto e fontes</h2>
+  <div id="quiz-qc2"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c3l1')">Módulo 3 →</button></div>
+</div></section>
+
+<!-- ================= M3 · MODELO DE CAIXA ================= -->
+<section class="screen" id="c3l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 1 de 5</span></div>
+  <h2>📦 A revelação: TUDO é uma caixa</h2>
+  <p>A ideia mais importante do CSS inteiro: <mark>todo elemento é uma caixa retangular</mark> — e toda caixa tem 4 camadas, como uma cebola:</p>
+  <div class="codebox"><div class="cb-top">a cebola, de dentro pra fora</div>
+  <pre>┌─────────── <span class="tk-attr">margin</span> (empurra os VIZINHOS) ───────────┐
+│  ┌───────── <span class="tk-attr">border</span> (a moldura) ─────────┐         │
+│  │  ┌────── <span class="tk-attr">padding</span> (respiro INTERNO) ──┐│         │
+│  │  │        conteúdo (o recheio)        ││         │
+│  │  └────────────────────────────────────┘│         │
+│  └─────────────────────────────────────────┘         │
+└───────────────────────────────────────────────────────┘</pre></div>
+  <h4>🧪 Veja a cebola com cores (mexa nos números!):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc7" oninput="pgUp('pc7')"><style>
+  .caixa {
+    background: #FDE68A;
+    padding: 24px;
+    border: 4px solid #7C4DFF;
+    margin: 30px;
+  }
+  body { background: #EDF2FF; }
+</style>
+
+<div class="caixa">Eu sou o conteúdo.
+O amarelo ao meu redor é o padding.
+A linha roxa é a border.
+E o azul lá fora? Distância criada
+pela margin.</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc7-out"></iframe></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Grave esta dupla</div><b>padding = respiro POR DENTRO</b> (entre o recheio e a borda). <b>margin = empurrão POR FORA</b> (entre esta caixa e as outras). 80% do "por que esse espaço tá estranho??" da vida se resolve sabendo qual dos dois mexer.</div>
+  <button class="btn green done-btn" onclick="complete('c3l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c3l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc2')">← Anterior</button><button class="btn small" onclick="go('c3l2')">Próxima: Os atalhos →</button></div>
+</div></section>
+
+<section class="screen" id="c3l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 2 de 5</span></div>
+  <h2>⚡ Os atalhos: padding e margin em 1, 2 ou 4 valores</h2>
+  <p>Escrever <code>padding-top</code>, <code>padding-right</code>... funciona, mas os profissionais usam os atalhos:</p>
+  <table class="tbl">
+    <tr><th>Escrita</th><th>Significa</th></tr>
+    <tr><td><code>padding: 20px;</code></td><td>20 nos QUATRO lados</td></tr>
+    <tr><td><code>padding: 10px 24px;</code></td><td>10 em cima/embaixo, 24 nos lados (o par vertical-horizontal)</td></tr>
+    <tr><td><code>padding: 10px 24px 30px 5px;</code></td><td>4 valores: começa em CIMA e gira no sentido do relógio 🕐</td></tr>
+    <tr><td><code>margin: 0;</code></td><td>Zera tudo (clássico no body para tirar a margem que o navegador põe sozinho)</td></tr>
+  </table>
+  <h4>✏️ Complete os atalhos:</h4>
+  <div class="fill" id="fc2">
+    <div class="fdesc">Um botão: respiro interno de 12px vertical e 24px horizontal; e empurrando 16px os vizinhos de todos os lados.</div>
+    <pre>.botao {
+  <input class="lac" data-r="padding" style="width:90px">: 12px 24px;
+  <input class="lac" data-r="margin" style="width:85px">: 16px;
+}
+body { margin: <input class="lac" data-r="0|0px" style="width:55px">; }</pre>
+    <button class="btn small" onclick="fillCheck('fc2')">Conferir ✔</button>
+    <div class="fill-msg"></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c3l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c3l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c3l1')">← Anterior</button><button class="btn small" onclick="go('c3l3')">Próxima: Borda, cantos e sombra →</button></div>
+</div></section>
+
+<section class="screen" id="c3l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 3 de 5</span></div>
+  <h2>🖼️ border, border-radius e box-shadow</h2>
+  <p>O kit que transforma retângulo sem alma em CARD de aplicativo:</p>
+  <table class="tbl">
+    <tr><th>Propriedade</th><th>Receita</th></tr>
+    <tr><td><code>border</code></td><td>espessura + estilo + cor: <code>2px solid #DCE1EC</code> (solid, dashed, dotted)</td></tr>
+    <tr><td><code>border-radius</code></td><td>Cantos redondos: <code>12px</code> suave; <code>999px</code> vira pílula; <code>50%</code> vira círculo</td></tr>
+    <tr><td><code>box-shadow</code></td><td>desloca-X desloca-Y borrão cor: <code>0 8px 20px rgba(0,0,0,.15)</code></td></tr>
+  </table>
+  <h4>🧪 O card nasce diante dos seus olhos — apague a sombra e veja a vida sumir:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc8" oninput="pgUp('pc8')"><style>
+  body { background: #ECEEF3; }
+  .card {
+    background: white;
+    padding: 20px;
+    border: 1px solid #DCE1EC;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(20,31,60,.15);
+  }
+  .avatar {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: #7C4DFF;
+  }
+</style>
+
+<div class="card">
+  <div class="avatar"></div>
+  <h3>Ana Carvalho</h3>
+  <p>Padeira-chefe e artista da massa.</p>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc8-out"></iframe></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 O segredo da sombra boa</div>Sombra elegante é <b>grande, suave e transparente</b> (borrão alto + rgba fraquinho). Sombra dura e preta grita "1998". Compare: <code>0 8px 20px rgba(0,0,0,.12)</code> vs <code>4px 4px 0 black</code> — teste os dois aí!</div>
+  <button class="btn green done-btn" onclick="complete('c3l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c3l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c3l2')">← Anterior</button><button class="btn small" onclick="go('c3l4')">Próxima: width e a linha salva-vidas →</button></div>
+</div></section>
+
+<section class="screen" id="c3l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 4 de 5</span></div>
+  <h2>📏 width, max-width e a linha que salva vidas</h2>
+  <p>Tamanhos: <code>width</code> e <code>height</code> você já intui. O herói escondido é o <mark>max-width</mark>: "cresça, mas até um limite". A receita de ouro do conteúdo legível:</p>
+  <div class="codebox"><div class="cb-top">a coluna de leitura perfeita</div>
+  <pre><span class="tk-tag">.conteudo</span> {
+  <span class="tk-attr">max-width</span>: <span class="tk-str">700px</span>;   <span class="tk-com">/* nunca larga demais (linhas km não se leem) */</span>
+  <span class="tk-attr">margin</span>: <span class="tk-str">0 auto</span>;      <span class="tk-com">/* 0 em cima, AUTO dos lados = centralizada! */</span>
+}</pre></div>
+  <p>E a linha salva-vidas prometida — cole no topo de TODO projeto seu, para sempre:</p>
+  <div class="codebox"><div class="cb-top">o pacto de paz com a matemática</div>
+  <pre><span class="tk-tag">*</span> { <span class="tk-attr">box-sizing</span>: <span class="tk-str">border-box</span>; }</pre></div>
+  <p>Tradução: "quando eu disser width: 300px, é o TOTAL — já contando padding e borda". Sem isso, width é só o recheio, e padding+borda vão SOMANDO por fora... e as caixas nunca cabem onde você calculou. (O <code>*</code> é o seletor-estrela: mira em tudo. E sim, esta escola usa exatamente essa linha.)</p>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Gerações de iniciantes sofreram com caixas transbordando 20px misteriosos antes dessa linha virar padrão. Você acabou de pular uns 3 anos de sofrimento coletivo em 10 segundos de leitura. De nada. 😄</div></div>
+  <button class="btn green done-btn" onclick="complete('c3l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c3l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c3l3')">← Anterior</button><button class="btn small" onclick="go('c3l5')">Próxima: MONTAGEM do card →</button></div>
+</div></section>
+
+<section class="screen" id="c3l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Módulo 3 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE ESTILO: o card de aplicativo</h2>
+  <p>Meta: pegar um bloco cru e entregar um card digno de app — respiro, cantos, moldura fina e sombra suave. Todo o modelo de caixa numa missão só.</p>
+  <div class="mt" id="mtc3"></div>
+  <button class="btn green done-btn" onclick="complete('c3l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c3l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c3l4')">← Anterior</button><button class="btn amber small" onclick="go('qc3')">🎯 Quiz do Módulo 3 →</button></div>
+</div></section>
+
+<section class="screen" id="qc3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#BE185D">Quiz · Módulo 3</span></div>
+  <h2>🎯 Quiz: Modelo de caixa</h2>
+  <div id="quiz-qc3"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c4l1')">Módulo 4 →</button></div>
+</div></section>
+
+<!-- ================= M4 · DISPLAY E POSIÇÃO ================= -->
+<section class="screen" id="c4l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 1 de 4</span></div>
+  <h2>🚦 display: block, inline e inline-block</h2>
+  <p>Por que o h1 ocupa a linha inteira e o link não? Porque cada elemento nasce com um <code>display</code>:</p>
+  <table class="tbl">
+    <tr><th>display</th><th>Comportamento</th><th>Nascem assim</th></tr>
+    <tr><td><code>block</code></td><td>Ocupa a linha TODA; aceita width/height</td><td>div, p, h1, section...</td></tr>
+    <tr><td><code>inline</code></td><td>Flui NO MEIO do texto; ignora width/height</td><td>a, span, strong, em...</td></tr>
+    <tr><td><code>inline-block</code></td><td>Híbrido: fica na linha MAS aceita tamanho</td><td>(você define)</td></tr>
+    <tr><td><code>none</code></td><td>SOME (nem espaço deixa)</td><td>o interruptor de desligar</td></tr>
+  </table>
+  <h4>🧪 Transforme links em botões (inline → inline-block):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código (troque inline-block por inline e veja o padding quebrar)</div><textarea id="pc9" oninput="pgUp('pc9')"><style>
+  a.botao {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2F6FED;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+  }
+  .sumido { display: none; }
+</style>
+
+<a class="botao" href="#">Cardápio</a>
+<a class="botao" href="#">Encomendas</a>
+<p class="sumido">Você não me vê! 👻</p></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc9-out"></iframe></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 O display:none e o hidden</div>É o mesmo truque que o HTML faz com o atributo <code>hidden</code> — e é como esta escola esconde e mostra as telas de lição: cada uma é uma section com display none, e a ativa ganha display block. Você está DENTRO do exemplo agora. 🤯</div>
+  <button class="btn green done-btn" onclick="complete('c4l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c4l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc3')">← Anterior</button><button class="btn small" onclick="go('c4l2')">Próxima: Centralizar →</button></div>
+</div></section>
+
+<section class="screen" id="c4l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 2 de 4</span></div>
+  <h2>🎯 Centralizar: o clássico margin auto</h2>
+  <p>A pergunta mais feita da história do CSS: "como centralizo isso?!". As duas respostas clássicas (a terceira, e melhor, vem com o flexbox no próximo módulo):</p>
+  <table class="tbl">
+    <tr><th>Quero centralizar...</th><th>Receita</th></tr>
+    <tr><td>TEXTO dentro de uma caixa</td><td><code>text-align: center;</code> na caixa</td></tr>
+    <tr><td>UMA CAIXA na página</td><td><code>width</code> (ou max-width) definida + <code>margin: 0 auto;</code></td></tr>
+  </table>
+  <p>O <code>auto</code> dos lados diz: "navegador, divida a sobra igualmente entre esquerda e direita". Sem width definida não há sobra — por isso a dupla é inseparável.</p>
+  <h4>🧪 O cartão centralizado:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código (apague o margin: 0 auto e veja encostar na esquerda)</div><textarea id="pc10" oninput="pgUp('pc10')"><style>
+  .cartao {
+    max-width: 300px;
+    margin: 0 auto;
+    background: #7C4DFF;
+    color: white;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+  }
+</style>
+
+<div class="cartao">
+  <h3>Ana Carvalho</h3>
+  <p>Caixa centrada, texto centrado.</p>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc10-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c4l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c4l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c4l1')">← Anterior</button><button class="btn small" onclick="go('c4l3')">Próxima: position →</button></div>
+</div></section>
+
+<section class="screen" id="c4l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 3 de 4</span></div>
+  <h2>📌 position: relative, absolute, fixed e sticky</h2>
+  <p>O <code>position</code> tira elementos do fluxo normal e os coloca ONDE você mandar, com as coordenadas <code>top/right/bottom/left</code>:</p>
+  <table class="tbl">
+    <tr><th>Valor</th><th>Comporta-se como...</th></tr>
+    <tr><td><code>relative</code></td><td>Fica no lugar, mas pode se deslocar — e vira o PONTO DE REFERÊNCIA dos filhos absolutos</td></tr>
+    <tr><td><code>absolute</code></td><td>Sai do fluxo e ancora no ancestral com position mais próximo (a etiqueta no canto do card!)</td></tr>
+    <tr><td><code>fixed</code></td><td>Cola na JANELA — não sai nem rolando (botão de WhatsApp no canto)</td></tr>
+    <tr><td><code>sticky</code></td><td>Rola junto ATÉ bater no limite, aí gruda (o cabeçalho desta escola!)</td></tr>
+  </table>
+  <h4>🧪 A dupla relative + absolute — a etiqueta de promoção:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc11" oninput="pgUp('pc11')"><style>
+  .produto {
+    position: relative;
+    width: 220px;
+    background: white;
+    border: 1px solid #DCE1EC;
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .selo {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: #EF4444;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: bold;
+  }
+  body { background:#ECEEF3; padding: 30px; }
+</style>
+
+<div class="produto">
+  <span class="selo">-30%</span>
+  <h3>Sonho de creme</h3>
+  <p>O clássico da casa.</p>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc11-out"></iframe></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ Use com parcimônia</div>Iniciante empolgado posiciona TUDO com absolute — e o layout desmonta no primeiro celular. Regra: fluxo normal e flexbox para a estrutura; position para os DETALHES (selos, badges, botões flutuantes).</div>
+  <button class="btn green done-btn" onclick="complete('c4l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c4l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c4l2')">← Anterior</button><button class="btn small" onclick="go('c4l4')">Próxima: z-index e overflow →</button></div>
+</div></section>
+
+<section class="screen" id="c4l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Módulo 4 · Lição 4 de 4</span></div>
+  <h2>🥞 z-index e overflow: pilhas e transbordos</h2>
+  <p>Dois ajustes finos de quem posiciona coisas:</p>
+  <table class="tbl">
+    <tr><th>Propriedade</th><th>Resolve</th></tr>
+    <tr><td><code>z-index</code></td><td>QUEM FICA POR CIMA quando elementos se sobrepõem (número maior vence; só funciona com position definido)</td></tr>
+    <tr><td><code>overflow</code></td><td>O que fazer com conteúdo que NÃO CABE: <code>visible</code> (vaza), <code>hidden</code> (corta), <code>auto</code> (barra de rolagem só se precisar)</td></tr>
+  </table>
+  <div class="codebox"><div class="cb-top">os usos de todo dia</div>
+  <pre><span class="tk-tag">.modal</span>   { <span class="tk-attr">z-index</span>: <span class="tk-str">100</span>; }  <span class="tk-com">/* janelinha por cima de tudo */</span>
+<span class="tk-tag">.foto</span>    { <span class="tk-attr">border-radius</span>: <span class="tk-str">16px</span>; <span class="tk-attr">overflow</span>: <span class="tk-str">hidden</span>; }
+          <span class="tk-com">/* corta a imagem nos cantos redondos — o combo clássico */</span>
+<span class="tk-tag">.chat</span>    { <span class="tk-attr">height</span>: <span class="tk-str">300px</span>; <span class="tk-attr">overflow</span>: <span class="tk-str">auto</span>; }
+          <span class="tk-com">/* área de conversa com rolagem própria */</span></pre></div>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Curiosidade de bastidor: os modais de medalha desta escola usam <code>z-index</code> alto pra flutuar sobre a página, e os quadros de código usam <code>overflow-x: auto</code> pra rolar de lado no celular. O curso é um museu de si mesmo. 🏛️</div></div>
+  <button class="btn green done-btn" onclick="complete('c4l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c4l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c4l3')">← Anterior</button><button class="btn amber small" onclick="go('qc4')">🎯 Quiz do Módulo 4 →</button></div>
+</div></section>
+
+<section class="screen" id="qc4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0F766E">Quiz · Módulo 4</span></div>
+  <h2>🎯 Quiz: Display e posição</h2>
+  <div id="quiz-qc4"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c5l1')">Módulo 5 →</button></div>
+</div></section>
+
+<!-- ================= M5 · FLEXBOX ================= -->
+<section class="screen" id="c5l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 1 de 5</span></div>
+  <h2>🤸 display: flex — o superpoder do layout</h2>
+  <p>Chegamos ao módulo que mudou a história do CSS. Antes do flexbox, alinhar coisas lado a lado era gambiarra sobre gambiarra. Agora é uma linha: você declara <code>display: flex</code> no PAI, e os FILHOS entram em fila:</p>
+  <div class="codebox"><div class="cb-top">o pai organiza, os filhos obedecem</div>
+  <pre><span class="tk-tag">.fila</span> {
+  <span class="tk-attr">display</span>: <span class="tk-str">flex</span>;             <span class="tk-com">/* liga o superpoder */</span>
+  <span class="tk-attr">flex-direction</span>: <span class="tk-str">row</span>;      <span class="tk-com">/* row = lado a lado (padrão) | column = empilhados */</span>
+}</pre></div>
+  <h4>🧪 Três caixas: veja a fila nascer (e troque row por column):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código (apague o display:flex e veja voltarem a empilhar)</div><textarea id="pc12" oninput="pgUp('pc12')"><style>
+  .fila { display: flex; flex-direction: row; }
+  .item {
+    background: #7C4DFF;
+    color: white;
+    padding: 20px;
+    margin: 5px;
+    border-radius: 10px;
+  }
+</style>
+
+<div class="fila">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc12-out"></iframe></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 A mudança de mentalidade</div>Flexbox se aplica no <b>contêiner</b> (o pai), não nos itens. Pense num maestro: você não manda em cada músico — rege a orquestra. Quase tudo do flexbox se declara no pai.</div>
+  <button class="btn green done-btn" onclick="complete('c5l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c5l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc4')">← Anterior</button><button class="btn small" onclick="go('c5l2')">Próxima: justify-content →</button></div>
+</div></section>
+
+<section class="screen" id="c5l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 2 de 5</span></div>
+  <h2>↔️ justify-content: distribuindo na fila</h2>
+  <p>Com a fila formada, <code>justify-content</code> distribui os itens ao longo dela:</p>
+  <table class="tbl">
+    <tr><th>Valor</th><th>Efeito</th></tr>
+    <tr><td><code>flex-start</code></td><td>Todos no começo (padrão)</td></tr>
+    <tr><td><code>center</code></td><td>Todos no meio</td></tr>
+    <tr><td><code>flex-end</code></td><td>Todos no fim</td></tr>
+    <tr><td><code>space-between</code></td><td>Primeiro na ponta, último na outra, sobra ENTRE eles — o rei das navbars 👑</td></tr>
+    <tr><td><code>space-around</code> / <code>space-evenly</code></td><td>Sobra distribuída ao redor / perfeitamente igual</td></tr>
+  </table>
+  <h4>🧪 Troque o valor e veja a dança (teste todos os cinco!):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc13" oninput="pgUp('pc13')"><style>
+  .fila {
+    display: flex;
+    justify-content: space-between;
+    background: #EDF2FF;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .item {
+    background: #2F6FED; color: white;
+    padding: 14px 20px; border-radius: 8px;
+  }
+</style>
+
+<div class="fila">
+  <div class="item">A</div>
+  <div class="item">B</div>
+  <div class="item">C</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc13-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c5l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c5l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c5l1')">← Anterior</button><button class="btn small" onclick="go('c5l3')">Próxima: align-items e o Santo Graal →</button></div>
+</div></section>
+
+<section class="screen" id="c5l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 3 de 5</span></div>
+  <h2>↕️ align-items — e o Santo Graal da centralização</h2>
+  <p>Se justify-content trabalha AO LONGO da fila, <code>align-items</code> alinha no eixo CRUZADO (na fila horizontal: em cima/meio/embaixo). Valores: <code>stretch</code> (estica, padrão), <code>flex-start</code>, <code>center</code>, <code>flex-end</code>.</p>
+  <p>E juntando os dois eixos no centro... 🏆 a receita mais famosa do CSS moderno, a resposta definitiva ao "como centralizo isso":</p>
+  <div class="codebox"><div class="cb-top">O SANTO GRAAL — centralização perfeita em 3 linhas</div>
+  <pre><span class="tk-tag">.centro</span> {
+  <span class="tk-attr">display</span>: <span class="tk-str">flex</span>;
+  <span class="tk-attr">justify-content</span>: <span class="tk-str">center</span>;   <span class="tk-com">/* meio na horizontal */</span>
+  <span class="tk-attr">align-items</span>: <span class="tk-str">center</span>;       <span class="tk-com">/* meio na vertical */</span>
+}</pre></div>
+  <h4>🧪 O troféu no centro absoluto:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc14" oninput="pgUp('pc14')"><style>
+  .palco {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 220px;
+    background: #141F3C;
+    border-radius: 14px;
+  }
+  .trofeu { font-size: 60px; }
+</style>
+
+<div class="palco">
+  <div class="trofeu">🏆</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc14-out"></iframe></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Momento histórico</div>Programadores veteranos passaram ANOS da vida centralizando divs com truques dignos de circo. Você aprendeu em uma lição. Quando alguém na internet brincar que "programador não sabe centralizar uma div" — você agora está do lado que sabe. 😎</div>
+  <button class="btn green done-btn" onclick="complete('c5l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c5l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c5l2')">← Anterior</button><button class="btn small" onclick="go('c5l4')">Próxima: gap, wrap e flex:1 →</button></div>
+</div></section>
+
+<section class="screen" id="c5l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 4 de 5</span></div>
+  <h2>🧩 gap, flex-wrap e flex: 1</h2>
+  <p>Os três acabamentos que completam o kit flex:</p>
+  <table class="tbl">
+    <tr><th>Propriedade</th><th>Onde</th><th>Faz</th></tr>
+    <tr><td><code>gap: 12px</code></td><td>no pai</td><td>Espaço ENTRE os itens — aposente as margins manuais!</td></tr>
+    <tr><td><code>flex-wrap: wrap</code></td><td>no pai</td><td>Não coube? QUEBRA pra linha de baixo (essencial pro celular)</td></tr>
+    <tr><td><code>flex: 1</code></td><td>no FILHO</td><td>"Cresça e ocupe a sobra" — filhos com flex:1 dividem o espaço igualmente</td></tr>
+  </table>
+  <h4>🧪 Aperte a tela: encolha a janela e veja o wrap agir; note o gap uniforme:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc15" oninput="pgUp('pc15')"><style>
+  .galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .foto {
+    flex: 1;
+    min-width: 120px;
+    height: 90px;
+    background: #7C4DFF;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+  }
+</style>
+
+<div class="galeria">
+  <div class="foto">🥐</div>
+  <div class="foto">🍞</div>
+  <div class="foto">🧁</div>
+  <div class="foto">🍰</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc15-out"></iframe></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 Repare no Santo Graal reciclado</div>Cada .foto usa display:flex + center + center para centralizar o emoji dentro DELA. Flex dentro de flex é normal e saudável — caixas organizando caixas, até o fim.</div>
+  <button class="btn green done-btn" onclick="complete('c5l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c5l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c5l3')">← Anterior</button><button class="btn small" onclick="go('c5l5')">Próxima: MONTAGEM da navbar →</button></div>
+</div></section>
+
+<section class="screen" id="c5l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Módulo 5 · Lição 5 de 5</span></div>
+  <h2>🧱 OFICINA DE ESTILO: a navbar profissional</h2>
+  <p>A missão-símbolo do flexbox: logo na esquerda, menu na direita, tudo alinhado no meio vertical — a barra de navegação que TODO site tem. Monte as declarações da meta:</p>
+  <div class="mt" id="mtc5"></div>
+  <button class="btn green done-btn" onclick="complete('c5l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c5l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c5l4')">← Anterior</button><button class="btn amber small" onclick="go('qc5')">🎯 Quiz do Módulo 5 →</button></div>
+</div></section>
+
+<section class="screen" id="qc5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#5B21B6">Quiz · Módulo 5</span></div>
+  <h2>🎯 Quiz: Flexbox</h2>
+  <div id="quiz-qc5"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c6l1')">Módulo 6 →</button></div>
+</div></section>
+
+<!-- ================= M6 · GRID ================= -->
+<section class="screen" id="c6l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 1 de 4</span></div>
+  <h2>🏙️ display: grid — a planta em colunas</h2>
+  <p>Se flexbox é a FILA (uma dimensão), grid é a PLANTA (duas dimensões: linhas E colunas de uma vez). Você desenha as colunas no pai, e os filhos vão preenchendo as celas:</p>
+  <div class="codebox"><div class="cb-top">a grade nasce no pai</div>
+  <pre><span class="tk-tag">.grade</span> {
+  <span class="tk-attr">display</span>: <span class="tk-str">grid</span>;
+  <span class="tk-attr">grid-template-columns</span>: <span class="tk-str">1fr 1fr 1fr</span>;  <span class="tk-com">/* 3 colunas de fração igual */</span>
+  <span class="tk-attr">gap</span>: <span class="tk-str">12px</span>;
+}</pre></div>
+  <p>O <code>fr</code> (fraction) é a unidade-estrela: divide a sobra em frações. <code>2fr 1fr</code> = a primeira coluna com o dobro da segunda. E <code>repeat(3, 1fr)</code> é o atalho para "1fr 1fr 1fr".</p>
+  <h4>🧪 Seis produtos, três colunas — mude para repeat(2, 1fr):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc16" oninput="pgUp('pc16')"><style>
+  .grade {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .p {
+    background: #EDF2FF;
+    border: 1px solid #C9D2E6;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+</style>
+
+<div class="grade">
+  <div class="p">🥐</div> <div class="p">🍞</div>
+  <div class="p">🧁</div> <div class="p">🍰</div>
+  <div class="p">🥖</div> <div class="p">🍩</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc16-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c6l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c6l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc5')">← Anterior</button><button class="btn small" onclick="go('c6l2')">Próxima: Células que se esticam →</button></div>
+</div></section>
+
+<section class="screen" id="c6l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 2 de 4</span></div>
+  <h2>↔️ span: células que ocupam mais colunas</h2>
+  <p>Igualzinho ao colspan das tabelas HTML — mas agora no filho do grid:</p>
+  <div class="codebox"><div class="cb-top">o item destaque</div>
+  <pre><span class="tk-tag">.destaque</span> {
+  <span class="tk-attr">grid-column</span>: <span class="tk-str">span 2</span>;   <span class="tk-com">/* ocupo 2 colunas */</span>
+  <span class="tk-attr">grid-row</span>: <span class="tk-str">span 2</span>;      <span class="tk-com">/* e 2 linhas — o herói da galeria */</span>
+}</pre></div>
+  <h4>🧪 O produto do mês, gigante na vitrine:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc17" oninput="pgUp('pc17')"><style>
+  .grade {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .p {
+    background: #EDF2FF;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .heroi {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: #7C4DFF;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 22px;
+  }
+</style>
+
+<div class="grade">
+  <div class="p heroi">🏆<br>Bolo do mês</div>
+  <div class="p">🥐</div>
+  <div class="p">🍞</div>
+  <div class="p">🧁</div>
+  <div class="p">🍰</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc17-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c6l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c6l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c6l1')">← Anterior</button><button class="btn small" onclick="go('c6l3')">Próxima: Flex ou Grid? →</button></div>
+</div></section>
+
+<section class="screen" id="c6l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 3 de 4</span></div>
+  <h2>⚖️ Flexbox ou Grid? O guia definitivo</h2>
+  <p>A dúvida eterna, resolvida com uma pergunta: <mark>é uma FILA ou é uma PLANTA?</mark></p>
+  <table class="tbl">
+    <tr><th>Situação</th><th>Ferramenta</th><th>Por quê</th></tr>
+    <tr><td>Navbar (logo + menu)</td><td>Flex</td><td>Uma fila horizontal</td></tr>
+    <tr><td>Galeria/vitrine de cards</td><td>Grid</td><td>Linhas E colunas alinhadas</td></tr>
+    <tr><td>Botões lado a lado</td><td>Flex</td><td>Fila curta</td></tr>
+    <tr><td>Layout da página inteira (menu lateral + conteúdo)</td><td>Grid</td><td>É literalmente uma planta</td></tr>
+    <tr><td>Centralizar uma coisa</td><td>Flex</td><td>O Santo Graal de 3 linhas</td></tr>
+  </table>
+  <p>E os dois se combinam o tempo todo: um grid de página com navbars flex dentro. Não é rivalidade, é dupla — martelo e chave de fenda.</p>
+  <div class="prof"><div class="face">✱</div><div class="bubble">Esta escola: os cards dos módulos que você vê na home? <code>display: grid</code> com <code>repeat(auto-fit, minmax(300px, 1fr))</code> — colunas que se ajustam sozinhas ao tamanho da tela. O menu do topo? Flex. Planta e filas, convivendo em paz. 🤝</div></div>
+  <button class="btn green done-btn" onclick="complete('c6l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c6l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c6l2')">← Anterior</button><button class="btn small" onclick="go('c6l4')">Próxima: MONTAGEM da galeria →</button></div>
+</div></section>
+
+<section class="screen" id="c6l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Módulo 6 · Lição 4 de 4</span></div>
+  <h2>🧱 OFICINA DE ESTILO: a galeria em grade</h2>
+  <p>Meta: transformar seis fotos empilhadas numa vitrine de 3 colunas com respiro uniforme. É a assinatura do grid — três declarações e o caos vira vitrine.</p>
+  <div class="mt" id="mtc6"></div>
+  <button class="btn green done-btn" onclick="complete('c6l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c6l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c6l3')">← Anterior</button><button class="btn amber small" onclick="go('qc6')">🎯 Quiz do Módulo 6 →</button></div>
+</div></section>
+
+<section class="screen" id="qc6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#15803D">Quiz · Módulo 6</span></div>
+  <h2>🎯 Quiz: Grid</h2>
+  <div id="quiz-qc6"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c7l1')">Módulo 7 →</button></div>
+</div></section>
+
+<!-- ================= M7 · VIDA: HOVER E ANIMAÇÕES ================= -->
+<section class="screen" id="c7l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 1 de 5</span></div>
+  <h2>👆 :hover, :focus e :active — a página que responde</h2>
+  <p>Os <b>pseudo-seletores de estado</b> estilizam elementos em MOMENTOS específicos — é o que separa página parada de página viva:</p>
+  <table class="tbl">
+    <tr><th>Estado</th><th>Quando</th></tr>
+    <tr><td><code>.botao:hover</code></td><td>Mouse em cima — o "estou clicável!" universal</td></tr>
+    <tr><td><code>input:focus</code></td><td>Campo selecionado, cursor dentro — o "estou te ouvindo"</td></tr>
+    <tr><td><code>.botao:active</code></td><td>No exato instante do clique — o "apertou!"</td></tr>
+  </table>
+  <h4>🧪 Passe o mouse, clique no campo, segure o botão:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc18" oninput="pgUp('pc18')"><style>
+  .botao {
+    background: #2F6FED; color: white;
+    padding: 12px 22px; border: none;
+    border-radius: 10px; font-size: 16px;
+  }
+  .botao:hover { background: #7C4DFF; }
+  .botao:active { background: #141F3C; }
+  input {
+    padding: 10px; border-radius: 8px;
+    border: 2px solid #DCE1EC;
+  }
+  input:focus {
+    border-color: #2F6FED;
+    outline: none;
+    background: #EDF2FF;
+  }
+</style>
+
+<button class="botao">Passe e clique!</button>
+<br><br>
+<input placeholder="Clique em mim...">
+</textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc18-out"></iframe></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ O celular não tem hover</div>Dedo não "paira" — no celular, hover só acontece junto do toque. Regra: hover é TEMPERO, nunca o único jeito de descobrir que algo é clicável. Botão tem que parecer botão mesmo parado.</div>
+  <button class="btn green done-btn" onclick="complete('c7l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c7l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc6')">← Anterior</button><button class="btn small" onclick="go('c7l2')">Próxima: transition →</button></div>
+</div></section>
+
+<section class="screen" id="c7l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 2 de 5</span></div>
+  <h2>🌊 transition: a suavidade dos profissionais</h2>
+  <p>O hover da lição passada TELETRANSPORTA de um estilo pro outro — funcional, mas seco. A <code>transition</code> faz a mudança ESCORRER:</p>
+  <div class="codebox"><div class="cb-top">uma linha, outra categoria de site</div>
+  <pre><span class="tk-tag">.botao</span> {
+  <span class="tk-attr">transition</span>: <span class="tk-str">all 0.3s ease</span>;   <span class="tk-com">/* o quê | duração | ritmo */</span>
+}</pre></div>
+  <p>Vai no estado NORMAL (não no :hover!) — assim ela suaviza a ida E a volta. Durações: 0.15s–0.3s pra interação (mais que 0.5s parece site lento).</p>
+  <h4>🧪 O mesmo botão, com e sem — sinta a diferença:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc19" oninput="pgUp('pc19')"><style>
+  .b {
+    display: inline-block;
+    background: #2F6FED; color: white;
+    padding: 12px 22px; border-radius: 10px;
+  }
+  .b:hover { background: #7C4DFF; }
+  .suave { transition: all 0.3s ease; }
+</style>
+
+<div class="b">Sem transition (seco)</div>
+<div class="b suave">Com transition (mel) 🍯</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc19-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c7l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c7l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c7l1')">← Anterior</button><button class="btn small" onclick="go('c7l3')">Próxima: transform →</button></div>
+</div></section>
+
+<section class="screen" id="c7l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 3 de 5</span></div>
+  <h2>🔮 transform: mover, crescer e girar sem quebrar nada</h2>
+  <p>A <code>transform</code> mexe no elemento SEM empurrar os vizinhos (é como se movesse um holograma dele) — por isso é a rainha das animações:</p>
+  <table class="tbl">
+    <tr><th>Função</th><th>Faz</th></tr>
+    <tr><td><code>translateY(-4px)</code></td><td>Desloca (negativo = sobe) — o "card que levita" no hover</td></tr>
+    <tr><td><code>scale(1.05)</code></td><td>Cresce 5% — o "chega mais"</td></tr>
+    <tr><td><code>rotate(12deg)</code></td><td>Gira — o charme</td></tr>
+  </table>
+  <h4>🧪 O trio clássico do hover (passe o mouse em cada card):</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc20" oninput="pgUp('pc20')"><style>
+  .card {
+    display: inline-block;
+    background: white;
+    border: 1px solid #DCE1EC;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 6px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(20,31,60,.08);
+  }
+  .card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 14px 28px rgba(20,31,60,.18);
+  }
+  body { background: #ECEEF3; }
+</style>
+
+<div class="card">🥐 Croissant</div>
+<div class="card">🧁 Cupcake</div>
+<div class="card">🍰 Fatia</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc20-out"></iframe></div>
+  </div>
+  <div class="box tip"><div class="bt">💡 A fórmula do card-que-levita</div>transition no normal + translateY negativo + sombra maior no hover = o efeito que TODA landing page bonita de 2026 usa. Inclusive... os cards de curso da Dev Academy. Agora você sabe fazer a escola. 🏗️</div>
+  <button class="btn green done-btn" onclick="complete('c7l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c7l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c7l2')">← Anterior</button><button class="btn small" onclick="go('c7l4')">Próxima: @keyframes →</button></div>
+</div></section>
+
+<section class="screen" id="c7l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 4 de 5</span></div>
+  <h2>🎬 @keyframes e animation: o cinema do CSS</h2>
+  <p>Transition precisa de um gatilho (hover). A <code>animation</code> roda SOZINHA, seguindo um roteiro de cenas chamado <code>@keyframes</code>:</p>
+  <div class="codebox"><div class="cb-top">roteiro + escalação</div>
+  <pre><span class="tk-tag">@keyframes girar</span> {
+  <span class="tk-attr">from</span> { <span class="tk-attr">transform</span>: <span class="tk-str">rotate(0deg)</span>; }
+  <span class="tk-attr">to</span>   { <span class="tk-attr">transform</span>: <span class="tk-str">rotate(360deg)</span>; }
+}
+<span class="tk-tag">.carregando</span> {
+  <span class="tk-attr">animation</span>: <span class="tk-str">girar 1.5s linear infinite</span>;
+}         <span class="tk-com">/* roteiro | duração | ritmo | repete */</span></pre></div>
+  <h4>🧪 O ✱ girando (sim, O ✱ da tela de carregamento desta escola!) e um coração pulsando:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc21" oninput="pgUp('pc21')"><style>
+  @keyframes girar {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes pulsar {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+  .ast {
+    display: inline-block;
+    font-size: 50px;
+    animation: girar 2s linear infinite;
+  }
+  .amor {
+    display: inline-block;
+    font-size: 50px;
+    animation: pulsar 1s ease infinite;
+  }
+</style>
+
+<span class="ast">✱</span>
+<span class="amor">❤️</span></textarea></div>
+    <div><div class="pg-lab">📺 Resultado ao vivo</div><iframe id="pc21-out"></iframe></div>
+  </div>
+  <div class="box warn"><div class="bt">⚠️ Animação é sal, não sopa</div>Uma ou duas animações dão vida; dez dão enjoo — e há pessoas que sofrem fisicamente com movimento excessivo (existe até uma media query de respeito, <code>prefers-reduced-motion</code>, que esta escola implementa). Anime com propósito.</div>
+  <button class="btn green done-btn" onclick="complete('c7l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c7l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c7l3')">← Anterior</button><button class="btn small" onclick="go('c7l5')">Próxima: Lacunas do botão vivo →</button></div>
+</div></section>
+
+<section class="screen" id="c7l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 7 · Lição 5 de 5</span></div>
+  <h2>✏️ Treino: o botão vivo, de memória</h2>
+  <p>A receita completa do botão profissional — complete as peças que dão vida:</p>
+  <div class="fill" id="fc3">
+    <div class="fdesc">Suavidade de 0.3s no estado normal; levitar 4px e crescer no hover:</div>
+    <pre>.botao {
+  background: #2F6FED;
+  <input class="lac" data-r="transition" style="width:100px">: all 0.3s ease;
+}
+.botao:<input class="lac" data-r="hover" style="width:70px"> {
+  <input class="lac" data-r="transform" style="width:105px">: translateY(-4px) <input class="lac" data-r="scale(1.05)|scale(1.03)|scale(1.1)" style="width:105px">;
+}</pre>
+    <button class="btn small" onclick="fillCheck('fc3')">Conferir ✔</button>
+    <div class="fill-msg"></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Kit vida completo</div>Estados (:hover/:focus) + transition + transform + uma animation ocasional = 95% de toda a "vida" que você vê em sites caros. Quatro ferramentas, infinitas combinações.</div>
+  <button class="btn green done-btn" onclick="complete('c7l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c7l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c7l4')">← Anterior</button><button class="btn amber small" onclick="go('qc7')">🎯 Quiz do Módulo 7 →</button></div>
+</div></section>
+
+<section class="screen" id="qc7"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#0E7490">Quiz · Módulo 7</span></div>
+  <h2>🎯 Quiz: Vida</h2>
+  <div id="quiz-qc7"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button><button class="btn small" onclick="go('c8l1')">Módulo 8 →</button></div>
+</div></section>
+
+<!-- ================= M8 · RESPONSIVO E MESTRIA ================= -->
+<section class="screen" id="c8l1"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 1 de 6</span></div>
+  <h2>📐 Unidades elásticas: %, rem, vw e vh</h2>
+  <p>Pixel é fixo — e telas variam de relógio a telão. As unidades elásticas se adaptam:</p>
+  <table class="tbl">
+    <tr><th>Unidade</th><th>Relativa a...</th><th>Uso típico</th></tr>
+    <tr><td><code>%</code></td><td>o tamanho do PAI</td><td><code>width: 100%</code> — imagem que preenche a coluna</td></tr>
+    <tr><td><code>rem</code></td><td>a fonte-base do navegador (~16px)</td><td>fontes e espaçamentos que respeitam o usuário</td></tr>
+    <tr><td><code>vw / vh</code></td><td>a largura/altura da JANELA</td><td><code>height: 100vh</code> — seção que ocupa a tela inteira (todo hero de landing page)</td></tr>
+  </table>
+  <div class="codebox"><div class="cb-top">o trio elástico em ação</div>
+  <pre><span class="tk-tag">.hero</span>   { <span class="tk-attr">height</span>: <span class="tk-str">100vh</span>; }        <span class="tk-com">/* a tela cheia de boas-vindas */</span>
+<span class="tk-tag">img</span>     { <span class="tk-attr">max-width</span>: <span class="tk-str">100%</span>; }      <span class="tk-com">/* imagem NUNCA vaza da coluna — decore isto */</span>
+<span class="tk-tag">h1</span>      { <span class="tk-attr">font-size</span>: <span class="tk-str">2.5rem</span>; }    <span class="tk-com">/* 2.5× a base = ~40px, mas elástico */</span></pre></div>
+  <div class="box tip"><div class="bt">💡 A linha que domestica imagens</div><code>img { max-width: 100%; height: auto; }</code> — cole em todo projeto. É o cinto de segurança que impede fotos gigantes de explodirem o layout no celular.</div>
+  <button class="btn green done-btn" onclick="complete('c8l1')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c8l1">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('qc7')">← Anterior</button><button class="btn small" onclick="go('c8l2')">Próxima: media queries →</button></div>
+</div></section>
+
+<section class="screen" id="c8l2"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 2 de 6</span></div>
+  <h2>📱 @media: o site que se adapta ao celular</h2>
+  <p>A media query é um SE do CSS: "SE a tela for menor que X, aplique estas regras por cima":</p>
+  <div class="codebox"><div class="cb-top">o site camaleão</div>
+  <pre><span class="tk-tag">.galeria</span> { <span class="tk-attr">display</span>: <span class="tk-str">grid</span>; <span class="tk-attr">grid-template-columns</span>: <span class="tk-str">repeat(3, 1fr)</span>; }
+
+<span class="tk-tag">@media (max-width: 640px)</span> {   <span class="tk-com">/* telas de até 640px (celulares)... */</span>
+  <span class="tk-tag">.galeria</span> { <span class="tk-attr">grid-template-columns</span>: <span class="tk-str">1fr</span>; }  <span class="tk-com">/* ...viram UMA coluna */</span>
+}</pre></div>
+  <p>Lembre-se da dupla obrigatória: a media query cuida do CSS, e a <code>&lt;meta viewport&gt;</code> (do curso de HTML!) avisa o celular para usar a largura real. Uma sem a outra não funciona.</p>
+  <h4>🧪 Simule você mesmo: o playground testa a query pela largura DELE — estreite a janela:</h4>
+  <div class="pg">
+    <div><div class="pg-lab">✍️ Seu código</div><textarea id="pc22" oninput="pgUp('pc22')"><style>
+  .aviso { display: none; }
+  .g {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .p { background:#EDF2FF; padding:16px;
+       border-radius:10px; text-align:center; }
+
+  @media (max-width: 500px) {
+    .g { grid-template-columns: 1fr; }
+    .aviso {
+      display: block;
+      background: #FDE68A;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+  }
+</style>
+
+<p class="aviso">📱 Modo celular ativado!</p>
+<div class="g">
+  <div class="p">🥐</div><div class="p">🍞</div><div class="p">🧁</div>
+</div></textarea></div>
+    <div><div class="pg-lab">📺 Resultado (estreite a janela do navegador!)</div><iframe id="pc22-out"></iframe></div>
+  </div>
+  <button class="btn green done-btn" onclick="complete('c8l2')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c8l2">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c8l1')">← Anterior</button><button class="btn small" onclick="go('c8l3')">Próxima: Variáveis CSS →</button></div>
+</div></section>
+
+<section class="screen" id="c8l3"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 3 de 6</span></div>
+  <h2>🎨 Variáveis CSS: o cofre de cores</h2>
+  <p>Repetir <code>#7C4DFF</code> em 40 lugares e o cliente pedir "muda o roxo"? Sem variáveis, é caça ao tesouro. Com elas, muda-se UMA linha:</p>
+  <div class="codebox"><div class="cb-top">declare no cofre, use em todo lugar</div>
+  <pre><span class="tk-tag">:root</span> {                          <span class="tk-com">/* o cofre global (a raiz da página) */</span>
+  <span class="tk-attr">--roxo</span>: <span class="tk-str">#7C4DFF</span>;
+  <span class="tk-attr">--respiro</span>: <span class="tk-str">18px</span>;
+}
+<span class="tk-tag">.card</span>   { <span class="tk-attr">background</span>: <span class="tk-str">var(--roxo)</span>; <span class="tk-attr">padding</span>: <span class="tk-str">var(--respiro)</span>; }
+<span class="tk-tag">.botao</span>  { <span class="tk-attr">border-color</span>: <span class="tk-str">var(--roxo)</span>; }</pre></div>
+  <h4>✏️ Complete o sistema de design em miniatura:</h4>
+  <div class="fill" id="fc4">
+    <div class="fdesc">Declare a variável --azul no cofre e use-a no botão:</div>
+    <pre><input class="lac" data-r=":root" style="width:70px"> {
+  <input class="lac" data-r="--azul" style="width:80px">: #2F6FED;
+}
+.botao {
+  background: <input class="lac" data-r="var(--azul)" style="width:115px">;
+}</pre>
+    <button class="btn small" onclick="fillCheck('fc4')">Conferir ✔</button>
+    <div class="fill-msg"></div>
+  </div>
+  <div class="box gold"><div class="bt">✱ Você já viu este cofre</div>Abra o código desta escola e a primeira coisa no CSS é <code>:root { --navy: #141F3C; --blue: #2F6FED; --purple: #7C4DFF; ... }</code>. TODA a identidade visual da Dev Academy mora num cofre de 8 linhas. Sistema de design não é luxo de empresa grande — é uma variável de cada vez.</div>
+  <button class="btn green done-btn" onclick="complete('c8l3')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c8l3">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c8l2')">← Anterior</button><button class="btn small" onclick="go('c8l4')">Próxima: A briga da cascata →</button></div>
+</div></section>
+
+<section class="screen" id="c8l4"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 4 de 6</span></div>
+  <h2>⚔️ Especificidade: quem ganha a briga de estilos</h2>
+  <p>Duas regras mandam coisas diferentes pro mesmo elemento. Quem vence? A CASCATA decide por peso:</p>
+  <table class="tbl">
+    <tr><th>Peso</th><th>Seletor</th><th>Exemplo</th></tr>
+    <tr><td>🥇 Mais forte</td><td>Inline (style="")</td><td>direto na tag — por isso evitamos: ganha de tudo e ninguém sobrescreve</td></tr>
+    <tr><td>🥈</td><td>#id</td><td><code>#topo { }</code></td></tr>
+    <tr><td>🥉</td><td>.classe</td><td><code>.destaque { }</code></td></tr>
+    <tr><td>4º</td><td>tag</td><td><code>p { }</code></td></tr>
+    <tr><td>Desempate</td><td>Ordem no arquivo</td><td>empatou? A que vem DEPOIS vence</td></tr>
+  </table>
+  <div class="codebox"><div class="cb-top">preveja: de que cor fica o texto?</div>
+  <pre><span class="tk-tag">p</span>          { <span class="tk-attr">color</span>: <span class="tk-str">gray</span>; }
+<span class="tk-tag">.aviso</span>     { <span class="tk-attr">color</span>: <span class="tk-str">orange</span>; }
+<span class="tk-tag">#urgente</span>   { <span class="tk-attr">color</span>: <span class="tk-str">red</span>; }
+
+&lt;p class="aviso" id="urgente"&gt;Socorro!&lt;/p&gt;
+<span class="tk-com">/* → RED. O id (🥈) vence a classe (🥉), que vence a tag. */</span></pre></div>
+  <div class="box danger"><div class="bt">🚨 Sobre o !important</div>Existe um botão nuclear: <code>color: red !important;</code> atropela a hierarquia inteira. E como toda arma nuclear: quem usa no dia a dia transforma o projeto num campo minado onde nada mais se sobrescreve. Entenda a cascata em vez de gritar com ela — important é para emergências raríssimas.</div>
+  <button class="btn green done-btn" onclick="complete('c8l4')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c8l4">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c8l3')">← Anterior</button><button class="btn small" onclick="go('c8l5')">Próxima: O checklist do profissional →</button></div>
+</div></section>
+
+<section class="screen" id="c8l5"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 5 de 6</span></div>
+  <h2>📋 O checklist do CSS profissional</h2>
+  <p>O ritual de início de TODO projeto — as linhas que os veteranos colam antes de qualquer coisa (agora você entende cada uma):</p>
+  <div class="codebox"><div class="cb-top">o kit de fundação (guarde este bloco!)</div>
+  <pre><span class="tk-tag">*</span> { <span class="tk-attr">margin</span>: <span class="tk-str">0</span>; <span class="tk-attr">padding</span>: <span class="tk-str">0</span>; <span class="tk-attr">box-sizing</span>: <span class="tk-str">border-box</span>; }
+                                  <span class="tk-com">/* zera as manias do navegador + a linha salva-vidas */</span>
+<span class="tk-tag">:root</span> { <span class="tk-attr">--cor-marca</span>: <span class="tk-str">#7C4DFF</span>; <span class="tk-com">/* ...o cofre */</span> }
+
+<span class="tk-tag">body</span> {
+  <span class="tk-attr">font-family</span>: <span class="tk-str">system-ui, sans-serif</span>;  <span class="tk-com">/* a fonte nativa do aparelho */</span>
+  <span class="tk-attr">line-height</span>: <span class="tk-str">1.6</span>;                    <span class="tk-com">/* o respiro */</span>
+  <span class="tk-attr">color</span>: <span class="tk-str">#1B2440</span>;                      <span class="tk-com">/* quase-preto (preto puro cansa) */</span>
+}
+<span class="tk-tag">img</span> { <span class="tk-attr">max-width</span>: <span class="tk-str">100%</span>; <span class="tk-attr">height</span>: <span class="tk-str">auto</span>; } <span class="tk-com">/* o cinto de segurança */</span></pre></div>
+  <p>E os hábitos que sustentam projetos grandes: <b>classes com nomes que dizem o que a coisa É</b> (.card-produto, não .caixa-azul — amanhã ela pode ser verde); <b>mobile primeiro</b> na cabeça; <b>um arquivo .css externo</b>; e F12 aberto — o inspetor do navegador mostra qual regra venceu cada briga, em tempo real. É o raio-X do CSS.</p>
+  <div class="prof"><div class="face">✱</div><div class="bubble">O F12 merece cerimônia: clique com o direito em QUALQUER site bonito → Inspecionar → veja o CSS deles. É legal, é público, e é como todo mundo aprende os truques. A web inteira é uma escola de portas abertas.</div></div>
+  <button class="btn green done-btn" onclick="complete('c8l5')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c8l5">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c8l4')">← Anterior</button><button class="btn small" onclick="go('c8l6')">Próxima: A OBRA-PRIMA →</button></div>
+</div></section>
+
+<section class="screen" id="c8l6"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 6 de 6</span></div>
+  <h2>🏆 A OBRA-PRIMA: o cartão de visitas digital</h2>
+  <p>A missão final reúne o curso inteiro numa peça só: gradiente, tipografia, caixa, sombra e alinhamento — o cartão digno de um(a) Mestre(a) do CSS. Bata a meta:</p>
+  <div class="mt" id="mtc8"></div>
+  <div class="box gold"><div class="bt">✱ Olhe o que você fez</div>Gradiente como fundo, texto centrado, respiro generoso, cantos suaves, sombra colorida da própria marca... Módulos 1, 2, 3 e 5 dançando juntos. Isso é design — e saiu das SUAS mãos. O quiz final e o diploma te esperam. 🎓</div>
+  <button class="btn green done-btn" onclick="complete('c8l6')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-c8l6">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('c8l5')">← Anterior</button><button class="btn amber small" onclick="go('qc8')">🎯 QUIZ FINAL →</button></div>
+</div></section>
+
+<section class="screen" id="qc8"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Quiz FINAL · Módulo 8</span></div>
+  <h2>🎯 Quiz Final: CSS Completo</h2>
+  <div id="quiz-qc8"></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('home')">← Mapa</button></div>
+</div></section>
+
+</main>
+
+<!-- MODAIS -->
+<div class="overlay" id="badgeOverlay"><div class="modal">
+  <div class="me" id="badgeEmo">🏅</div>
+  <h3 id="badgeTit">Medalha!</h3>
+  <p id="badgeTxt"></p>
+  <button class="btn" onclick="document.getElementById('badgeOverlay').classList.remove('show')">Continuar ✨</button>
+</div></div>
+<div class="overlay" id="diplomaOverlay"><div class="modal">
+  <div class="me">🎓</div>
+  <h3>CURSO COMPLETO!</h3>
+  <p>Você dominou o CSS do zero ao avançado: seletores, tipografia, o modelo de caixa, flexbox, grid, animações, responsividade e a cascata. Seu certificado <b>Mestre(a) do CSS</b> já está na aba Certificados. Com HTML + CSS, você agora projeta e VESTE sites completos. ✱</p>
+  <a class="btn" href="certificados.html">🎓 Ver meu certificado</a>
+  <button class="btn outline" onclick="document.getElementById('diplomaOverlay').classList.remove('show')" style="margin-top:8px">Continuar explorando</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="config.js?v=3"></script>
+<script src="shared/dev-academy.js?v=3"></script>
+<script>
+/* ============ ESTADO ============ */
+const CURSO_ID = 'css-completo';
+let xp = 0, done = new Set(), dys = false, badges = [], dip = false, dipEm = null, uid = null;
+const $ = id => document.getElementById(id);
+const RANKS = [[0,'Rabiscador(a) 🖍️'],[120,'Pintor(a) 🎨'],[240,'Decorador(a) 🛋️'],[350,'Estilista 💅'],[460,'Mestre(a) do CSS 👑']];
+const MODS = {
+ mod1:{items:[['c1l1','O que é CSS + 3 formas'],['c1l2','A anatomia da regra'],['c1l3','Seletores: tag, .classe, #id'],['c1l4','Cores: nomes, hex, rgb'],['c1l5','🧱 Oficina: pinte o cartão'],['qc1','🎯 Quiz']],badge:{emo:'🖌️',tit:'Primeiras Tintas!',txt:'Módulo 1 completo: regras, seletores e cores na palma da mão.'}},
+ mod2:{items:[['c2l1','font-size e font-family'],['c2l2','Peso e decoração'],['c2l3','Alinhamento e respiro'],['c2l4','✏️ Treino de tipografia'],['c2l5','🧱 Oficina: o título perfeito'],['qc2','🎯 Quiz']],badge:{emo:'🔤',tit:'Tipógrafo(a)!',txt:'Módulo 2 completo: texto que respira e convida a ler.'}},
+ mod3:{items:[['c3l1','Tudo é caixa (a cebola)'],['c3l2','Atalhos de padding/margin'],['c3l3','Borda, cantos e sombra'],['c3l4','width e box-sizing'],['c3l5','🧱 Oficina: o card de app'],['qc3','🎯 Quiz']],badge:{emo:'📦',tit:'Senhor(a) das Caixas!',txt:'Módulo 3 completo: o modelo de caixa não tem mais segredos.'}},
+ mod4:{items:[['c4l1','display: block e inline'],['c4l2','Centralizar clássico'],['c4l3','position: os 4 modos'],['c4l4','z-index e overflow'],['qc4','🎯 Quiz']],badge:{emo:'📍',tit:'Posicionador(a)!',txt:'Módulo 4 completo: cada coisa no seu lugar — inclusive por cima das outras.'}},
+ mod5:{items:[['c5l1','display: flex'],['c5l2','justify-content'],['c5l3','align-items + Santo Graal'],['c5l4','gap, wrap e flex:1'],['c5l5','🧱 Oficina: a navbar'],['qc5','🎯 Quiz']],badge:{emo:'🤸',tit:'Flexionista!',txt:'Módulo 5 completo: você centraliza divs. Poucos podem dizer o mesmo. 😄'}},
+ mod6:{items:[['c6l1','display: grid e fr'],['c6l2','span: células grandes'],['c6l3','Flex ou Grid?'],['c6l4','🧱 Oficina: a galeria'],['qc6','🎯 Quiz']],badge:{emo:'🏙️',tit:'Urbanista!',txt:'Módulo 6 completo: plantas de página desenhadas com fr e gap.'}},
+ mod7:{items:[['c7l1',':hover, :focus, :active'],['c7l2','transition'],['c7l3','transform'],['c7l4','@keyframes e animation'],['c7l5','✏️ Treino: o botão vivo'],['qc7','🎯 Quiz']],badge:{emo:'✨',tit:'Animador(a)!',txt:'Módulo 7 completo: suas páginas agora respondem e respiram.'}},
+ mod8:{items:[['c8l1','Unidades elásticas'],['c8l2','@media queries'],['c8l3','Variáveis CSS'],['c8l4','Especificidade'],['c8l5','O checklist profissional'],['c8l6','🏆 A OBRA-PRIMA'],['qc8','🎯 Quiz FINAL']],badge:{emo:'📱',tit:'Responsivo(a)!',txt:'Módulo 8 completo: sites que se adaptam a qualquer tela — mestria alcançada.'}}
+};
+const TOTAL = Object.values(MODS).reduce((s,m)=>s+m.items.length,0);
+/* ============ QUIZ ============ */
+const QUIZ = {
+ qc1:[
+  {q:'A anatomia correta de uma regra CSS:',o:['seletor { propriedade: valor; }','propriedade { seletor: valor; }','valor { seletor: propriedade; }','{ seletor } propriedade: valor'],c:0,w:'A mira, as chaves e as ordens — a frase universal do CSS.'},
+  {q:'Qual seletor pode se repetir em vários elementos?',o:['.classe','#id','Nenhum','Só o de tag'],c:0,w:'Classe = profissão (milhares de padeiros); id = CPF, único por página.'},
+  {q:'No rgba(124, 77, 255, 0.5), o 0.5 é...',o:['A transparência (metade opaco)','O brilho','O tamanho','A saturação'],c:0,w:'O 4º número vai de 0 (invisível) a 1 (sólido) — o superpoder do rgba.'}],
+ qc2:[
+  {q:'Por que font-family termina com sans-serif?',o:['É o plano C genérico se as fontes da fila faltarem','É obrigatório por lei do CSS','Deixa o texto menor','É a fonte mais bonita'],c:0,w:'A fila de espera precisa de um paraquedas que todo aparelho tem.'},
+  {q:'O "upgrade invisível" que torna texto longo legível:',o:['line-height: 1.6','font-size: 10px','letter-spacing: 20px','text-align: justify'],c:0,w:'O respiro entre linhas — a diferença que ninguém aponta mas todos sentem.'},
+  {q:'Para tirar o sublinhado de um link:',o:['text-decoration: none','font-style: normal','underline: off','font-weight: 100'],c:0,w:'O primeiro ato de estilo de toda pessoa que aprende CSS. Bem-vindo(a) ao clube.'}],
+ qc3:[
+  {q:'padding vs margin:',o:['padding = respiro POR DENTRO; margin = empurrão POR FORA','margin = dentro; padding = fora','São sinônimos','padding só funciona em botões'],c:0,w:'A dupla que resolve 80% dos "esse espaço tá estranho".'},
+  {q:'box-sizing: border-box significa:',o:['O width declarado é o total, já contando padding e borda','A caixa vira redonda','A borda dobra de tamanho','O conteúdo é cortado'],c:0,w:'A linha salva-vidas: as caixas passam a caber onde você calculou.'},
+  {q:'border-radius: 50% num quadrado cria...',o:['Um círculo perfeito','Uma pílula','Cantos levemente suaves','Nada'],c:0,w:'50% arredonda até o limite — é a receita dos avatares redondos.'}],
+ qc4:[
+  {q:'display: none faz o elemento...',o:['Sumir sem deixar NEM o espaço','Ficar transparente mas ocupando lugar','Ir para o fim da página','Diminuir'],c:0,w:'Some de verdade — é assim que as telas desta escola se alternam.'},
+  {q:'A receita clássica para centralizar uma CAIXA na página:',o:['width definida + margin: 0 auto','text-align: center nela mesma','padding: auto','position: center'],c:0,w:'O auto divide a sobra dos lados — mas precisa de width para haver sobra.'},
+  {q:'O position que COLA na janela e não sai nem rolando:',o:['fixed','relative','static','absolute'],c:0,w:'fixed = botão de WhatsApp no canto. sticky rola junto até grudar.'}],
+ qc5:[
+  {q:'display: flex se declara em quem?',o:['No PAI (contêiner) — os filhos entram em fila','Em cada filho','No body sempre','Só em divs'],c:0,w:'O maestro rege a orquestra: quase todo o flex mora no contêiner.'},
+  {q:'O justify-content favorito das navbars (pontas ocupadas, sobra no meio):',o:['space-between','center','flex-end','stretch'],c:0,w:'Logo na esquerda, menu na direita — space-between é o rei das barras.'},
+  {q:'O Santo Graal da centralização perfeita:',o:['display:flex + justify-content:center + align-items:center','text-align:center + padding:auto','margin:center','position:middle'],c:0,w:'Três linhas que encerraram décadas de sofrimento coletivo.'}],
+ qc6:[
+  {q:'No grid, 1fr significa:',o:['Uma FRAÇÃO igual do espaço que sobra','1 pixel fixo','1% da tela','Uma fileira'],c:0,w:'2fr 1fr = primeira coluna com o dobro da segunda. Frações, não pixels.'},
+  {q:'Para um item ocupar 2 colunas da grade:',o:['grid-column: span 2','colspan="2"','width: 200%','grid: double'],c:0,w:'O primo CSS do colspan das tabelas — mas no filho do grid.'},
+  {q:'Navbar e galeria de cards: quais ferramentas?',o:['Navbar = flex (fila); galeria = grid (planta)','Ambos grid','Ambos flex','Navbar = grid; galeria = flex'],c:0,w:'A pergunta-guia: é uma FILA ou é uma PLANTA?'}],
+ qc7:[
+  {q:'Onde a transition deve ficar para suavizar ida E volta?',o:['No estado NORMAL do elemento','Dentro do :hover','No body','Em @keyframes'],c:0,w:'No :hover ela só suaviza a ida — a volta fica seca.'},
+  {q:'A vantagem do transform para animar:',o:['Move/gira/escala SEM empurrar os vizinhos','É mais colorido','Funciona sem CSS','Só funciona em imagens'],c:0,w:'É o holograma: o elemento se mexe e o layout nem percebe.'},
+  {q:'A animation precisa de um roteiro chamado...',o:['@keyframes','@media','@import','@cinema'],c:0,w:'from → to (ou 0% → 100%): as cenas que a animação percorre.'}],
+ qc8:[
+  {q:'@media (max-width: 640px) { ... } aplica as regras quando...',o:['A tela tiver ATÉ 640px (celulares)','A tela for maior que 640px','O site estiver lento','O usuário der zoom'],c:0,w:'O SE do CSS — e com a meta viewport do HTML, o site vira camaleão.'},
+  {q:'Onde as variáveis CSS globais são declaradas?',o:['No :root, e usadas com var(--nome)','No body, com $nome','Em cada elemento','No arquivo HTML'],c:0,w:'O cofre — mude uma linha, o site inteiro obedece.'},
+  {q:'Na briga de estilos, a ordem de força é:',o:['inline > #id > .classe > tag','tag > classe > id','ordem alfabética','quem tiver mais linhas'],c:0,w:'E o !important atropela tudo — por isso é arma nuclear, não ferramenta diária.'}]
+};
+const quizOk = {};
+function renderQuizzes(){
+  Object.keys(QUIZ).forEach(qid=>{
+    const box = $('quiz-'+qid); if(!box) return;
+    quizOk[qid] = quizOk[qid] || new Set();
+    box.innerHTML = (done.has(qid) ? '<div class="box gold"><div class="bt">✅ Quiz concluído!</div>Pode refazer para revisar — o XP já é seu.</div>' : '') +
+      QUIZ[qid].map((p,pi)=>{
+        const ops = p.o.map((t,oi)=>({t,oi})).sort(()=>Math.random()-.5);
+        return '<div class="qq"><div class="qp">'+(pi+1)+'. '+p.q+'</div>'+
+          ops.map(o=>`<button class="qopt" data-oi="${o.oi}" onclick="quizResp('${qid}',${pi},${o.oi},this)">${o.t}</button>`).join('')+
+          '<div class="qwhy" id="why-'+qid+'-'+pi+'"></div></div>';
+      }).join('');
+  });
+}
+function quizResp(qid,pi,oi,el){
+  const p = QUIZ[qid][pi], pai = el.parentElement;
+  pai.querySelectorAll('.qopt').forEach(b=>{ b.classList.remove('certa','errada'); if(+b.dataset.oi===p.c) b.classList.add('certa'); });
+  if(oi!==p.c) el.classList.add('errada');
+  const why = $('why-'+qid+'-'+pi);
+  why.innerHTML = (oi===p.c?'🎉 <b>Certíssimo!</b> ':'💭 <b>A certa está em verde.</b> ')+p.w;
+  why.classList.add('show');
+  if(oi===p.c){ quizOk[qid].add(pi); if(quizOk[qid].size===QUIZ[qid].length && !done.has(qid)) complete(qid); }
+}
+/* ============ PLAYGROUNDS ============ */
+function pgUp(id){
+  const t = $(id), out = $(id+'-out'); if(!t||!out) return;
+  out.srcdoc = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:sans-serif;margin:12px;line-height:1.5}</style></head><body>'+t.value+'</body></html>';
+}
+function initPgs(){ document.querySelectorAll('.pg textarea').forEach(t=>pgUp(t.id)); }
+/* ============ LACUNAS ============ */
+function fillCheck(id){
+  const box = $(id); let tudo = true;
+  box.querySelectorAll('.lac').forEach(i=>{
+    const ok = i.dataset.r.split('|').some(r=>r.trim().toLowerCase()===i.value.trim().toLowerCase());
+    i.classList.toggle('ok',ok); i.classList.toggle('err',!ok);
+    if(!ok) tudo = false;
+  });
+  const m = box.querySelector('.fill-msg');
+  m.className = 'fill-msg show';
+  m.style.color = tudo ? '#15803D' : '#B91C1C';
+  m.textContent = tudo ? '🎉 Perfeito! Pode seguir.' : '🤏 Quase! Ajuste os campos vermelhos — a resposta está na lição.';
+  if(tudo) DA.confetti();
+}
+/* ============ OFICINAS DE ESTILO ============ */
+const MONTAGENS = {
+ mtc1:{obj:'🎯 <b>Meta:</b> o cartão roxo da Ana — fundo roxo da marca, letras brancas, respiro interno e cantos suaves. Só 4 declarações fazem parte; o resto é armadilha!',
+   base:'<div style="max-width:240px;{D}"><h3 style="margin:0 0 6px">Ana Carvalho</h3><p style="margin:0">Padeira-chefe ✱</p></div>',
+   alvo:['background: #7C4DFF','color: white','padding: 20px','border-radius: 16px'],
+   pal:['background: #7C4DFF','color: black','padding: 20px','color: white','background: #ECEEF3','border-radius: 16px','text-decoration: underline']},
+ mtc2:{obj:'🎯 <b>Meta:</b> o letreiro de marca cara — centrado, arejado entre letras, roxo e grande.',
+   base:'<h1 style="font-family:Arial;{D}">PADARIA DA ANA</h1>',
+   alvo:['text-align: center','letter-spacing: 3px','color: #7C4DFF','font-size: 34px'],
+   pal:['text-align: center','text-align: left','letter-spacing: 3px','font-size: 34px','font-size: 12px','color: #7C4DFF','text-decoration: underline']},
+ mtc3:{obj:'🎯 <b>Meta:</b> de retângulo cru a card de aplicativo — respiro, cantos, moldura fininha e sombra suave.',
+   base:'<div style="background:white;max-width:250px;{D}"><b>🥐 Croissant</b><p style="margin:6px 0 0">Amanteigado, crocante, perfeito.</p></div>',
+   alvo:['padding: 20px','border-radius: 16px','border: 1px solid #DCE1EC','box-shadow: 0 10px 24px rgba(20,31,60,.15)'],
+   pal:['padding: 20px','padding: 0','border-radius: 16px','border: 1px solid #DCE1EC','border: 4px dashed red','box-shadow: 0 10px 24px rgba(20,31,60,.15)']},
+ mtc5:{obj:'🎯 <b>Meta:</b> a navbar profissional — fila flex, logo numa ponta e menu na outra, tudo alinhado no meio, sobre fundo navy com respiro.',
+   base:'<nav style="{D}"><b style="color:white">✱ MeuSite</b><span style="color:#C7D2FE">Início · Cursos · Contato</span></nav>',
+   alvo:['display: flex','justify-content: space-between','align-items: center','background: #141F3C','padding: 14px 20px','border-radius: 12px'],
+   pal:['display: flex','display: block','justify-content: space-between','justify-content: flex-start','align-items: center','background: #141F3C','padding: 14px 20px','border-radius: 12px']},
+ mtc6:{obj:'🎯 <b>Meta:</b> seis produtos empilhados virando vitrine de 3 colunas com respiro uniforme — a assinatura do grid em 3 declarações.',
+   base:'<div style="{D}"><div style="background:#EDE9FE;border-radius:10px;padding:16px;text-align:center">🥐</div><div style="background:#EDE9FE;border-radius:10px;padding:16px;text-align:center">🍞</div><div style="background:#EDE9FE;border-radius:10px;padding:16px;text-align:center">🧁</div><div style="background:#EDE9FE;border-radius:10px;padding:16px;text-align:center">🍰</div><div style="background:#EDE9FE;border-radius:10px;padding:16px;text-align:center">🥖</div><div style="background:#EDE9FE;border-radius:10px;padding:16px;text-align:center">🍩</div></div>',
+   alvo:['display: grid','grid-template-columns: repeat(3, 1fr)','gap: 10px'],
+   pal:['display: grid','display: flex','grid-template-columns: repeat(3, 1fr)','grid-template-columns: 1fr','gap: 10px','gap: 60px']},
+ mtc8:{obj:'🏆 <b>A OBRA-PRIMA:</b> seu cartão de visitas digital — gradiente da marca, texto branco centrado, respiro generoso, cantos suaves e sombra colorida. 6 declarações, todo o curso numa peça.',
+   base:'<div style="max-width:280px;margin:0 auto;font-family:Arial;{D}"><div style="font-size:40px">✱</div><h2 style="margin:6px 0">Wess Marques</h2><p style="margin:0;opacity:.92">Criador de sistemas &amp; sites</p></div>',
+   alvo:['background: linear-gradient(135deg, #2F6FED, #7C4DFF)','color: white','text-align: center','padding: 28px','border-radius: 18px','box-shadow: 0 14px 34px rgba(124,77,255,.4)'],
+   pal:['background: linear-gradient(135deg, #2F6FED, #7C4DFF)','background: gray','color: white','text-align: center','text-align: left','padding: 28px','border-radius: 18px','box-shadow: 0 14px 34px rgba(124,77,255,.4)']}
+};
+const MT = {};
+function catOf(d){
+  const p = d.split(':')[0].trim();
+  if(/^(color|background)/.test(p)) return 'bk-link';
+  if(/^(font|text|letter|line)/.test(p)) return 'bk-texto';
+  if(/^(display|justify|align|gap|grid|flex)/.test(p)) return 'bk-estr';
+  if(/^(padding|margin|border|box-shadow|width|height)/.test(p)) return 'bk-lista';
+  return 'bk-form';
+}
+function mtInit(id){ MT[id] = {pilha:[]}; mtRender(id); }
+function addMtc(id,i){
+  const d = MONTAGENS[id].pal[i];
+  if(MT[id].pilha.includes(d)){ DA.toast('Esse bloco já está na pilha! Toque nele lá em cima para remover.'); return; }
+  MT[id].pilha.push(d); mtRender(id);
+}
+function remMtc(id,i){ MT[id].pilha.splice(i,1); mtRender(id); }
+function mtcLimpar(id){ MT[id].pilha = []; mtRender(id); }
+function mtcFrame(spec, decls){
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:sans-serif;margin:14px;background:#F4F6FB}</style></head><body>'+
+    spec.base.replace('{D}', decls.join('; ')) + '</body></html>';
+}
+function mtRender(id){
+  const spec = MONTAGENS[id], st = MT[id], el = $(id);
+  el.innerHTML = `<div class="mt-obj">${spec.obj}</div>
+    <div class="mt-grid">
+      <div><div class="pg-lab">🧩 Sua pilha de declarações (a ordem não importa)</div>
+        <div class="mt-pilha">${st.pilha.length===0?'<div class="vazio">👇 Toque nas declarações da caixa para empilhar</div>':st.pilha.map((d,i)=>`<button class="bloco ${catOf(d)}" onclick="remMtc('${id}',${i})">${d}; <span class="x">✕</span></button>`).join('')}</div>
+        <div>${spec.pal.map((d,i)=>`<button class="bloco ${catOf(d)}" onclick="addMtc('${id}',${i})">${d};</button>`).join('')}</div>
+        <div style="margin-top:9px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn small green" onclick="mtcCheck('${id}')">Conferir ✔</button><button class="btn small outline" onclick="mtcLimpar('${id}')">🧹 Limpar</button></div>
+        <div class="mt-msg" id="${id}-msg"></div></div>
+      <div class="mtc-prev">
+        <div><span class="meta-tag">🎯 META — chegue neste visual</span><iframe id="${id}-meta"></iframe></div>
+        <div><span class="sua-tag">🖌️ SUA VERSÃO — ao vivo</span><iframe id="${id}-out"></iframe></div>
+      </div>
+    </div>`;
+  $(id+'-meta').srcdoc = mtcFrame(spec, spec.alvo);
+  $(id+'-out').srcdoc = mtcFrame(spec, st.pilha);
+}
+function mtcCheck(id){
+  const spec = MONTAGENS[id], got = [...MT[id].pilha].sort(), alvo = [...spec.alvo].sort(), m = $(id+'-msg');
+  m.classList.add('show');
+  if(JSON.stringify(got)===JSON.stringify(alvo)){
+    m.className = 'mt-msg show ok';
+    m.innerHTML = '🎉 <b>Meta batida!</b> Sua versão está idêntica à meta — compare os dois quadros. Pode concluir a lição!';
+    DA.confetti(); return;
+  }
+  m.className = 'mt-msg show err';
+  const falta = spec.alvo.find(d=>!MT[id].pilha.includes(d));
+  const sobra = MT[id].pilha.find(d=>!spec.alvo.includes(d));
+  if(sobra) m.innerHTML = '🪤 A declaração <b>'+sobra+'</b> não faz parte da meta — era armadilha! Toque nela na pilha para remover.';
+  else if(falta) m.innerHTML = '🤔 Está faltando algo... compare os dois quadros com calma. Dica: pense em <b>'+falta.split(':')[0]+'</b>.';
+  else m.innerHTML = '🤔 Quase! Compare os dois quadros com calma.';
+}
+function renderMts(){ Object.keys(MONTAGENS).forEach(mtInit); }
+/* ============ ENGINE ============ */
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
+function snapshot(){ return {xp, done:[...done], dys, badges, dip, dip_em:dipEm}; }
+async function saveState(){
+  const s = snapshot();
+  try{ localStorage.setItem('da-espelho:'+CURSO_ID+':'+uid, JSON.stringify(s)); }catch(e){}
+  DA.saveProgress(CURSO_ID, s);
+}
+function mergeStates(a,b){
+  if(!a) return b; if(!b) return a;
+  const d = new Set([...(a.done||[]),...(b.done||[])]);
+  return {xp:Math.max(a.xp||0,b.xp||0,d.size*10), done:[...d], dys:b.dys||a.dys||false,
+    badges:[...new Set([...(a.badges||[]),...(b.badges||[])])], dip:a.dip||b.dip||false, dip_em:a.dip_em||b.dip_em||null};
+}
+function apply(s){
+  if(!s) return;
+  done = new Set(s.done||[]); xp = s.xp||done.size*10; dys = !!s.dys; badges = s.badges||[]; dip = !!s.dip; dipEm = s.dip_em||null;
+  document.body.classList.toggle('dys', dys);
+}
+function rank(){ let r=RANKS[0][1]; RANKS.forEach(([m,n])=>{ if(xp>=m) r=n; }); return r; }
+function refreshUI(){
+  $('xpVal').textContent = xp;
+  $('rankVal').textContent = rank();
+  $('pfill').style.width = Math.round(done.size/TOTAL*100)+'%';
+  $('plabel').textContent = done.size+' de '+TOTAL+' etapas · '+Math.round(done.size/TOTAL*100)+'%';
+  $('rankline').innerHTML = RANKS.map(([m,n])=>'<span class="rk'+(xp>=m?' on':'')+'">'+n+' · '+m+' XP</span>').join('');
+  Object.entries(MODS).forEach(([mid,m])=>{
+    $(mid+'list').innerHTML = m.items.map(([id,rot])=>
+      `<button class="les-btn ${done.has(id)?'done':''}" onclick="go('${id}')"><span class="ic">${done.has(id)?'✅':'▶️'}</span> ${rot}</button>`).join('');
+  });
+  done.forEach(id=>{ const f=$('f-'+id); if(f) f.classList.add('show'); });
+}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const alvo = $(id); if(alvo) alvo.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function complete(id){
+  if(done.has(id)){ toast('Você já concluiu esta etapa! ✔'); return; }
+  done.add(id); xp += 10;
+  const f = $('f-'+id); if(f) f.classList.add('show');
+  DA.confetti(); refreshUI();
+  const mod = Object.entries(MODS).find(([k,m])=>m.items.some(([i])=>i===id));
+  if(mod && mod[1].items.every(([i])=>done.has(i)) && !badges.includes(mod[0])){
+    badges.push(mod[0]);
+    $('badgeEmo').textContent = mod[1].badge.emo; $('badgeTit').textContent = mod[1].badge.tit; $('badgeTxt').textContent = mod[1].badge.txt;
+    setTimeout(()=>$('badgeOverlay').classList.add('show'), 500);
+  }
+  if(done.size===TOTAL && !dip){ dip = true; dipEm = new Date().toISOString(); setTimeout(()=>$('diplomaOverlay').classList.add('show'), 900); }
+  saveState();
+  renderQuizzes();
+}
+function toggleDys(){ dys = !dys; document.body.classList.toggle('dys', dys); saveState(); toast(dys?'👓 Leitura fácil ativada':'Leitura fácil desativada'); }
+function authUi(){ if(confirm('Sair da sua conta?')) DA.logout(); }
+/* ============ INÍCIO ============ */
+(async function init(){
+  const u = await DA.requireAuth(); if(!u) return;
+  uid = u.id;
+  let nuvem = null;
+  try{ const r = await DA.loadProgress(CURSO_ID); nuvem = r.estado; }catch(e){}
+  let local = null;
+  try{ local = JSON.parse(localStorage.getItem('da-espelho:'+CURSO_ID+':'+uid)); }catch(e){}
+  apply(mergeStates(local, nuvem));
+  renderQuizzes(); initPgs(); renderMts(); refreshUI(); saveState();
+})();
+</script>
+</body>
+</html>

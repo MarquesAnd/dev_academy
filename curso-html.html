@@ -197,7 +197,7 @@ main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-
   <div class="progresso">
     <b>Sua obra</b>
     <div class="pbar"><div id="pfill" style="width:0%"></div></div>
-    <div id="plabel" style="font-size:.85rem;color:#5A6482">0 de 49 etapas</div>
+    <div id="plabel" style="font-size:.85rem;color:#5A6482">0 de 50 etapas</div>
     <div class="rankline" id="rankline"></div>
   </div>
   <div class="mod-grid">
@@ -1256,7 +1256,30 @@ divide com alguém. — Ana, 1987</blockquote>
   <div class="box gold"><div class="bt">✱ Depois do Conferir...</div>Olhe a tela ao lado com carinho: header com identidade, menu navegável, conteúdo que informa, formulário que escuta, rodapé que assina. Isso É um site. Estrutura pronta para o CSS vestir e o JavaScript animar — os próximos cursos da sua jornada. O quiz final te espera. 🎓</div>
   <button class="btn green done-btn" onclick="complete('h8l6')">✔ Concluir lição (+10 XP)</button>
   <div class="done-flag" id="f-h8l6">🎉 Lição concluída!</div>
-  <div class="lnav"><button class="btn outline small" onclick="go('h8l5')">← Anterior</button><button class="btn amber small" onclick="go('qh8')">🎯 QUIZ FINAL →</button></div>
+  <div class="lnav"><button class="btn outline small" onclick="go('h8l5')">← Anterior</button><button class="btn small" onclick="go('h8l7')">Próxima: Publicar na internet →</button></div>
+</div></section>
+
+<section class="screen" id="h8l7"><div class="lesson">
+  <div class="crumb"><span class="chip" style="background:#4338CA">Módulo 8 · Lição 7 de 7</span></div>
+  <h2>🌍 Do playground para o mundo real: publique seu site</h2>
+  <p>Até aqui, seu código viveu nos playgrounds da escola. Hora do rito de passagem: criar um arquivo <b>de verdade</b>, abrir no navegador <b>de verdade</b>, e colocar <b>na internet de verdade</b>. São três passos, e nenhum deles morde.</p>
+  <h4>1️⃣ Criar o arquivo</h4>
+  <p>Abra o <b>Bloco de Notas</b> (ou o VS Code, se já tiver). Escreva sua página — comece pela mínima, do Módulo 1. Salve como <code>index.html</code>: <mark>o nome importa</mark> (index = a porta de entrada que os servidores procuram) e a extensão <code>.html</code> é obrigatória. No Bloco de Notas, escolha "Salvar como" → Tipo: <b>Todos os arquivos</b> → nome <code>index.html</code> — senão ele salva um .txt disfarçado.</p>
+  <h4>2️⃣ Abrir no navegador</h4>
+  <p><b>Dois cliques no arquivo.</b> Pronto: o navegador abre SEU site. Repare no endereço — começa com <code>file:///</code>, que significa "morando só neste computador". Edite o arquivo, salve (Ctrl+S), aperte F5 no navegador: a página atualiza. Esse vai-e-volta editor↔navegador é literalmente o dia a dia da profissão.</p>
+  <h4>3️⃣ Publicar de graça no GitHub Pages</h4>
+  <table class="tbl">
+    <tr><th>Passo</th><th>Onde</th></tr>
+    <tr><td>Crie uma conta e um repositório (ex.: <code>meu-site</code>)</td><td>github.com → New repository → Public</td></tr>
+    <tr><td>Suba seu arquivo</td><td>Add file → Upload files → arraste o <code>index.html</code> → Commit</td></tr>
+    <tr><td>Ligue o Pages</td><td>Settings → Pages → Branch: <code>main</code> → Save</td></tr>
+    <tr><td>Espere ~2 min e visite</td><td><code>seunome.github.io/meu-site</code> 🎉</td></tr>
+  </table>
+  <div class="box gold"><div class="bt">✱ Plot twist final</div>Esta escola inteira — a Dev Academy onde você está estudando AGORA — mora exatamente aí: arquivos .html num repositório, publicados pelo GitHub Pages. O processo que você acabou de aprender é o mesmo que construiu o lugar onde você o aprendeu. Círculo completo. 🎓</div>
+  <div class="box tip"><div class="bt">💡 E quando o site crescer?</div>O fluxo profissional é o mesmo, só muda a escala: editar → salvar → subir pro GitHub → F5. Domínio próprio (tipo .com.br) é um apelido apontando pro mesmo lugar — dá pra plugar depois, sem refazer nada.</div>
+  <button class="btn green done-btn" onclick="complete('h8l7')">✔ Concluir lição (+10 XP)</button>
+  <div class="done-flag" id="f-h8l7">🎉 Lição concluída!</div>
+  <div class="lnav"><button class="btn outline small" onclick="go('h8l6')">← Anterior</button><button class="btn amber small" onclick="go('qh8')">🎯 QUIZ FINAL →</button></div>
 </div></section>
 
 <section class="screen" id="qh8"><div class="lesson">
@@ -1300,7 +1323,7 @@ const MODS = {
  mod5:{items:[['h5l1','form, input e label'],['h5l2','Os tipos de input'],['h5l3','placeholder, name, required'],['h5l4','radio vs checkbox'],['h5l5','select e textarea'],['h5l6','🧱 Montagem: formulário'],['qh5','🎯 Quiz']],badge:{emo:'📋',tit:'Recepcionista-Chefe!',txt:'Módulo 5 completo: seu site agora escuta as pessoas.'}},
  mod6:{items:[['h6l1','div e span'],['h6l2','🧱 A planta da casa'],['h6l3','section, article, aside'],['h6l4','Acessibilidade'],['h6l5','SEO básico'],['qh6','🎯 Quiz']],badge:{emo:'🏛️',tit:'Arquiteto(a) Semântico(a)!',txt:'Módulo 6 completo: HTML com significado — o que separa os profissionais.'}},
  mod7:{items:[['h7l1','audio e video'],['h7l2','iframe'],['h7l3','SVG: desenhar com tags'],['h7l4','details e summary'],['qh7','🎯 Quiz']],badge:{emo:'🎬',tit:'Diretor(a) de Mídia!',txt:'Módulo 7 completo: som, filme, desenho e janelas.'}},
- mod8:{items:[['h8l1','Atributos globais'],['h8l2','A cabeça profissional'],['h8l3','Formulários turbo'],['h8l4','Validação nativa'],['h8l5','input file'],['h8l6','🏆 A OBRA FINAL'],['qh8','🎯 Quiz FINAL']],badge:{emo:'🚀',tit:'Nível Avançado!',txt:'Módulo 8 completo: validação, atributos e uma obra inteira de pé.'}}
+ mod8:{items:[['h8l1','Atributos globais'],['h8l2','A cabeça profissional'],['h8l3','Formulários turbo'],['h8l4','Validação nativa'],['h8l5','input file'],['h8l6','🏆 A OBRA FINAL'],['h8l7','🌍 Publicar na internet'],['qh8','🎯 Quiz FINAL']],badge:{emo:'🚀',tit:'Nível Avançado!',txt:'Módulo 8 completo: validação, atributos e uma obra inteira de pé.'}}
 };
 const TOTAL = Object.values(MODS).reduce((s,m)=>s+m.items.length,0);
 /* ============ QUIZ ============ */

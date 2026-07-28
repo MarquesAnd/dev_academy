@@ -60,8 +60,14 @@
     <div class="da-card">
       <div class="top g-amber"><span class="emo">🏗️</span><div><h3>HTML Completo</h3><small>Do zero ao avançado</small></div></div>
       <div class="body">
-        <div class="da-note" id="htmlNote">A linguagem da web inteira: 8 módulos, 49 etapas, com playgrounds, lacunas e blocos.</div>
+        <div class="da-note" id="htmlNote">A linguagem da web inteira: 8 módulos, 50 etapas, com playgrounds, lacunas e blocos.</div>
         <a class="da-btn amber" href="curso-html.html" style="margin-top:auto">▶ Estudar HTML</a>
+      </div>
+      <div class="da-card g-purple">
+        <div class="da-emoji">🎨</div>
+        <h3>CSS Completo</h3>
+        <div class="da-note" id="cssNote">A roupa da web: 8 módulos, 47 etapas — flexbox, grid, animações e oficinas de estilo.</div>
+        <a class="da-btn" href="curso-css.html" style="background:linear-gradient(135deg,#7C4DFF,#EC4899)">Abrir curso</a>
       </div>
     </div>
     <div class="da-card">
@@ -143,9 +149,14 @@ async function entrar(){
   document.getElementById('btnCurso').textContent = pct===0 ? '▶ Começar o curso' : (pct===100 ? '🏆 Revisitar o curso' : '▶ Continuar o curso');
   document.getElementById('ctaCurso').textContent = document.getElementById('btnCurso').textContent;
   const ht = rows.find(r=>r.curso_id === 'html-completo');
+  const cs = rows.find(r=>r.curso_id === 'css-completo');
+  if(cs && cs.estado){
+    const cf = (cs.estado.done||[]).length;
+    document.getElementById('cssNote').innerHTML = (cs.estado.dip?'🎓 Curso concluído! ':'🎨 '+cf+'/47 etapas · ')+'⚡ '+(cs.estado.xp||0)+' XP';
+  }
   if(ht && ht.estado && ht.estado.done){
     const hf = ht.estado.done.length;
-    document.getElementById('htmlNote').innerHTML = (ht.estado.dip?'🎓 Curso concluído! ':'🏗️ '+hf+'/49 etapas · ')+'⚡ '+(ht.estado.xp||0)+' XP';
+    document.getElementById('htmlNote').innerHTML = (ht.estado.dip?'🎓 Curso concluído! ':'🏗️ '+hf+'/50 etapas · ')+'⚡ '+(ht.estado.xp||0)+' XP';
   }
   const jg = rows.find(r=>r.curso_id === 'blocos-logica');
   if(jg && jg.estado && jg.estado.estrelas){

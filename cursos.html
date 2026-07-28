@@ -34,6 +34,9 @@
   const { rows } = await DA.listProgress();
   const cx = rows.find(r=>r.curso_id==='cortex-fundamentos');
   const ht = rows.find(r=>r.curso_id==='html-completo');
+  const cs = rows.find(r=>r.curso_id==='css-completo');
+  const ce = (cs && cs.estado) || {};
+  const cfeitos = (ce.done||[]).length;
   const he = ht ? (ht.estado||{}) : {};
   const hfeitos = (he.done||[]).length;
   const jg = rows.find(r=>r.curso_id==='blocos-logica');
@@ -57,9 +60,17 @@
       '<div class="top g-amber"><span class="emo">🏗️</span><div><h3>HTML Completo</h3><small>Do zero ao avançado · 8 módulos</small></div></div>'+
       '<div class="body">'+
         '<div class="da-note">A linguagem inteira: textos, links, imagens, tabelas, formulários, semântica, mídia e validação — com código ao vivo, lacunas e oficinas de blocos.</div>'+
-        '<div class="da-prog"><div style="width:'+Math.round(hfeitos/49*100)+'%"></div></div>'+
-        '<div class="da-note">'+(hfeitos===0?'Ainda não iniciado':(he.dip?'🎓 Concluído! ⚡ '+(he.xp||0)+' XP':hfeitos+'/49 etapas · ⚡ '+(he.xp||0)+' XP'))+'</div>'+
+        '<div class="da-prog"><div style="width:'+Math.round(hfeitos/50*100)+'%"></div></div>'+
+        '<div class="da-note">'+(hfeitos===0?'Ainda não iniciado':(he.dip?'🎓 Concluído! ⚡ '+(he.xp||0)+' XP':hfeitos+'/50 etapas · ⚡ '+(he.xp||0)+' XP'))+'</div>'+
         '<a class="da-btn amber" href="curso-html.html" style="margin-top:auto">'+(hfeitos===0?'▶ Começar':'▶ Continuar')+'</a>'+
+      '</div>'+
+      '<div class="da-card g-purple">'+
+        '<div class="da-emoji">🎨</div>'+
+        '<h3>CSS Completo</h3>'+
+        '<p>Vista seu HTML: cores, caixas, flexbox, grid, animações e design responsivo — com oficinas de estilo batendo a meta visual.</p>'+
+        '<div class="da-prog"><div style="width:'+Math.round(cfeitos/47*100)+'%"></div></div>'+
+        '<div class="da-note">'+(cfeitos===0?'Ainda não iniciado':(ce.dip?'🎓 Concluído! ⚡ '+(ce.xp||0)+' XP':cfeitos+'/47 etapas · ⚡ '+(ce.xp||0)+' XP'))+'</div>'+
+        '<a class="da-btn" href="curso-css.html" style="margin-top:auto;background:linear-gradient(135deg,#7C4DFF,#EC4899)">'+(cfeitos===0?'▶ Começar':'▶ Continuar')+'</a>'+
       '</div>'+
     '</div>'+
     '<div class="da-card">'+
