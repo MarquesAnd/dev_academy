@@ -184,6 +184,49 @@ main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-
 .jb-lab{font-size:.72rem;font-weight:800;color:#5A6482;text-transform:uppercase;letter-spacing:.6px;margin:8px 0 5px}
 </style>
 
+
+<style>
+/* ===== TEMA MINECRAFT (feito em CSS puro — nenhuma textura do jogo) ===== */
+.mcw *{border-radius:0!important}
+.mc-linha{display:flex;gap:0;flex-wrap:wrap}
+.mc-bloco{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.4);box-shadow:inset 3px 3px 0 rgba(255,255,255,.28), inset -3px -3px 0 rgba(0,0,0,.28);image-rendering:pixelated}
+.mc-bloco.mini{width:30px;height:30px;border-width:2px}
+.b-grama{background:linear-gradient(#6BC94E 0 32%, #8A5A34 32%)}
+.b-terra{background:#8A5A34}
+.b-pedra{background:#8f8f8f}
+.b-tabua{background:#B8905A}
+.b-graveto{background:linear-gradient(90deg,#EDF2FA 0 36%, #7A5230 36% 64%, #EDF2FA 64%)}
+.b-carvao{background:radial-gradient(#2E2E2E 55%, #4A4A4A)}
+.b-diamante{background:#53D9D3}
+.b-ouro{background:#F5C542}
+.b-redstone{background:#8F1616}
+.b-lampada-off{background:#6E5B33}
+.b-lampada-on{background:#FFD966;box-shadow:0 0 18px 4px rgba(255,217,102,.85), inset 3px 3px 0 rgba(255,255,255,.4)}
+.b-ar{background:#EDF2FA;border-color:#C9D2E6;box-shadow:none}
+.mc-painel{background:#C6C6C6;border:4px solid;border-color:#FFFFFF #555555 #555555 #FFFFFF;padding:16px;margin:16px 0;border-radius:0}
+.mc-painel .tit{font-family:Consolas,monospace;font-weight:800;color:#3F3F3F;margin-bottom:10px;font-size:1.02rem}
+.mc-btn{font-family:Consolas,monospace;font-weight:800;font-size:.9rem;background:#7E7E7E;color:#fff;border:3px solid;border-color:#B5B5B5 #3E3E3E #3E3E3E #B5B5B5;padding:9px 16px;cursor:pointer;text-shadow:1px 1px 0 #3F3F3F;margin:3px;border-radius:0}
+.mc-btn:hover{filter:brightness(1.12)}
+.mc-btn.verde{background:#4C9E3C;border-color:#7FD86A #2C5E22 #2C5E22 #7FD86A}
+.mc-slot{width:52px;height:52px;background:#8B8B8B;border:3px solid;border-color:#373737 #FFFFFF #FFFFFF #373737;display:inline-flex;align-items:center;justify-content:center;position:relative;cursor:pointer;vertical-align:middle}
+.mc-slot .qt{position:absolute;right:3px;bottom:0;font-family:Consolas,monospace;font-weight:800;color:#fff;text-shadow:1px 1px 0 #3F3F3F;font-size:.85rem}
+.mc-craft{display:grid;grid-template-columns:repeat(3,52px);gap:6px}
+.mc-ceu{height:140px;border:4px solid #333;position:relative;overflow:hidden;transition:background .3s;border-radius:0}
+.mc-astro{width:34px;height:34px;position:absolute;top:26px;border:3px solid rgba(0,0,0,.25);box-shadow:inset 3px 3px 0 rgba(255,255,255,.35);transition:left .15s}
+.mc-chao{position:absolute;bottom:0;left:0;right:0;height:34px;background:linear-gradient(#6BC94E 0 32%, #8A5A34 32%)}
+.mc-chunkmapa{display:grid;grid-template-columns:repeat(24,16px);gap:1px;background:#333;padding:4px;width:max-content;max-width:100%;overflow:auto}
+.mc-cel{width:16px;height:16px;background:#6BC94E;cursor:pointer}
+.mc-cel:nth-child(even){background:#63BD48}
+.mc-cel.borda{border-left:2px solid #FDE68A}
+.mc-cel.hl{background:#F59E0B}
+.mc-cel.sel{background:#EF4444}
+.arv{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.arv .nivel{display:flex;flex-direction:column;gap:8px}
+.arv .no{font-family:Consolas,monospace;font-weight:800;padding:9px 13px;border:3px solid rgba(0,0,0,.35);background:#8f8f8f;color:#fff;cursor:pointer;text-shadow:1px 1px 0 #333;box-shadow:inset 3px 3px 0 rgba(255,255,255,.25), inset -3px -3px 0 rgba(0,0,0,.25);border-radius:0}
+.arv .no.on{background:#4C9E3C;outline:3px solid #FDE68A}
+.mc-out{font-family:Consolas,monospace;background:#1E1E28;color:#8AE68A;padding:12px;border:3px solid #000;margin-top:10px;font-size:.9rem;min-height:40px;white-space:pre-wrap;border-radius:0}
+</style>
+
 </head>
 <body class="locked">
 <header>
@@ -205,6 +248,9 @@ main{max-width:1060px;margin:0 auto;padding:22px 16px calc(60px + env(safe-area-
     <div class="bigast">⛏️</div>
     <h1>A lógica do Java <span>dentro do Minecraft</span></h1>
     <p>O jogo mais vendido da história é um programa Java rodando na sua frente — e nós abrimos ele no laboratório. Dissecamos o arquivo REAL da versão 1.21.11: suas 10.291 classes, seu relógio de 20 ticks, suas entidades com herança, seus eventos, sua redstone booleana. Cada conceito que você aprendeu vira exemplo VIVO num jogo de bilhões — e no final, você escreve seu primeiro plugin de servidor. Pré-requisito: o curso Java Completo.</p>
+    <div class="mc-linha mcw" style="margin:6px 0 16px">
+      <div class="mc-bloco b-grama"></div><div class="mc-bloco b-grama"></div><div class="mc-bloco b-terra"></div><div class="mc-bloco b-pedra"></div><div class="mc-bloco b-carvao"></div><div class="mc-bloco b-redstone"></div><div class="mc-bloco b-diamante"></div><div class="mc-bloco b-ouro"></div>
+    </div>
     <button class="btn amber" onclick="go('k1l1')">▶ Abrir o baú</button>
   </div>
   <div class="progresso">
@@ -293,6 +339,18 @@ bjq.class    <span class="tk-com">← a maior do jar: 245 KB de bytecode numa cl
     <tr><td>Traduções</td><td>en_us.json com 492 KB</td><td>Milhares de textos do jogo num único JSON gigante</td></tr>
   </table>
   <p>E a pasta <code>data/</code> guarda os REGISTROS do jogo em JSON puro: <code>enchantment/</code>, <code>damage_type/</code>, <code>dimension_type/</code>, <code>cat_variant/</code>... Encantamentos e tipos de dano são ARQUIVOS DE DADOS, não código! Por isso datapacks existem: mudar o jogo editando JSON, sem tocar numa linha de Java.</p>
+  <div class="mc-painel mcw"><div class="tit">🛠️ BANCADA INTERATIVA — a receita é um PADRÃO de dados</div>
+    <p style="margin-top:0">Toque nas células para alternar o item (vazio → tábua → graveto → carvão). Monte uma <b>picareta</b>, uma <b>espada</b> ou uma <b>tocha</b> — o "jogo" compara sua grade com as receitas e reconhece o padrão:</p>
+    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <div class="mc-craft" id="craftGrid"></div>
+      <div style="font-size:1.6rem">→</div>
+      <div class="mc-slot" id="craftOut" style="width:64px;height:64px"></div>
+    </div>
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-family:Consolas,monospace;font-weight:800;font-size:.85rem;color:#3F3F3F">
+      LEGENDA: <span class="mc-bloco mini b-tabua"></span> tábua <span class="mc-bloco mini b-graveto"></span> graveto <span class="mc-bloco mini b-carvao"></span> carvão
+    </div>
+    <div class="mc-out" id="craftMsg">(a bancada espera seu padrão)</div>
+  </div>
   <div class="box gold"><div class="bt">✱ A lição de arquiteto(a)</div><mark>Código define COMPORTAMENTO; dados definem CONTEÚDO</mark>. A classe do encantamento (código) é uma; os 40+ encantamentos (dados) são JSONs. Você fez IGUAL no curso do jogo: a engine era código, sua fase era texto. Sistemas bem projetados separam os dois — do Minecraft ao CORTEX.</div>
   <button class="btn green done-btn" onclick="complete('k1l4')">✔ Concluir lição (+10 XP)</button>
   <div class="done-flag" id="f-k1l4">🎉 Lição concluída!</div>
@@ -390,6 +448,17 @@ if (agora >= 13000) {
     <div style="margin-top:8px"><button class="jb-run" onclick="jbRun('ka2')">▶ Rodar</button></div></div>
     <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka2-out">(aperte ▶ Rodar)</pre></div>
   </div>
+  <div class="mc-painel mcw"><div class="tit">🕰️ O RELÓGIO DO MUNDO — arraste o tick e veja o céu obedecer</div>
+    <div class="mc-ceu" id="ceu"><div class="mc-astro" id="astro"></div><div class="mc-chao"></div></div>
+    <input type="range" id="tickSlide" min="0" max="24000" value="1000" style="width:100%;margin-top:10px" oninput="mcTickUI(+this.value)">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+      <button class="mc-btn" onclick="mcTickSet(0)">/time set 0</button>
+      <button class="mc-btn" onclick="mcTickSet(6000)">6000 · meio-dia</button>
+      <button class="mc-btn" onclick="mcTickSet(13000)">13000 · pôr do sol</button>
+      <button class="mc-btn" onclick="mcTickSet(18000)">18000 · meia-noite</button>
+    </div>
+    <div class="mc-out" id="tickMsg"></div>
+  </div>
   <div class="box gold"><div class="bt">✱ Confere com sua experiência?</div>20 minutos por dia — exatamente o que você sente jogando. E o comando /time set 13000 que os jogadores decoram? Agora você sabe: é só ESCREVER NUMA VARIÁVEL o relógio do mundo. Números com significado > números mágicos.</div>
   <button class="btn green done-btn" onclick="complete('k2l3')">✔ Concluir lição (+10 XP)</button>
   <div class="done-flag" id="f-k2l3">🎉 Lição concluída!</div>
@@ -434,6 +503,10 @@ if (agora >= 13000) {
  │   │   └─ Animal → Cow, Pig, Wolf...
  ├─ ItemEntity             <span class="tk-com">← item caído no chão (tem posição, NÃO tem HP)</span>
  └─ ArrowEntity, Boat...</pre></div>
+  <div class="mc-painel mcw"><div class="tit">🧬 A ÁRVORE VIVA — toque num ser e veja a linhagem acender</div>
+    <div class="arv" id="arvore"></div>
+    <div class="mc-out" id="arvMsg">(toque num nó — experimente o Creeper e a Cow)</div>
+  </div>
   <p>Repare na sabedoria: item caído NÃO herda de LivingEntity (não tem vida!), mas herda de Entity (tem posição e cai com gravidade). Cada extends é uma decisão: <mark>o que este ser TEM em comum com os outros?</mark> — a mesma pergunta que você respondeu no Módulo 7 do Java Completo.</p>
   <button class="btn green done-btn" onclick="complete('k3l1')">✔ Concluir lição (+10 XP)</button>
   <div class="done-flag" id="f-k3l1">🎉 Lição concluída!</div>
@@ -584,6 +657,11 @@ for (Mob m : caverna) {
   <div class="crumb"><span class="chip" style="background:#0E7490">Módulo 4 · Lição 2 de 5</span></div>
   <h2>🧪 LAB: em qual chunk eu estou?</h2>
   <p>O mundo é fatiado em <b>chunks</b> de 16×16 blocos — a unidade de carregamento, salvamento e processamento. A conta oficial é uma divisão com arredondamento para baixo, e o Java tem o método exato (que o jogo usa): <code>Math.floorDiv</code>:</p>
+  <div class="mc-painel mcw"><div class="tit">🗺️ O MAPA DE CHUNKS — toque num bloco</div>
+    <p style="margin-top:0">Cada quadradinho é um bloco visto de cima (x de −8 a 15, z de 0 a 7). As linhas douradas são as fronteiras dos chunks. Toque num bloco — o chunk INTEIRO acende, e o floorDiv aparece trabalhando (repare nos x negativos!):</p>
+    <div class="mc-chunkmapa" id="chunkMapa"></div>
+    <div class="mc-out" id="chunkMsg">(toque num bloco — os da esquerda têm x negativo!)</div>
+  </div>
   <div class="jbox">
     <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka5">int blocoX = 127;
 int blocoZ = -213;
@@ -752,6 +830,18 @@ System.out.println("Inventário final: " + inventario);</textarea>
     <div><div class="jb-lab">🖥️ Console</div><pre class="jb-console" id="ka8-out">(aperte ▶ Rodar)</pre></div>
   </div>
   <div class="box tip"><div class="bt">💡 Confere?</div>60 + 10 de cobblestone virou pilha de 64 + pilha de 6 — exatamente como no jogo. Regras de negócio: if, loop e lista fazendo o que bilhões de jogadores sentem no dedo.</div>
+  <div class="mc-painel mcw"><div class="tit">🎒 A HOTBAR INTERATIVA — empilhe de verdade</div>
+    <p style="margin-top:0">9 vagas, pilhas de até 64. Pegue itens e veja a regra do lab acontecer diante dos olhos (primeiro EMPILHA, depois ocupa vaga nova):</p>
+    <div id="invBar" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    <div style="margin-top:8px">
+      <button class="mc-btn" onclick="mcInv('pedra',60)">＋60 pedra</button>
+      <button class="mc-btn" onclick="mcInv('pedra',10)">＋10 pedra</button>
+      <button class="mc-btn verde" onclick="mcInv('diamante',1)">＋1 diamante</button>
+      <button class="mc-btn" onclick="mcInv('terra',40)">＋40 terra</button>
+      <button class="mc-btn" onclick="mcInvLimpa()">🧹 limpar</button>
+    </div>
+    <div class="mc-out" id="invMsg">(hotbar vazia)</div>
+  </div>
   <button class="btn green done-btn" onclick="complete('k5l2')">✔ Concluir lição (+10 XP)</button>
   <div class="done-flag" id="f-k5l2">🎉 Lição concluída!</div>
   <div class="lnav"><button class="btn outline small" onclick="go('k5l1')">← Anterior</button><button class="btn small" onclick="go('k5l3')">Próxima: LAB do ItemStack →</button></div>
@@ -953,6 +1043,18 @@ notificarTodos(ev);                    <span class="tk-com">// os ouvintes opina
   <div class="crumb"><span class="chip" style="background:#B91C1C">Módulo 7 · Lição 2 de 4</span></div>
   <h2>🧪 LAB: as portas lógicas em Java</h2>
   <p>Cada circuito clássico de redstone é UMA linha de Java. Monte a porta do cofre (duas alavancas E), o alarme (qualquer sensor OU) e o corredor noturno (NÃO é dia):</p>
+  <div class="mc-painel mcw"><div class="tit">🔴 A BANCADA DE REDSTONE — puxe as alavancas e veja os booleanos virarem luz</div>
+    <div style="display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap">
+      <div><div style="font-family:Consolas,monospace;font-weight:800;color:#3F3F3F;margin-bottom:6px">ENTRADAS</div>
+        <div style="display:flex;gap:12px">
+          <div style="text-align:center"><div class="mc-slot" id="alavA" onclick="mcRedTog('A')">🎚️</div><div style="font-family:Consolas,monospace;font-weight:800" id="alavAtxt">A: OFF</div></div>
+          <div style="text-align:center"><div class="mc-slot" id="alavB" onclick="mcRedTog('B')">🎚️</div><div style="font-family:Consolas,monospace;font-weight:800" id="alavBtxt">B: OFF</div></div>
+        </div></div>
+      <div><div style="font-family:Consolas,monospace;font-weight:800;color:#3F3F3F;margin-bottom:6px">LÂMPADAS</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap" id="lamps"></div></div>
+    </div>
+    <div class="mc-out" id="redMsg"></div>
+  </div>
   <div class="jbox">
     <div><div class="jb-lab">✍️ Seu código Java</div><textarea id="ka11">boolean alavancaA = true;
 boolean alavancaB = true;
@@ -1300,6 +1402,143 @@ function mjCheck(id){
   m.innerHTML = '🔀 A linha <b>Nº '+(idx+1)+'</b> não está no lugar certo. Pense na receita: o que precisa existir ANTES de ser usado?';
 }
 function renderMts(){ Object.keys(MONTJ).forEach(mtInit); }
+/* ============ INTERATIVOS MINECRAFT ============ */
+function fdiv(a,b){ return Math.floor(a/b); }
+/* — relógio do mundo — */
+function mcTickSet(v){ const sl=$('tickSlide'); if(sl) sl.value=v; mcTickUI(v); }
+function mcTickUI(v){
+  const ceu=$('ceu'), astro=$('astro'), msg=$('tickMsg'); if(!ceu) return;
+  const noite = v>=13000 && v<23000;
+  let cor, fase, emo;
+  if(v<12000){ cor='#7EC8FF'; fase='Dia claro — hora de minerar'; emo='☀️'; }
+  else if(v<13000){ cor='#F59E5B'; fase='Pôr do sol — corre pra base!'; emo='🌇'; }
+  else if(v<23000){ cor='#0B1440'; fase='NOITE — os monstros chegaram'; emo='🌙'; }
+  else { cor='#F0A9C4'; fase='Amanhecer'; emo='🌅'; }
+  ceu.style.background=cor;
+  const pct = v<12000 ? v/12000 : (noite ? (v-13000)/10000 : (v<13000 ? 1 : (v-23000)/1000));
+  astro.style.left = Math.round(6+pct*82)+'%';
+  astro.style.background = noite ? '#E8E8F0' : '#FFE066';
+  msg.textContent = emo+' tick '+v+' → '+fase+'\n(= '+Math.round(v/20)+'s reais desde o tick 0 — 20 ticks por segundo, 24.000 por dia)';
+}
+/* — árvore viva — */
+const ARV = {
+  Entity:{pai:null, dom:'posição x/y/z + tick() + teleportar'},
+  LivingEntity:{pai:'Entity', dom:'vida (HP) + receber dano + morrer'},
+  ItemEntity:{pai:'Entity', dom:'ser um item caído (gira e some em 5 min)'},
+  Arrow:{pai:'Entity', dom:'voar em linha e cravar onde acerta'},
+  Player:{pai:'LivingEntity', dom:'inventário + experiência + VOCÊ'},
+  Mob:{pai:'LivingEntity', dom:'IA própria (perseguir, fugir, vagar)'},
+  Zombie:{pai:'Mob', dom:'caçar o jogador + queimar de dia'},
+  Creeper:{pai:'Mob', dom:'sssss... 💥'},
+  Animal:{pai:'Mob', dom:'ser domesticável + reproduzir'},
+  Cow:{pai:'Animal', dom:'dar leite e mugir'}
+};
+function mcArvoreInit(){
+  const el=$('arvore'); if(!el) return;
+  const niveis=[['Entity'],['LivingEntity','ItemEntity','Arrow'],['Player','Mob'],['Zombie','Creeper','Animal'],['Cow']];
+  el.innerHTML = niveis.map(n=>'<div class="nivel">'+n.map(k=>'<button class="no" id="no-'+k+'" onclick="mcArvSel(\''+k+'\')">'+k+'</button>').join('')+'</div>').join('<div style="font-size:1.3rem;color:#3F3F3F;font-weight:800">→</div>');
+}
+function mcArvSel(k){
+  document.querySelectorAll('.arv .no').forEach(n=>n.classList.remove('on'));
+  const cadeia=[]; let c=k;
+  while(c){ cadeia.unshift(c); const b=$('no-'+c); if(b) b.classList.add('on'); c=ARV[c].pai; }
+  $('arvMsg').textContent = '🧬 '+cadeia.join(' → ')+'\n\nUm '+k+' TEM (herança acumulada):\n'+cadeia.map(n=>'  • de '+n+': '+ARV[n].dom).join('\n');
+}
+/* — mapa de chunks — */
+function mcChunkInit(){
+  const el=$('chunkMapa'); if(!el) return;
+  let h='';
+  for(let z=0; z<8; z++) for(let x=-8; x<16; x++){
+    const borda = ((x%16)+16)%16===0 ? ' borda':'';
+    h+='<div class="mc-cel'+borda+'" data-x="'+x+'" data-z="'+z+'" onclick="mcChunkSel(this)"></div>';
+  }
+  el.innerHTML=h;
+}
+function mcChunkSel(cel){
+  const x=+cel.dataset.x, z=+cel.dataset.z;
+  const cx=fdiv(x,16), cz=fdiv(z,16);
+  document.querySelectorAll('.mc-cel').forEach(c=>{
+    c.classList.remove('hl','sel');
+    if(fdiv(+c.dataset.x,16)===cx && fdiv(+c.dataset.z,16)===cz) c.classList.add('hl');
+  });
+  cel.classList.add('sel');
+  $('chunkMsg').textContent='⛏️ Bloco ('+x+', '+z+')\nMath.floorDiv('+x+', 16) = '+cx+'   →   chunk ('+cx+', '+cz+')\nO chunk inteiro acendeu: esses 16×16 blocos carregam, salvam e processam JUNTOS.';
+}
+/* — bancada de crafting — */
+const CRAFT_ITENS=['','tabua','graveto','carvao'];
+let craftSt=['','','','','','','','',''];
+function mcCraftInit(){
+  const el=$('craftGrid'); if(!el) return;
+  el.innerHTML = craftSt.map((v,i)=>'<div class="mc-slot" onclick="mcCraft('+i+')"><div class="mc-bloco mini b-ar" id="cfb'+i+'"></div></div>').join('');
+  mcCraftAvalia();
+}
+function mcCraft(i){
+  const idx=(CRAFT_ITENS.indexOf(craftSt[i])+1)%CRAFT_ITENS.length;
+  craftSt[i]=CRAFT_ITENS[idx];
+  $('cfb'+i).className='mc-bloco mini '+(craftSt[i]===''?'b-ar':'b-'+craftSt[i]);
+  mcCraftAvalia();
+}
+function mcCraftAvalia(){
+  const p=craftSt.map(v=>v===''?'.':v[0]).join('');
+  const out=$('craftOut'), msg=$('craftMsg'); if(!out) return;
+  let achou=null;
+  if(p==='ttt.g..g.') achou=['⛏️','PICARETA de madeira'];
+  else if(p==='.t..t..g.') achou=['🗡️','ESPADA de madeira'];
+  else if(p==='.c..g....') achou=['🕯️','TOCHA'];
+  if(achou){
+    out.innerHTML='<span style="font-size:1.7rem">'+achou[0]+'</span>';
+    msg.textContent='✨ Padrão reconhecido: '+achou[1]+'!\nNo jogo real esta comparação é feita contra os JSONs de data/ — a receita é DADO, não código.';
+    DA.confetti();
+  } else {
+    out.innerHTML='';
+    msg.textContent = p==='.........'
+      ? '(a bancada espera seu padrão)\nRECEITAS — PICARETA: 3 tábuas na linha de cima + graveto no centro e no centro-baixo · ESPADA: tábua no topo-centro, tábua no centro, graveto no centro-baixo · TOCHA: carvão no topo-centro sobre graveto no centro'
+      : 'Padrão atual: '+p+'\nAinda não é uma receita conhecida — continue! (t = tábua, g = graveto, c = carvão, . = vazio)';
+  }
+}
+/* — hotbar interativa — */
+let invSt=[];
+function mcInvRender(){
+  const bar=$('invBar'); if(!bar) return;
+  const cor={pedra:'b-pedra', diamante:'b-diamante', terra:'b-terra'};
+  let h='';
+  for(let i=0;i<9;i++){
+    const p=invSt[i];
+    h+='<div class="mc-slot">'+(p?'<div class="mc-bloco mini '+cor[p.item]+'"></div><span class="qt">'+p.qtd+'</span>':'')+'</div>';
+  }
+  bar.innerHTML=h;
+}
+function mcInv(item,qtd){
+  let msg=[];
+  invSt.forEach(p=>{
+    if(qtd>0 && p.item===item && p.qtd<64){
+      const poe=Math.min(64-p.qtd,qtd); p.qtd+=poe; qtd-=poe;
+      msg.push('empilhou '+poe+' → '+item+' x'+p.qtd);
+    }
+  });
+  while(qtd>0){
+    if(invSt.length>=9){ msg.push('🎒 hotbar CHEIA — '+qtd+' '+item+' ca. no chão!'); qtd=0; break; }
+    const poe=Math.min(64,qtd); invSt.push({item,qtd:poe}); qtd-=poe;
+    msg.push('nova pilha: '+item+' x'+poe);
+  }
+  mcInvRender();
+  $('invMsg').textContent='➡️ '+msg.join('\n➡️ ');
+}
+function mcInvLimpa(){ invSt=[]; mcInvRender(); $('invMsg').textContent='(hotbar vazia)'; }
+/* — bancada de redstone — */
+const redSt={A:false,B:false};
+function mcRedTog(k){ redSt[k]=!redSt[k]; mcRedRender(); }
+function mcRedRender(){
+  if(!$('lamps')) return;
+  const A=redSt.A, B=redSt.B;
+  const lamps=[['AND','A && B',A&&B],['OR','A || B',A||B],['XOR','(A||B) && !(A&&B)',(A||B)&&!(A&&B)],['NOT A','!A',!A]];
+  $('alavAtxt').textContent='A: '+(A?'ON':'OFF'); $('alavBtxt').textContent='B: '+(B?'ON':'OFF');
+  $('alavA').style.background = A?'#4C9E3C':'#8B8B8B';
+  $('alavB').style.background = B?'#4C9E3C':'#8B8B8B';
+  $('lamps').innerHTML = lamps.map(l=>'<div style="text-align:center"><div class="mc-bloco '+(l[2]?'b-lampada-on':'b-lampada-off')+'"></div><div style="font-family:Consolas,monospace;font-weight:800;font-size:.8rem">'+l[0]+'</div><div style="font-family:Consolas,monospace;font-size:.75rem;color:'+(l[2]?'#166534':'#B91C1C')+'">'+l[1]+' = '+l[2]+'</div></div>').join('');
+  $('redMsg').textContent='A = '+A+', B = '+B+'  →  cada lâmpada é UMA expressão booleana avaliada ao vivo';
+}
+function mcInits(){ mcTickUI(1000); mcArvoreInit(); mcChunkInit(); mcCraftInit(); mcInvRender(); mcRedRender(); }
 /* ============ ENGINE ============ */
 function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
 function snapshot(){ return {xp, done:[...done], dys, badges, dip, dip_em:dipEm}; }
@@ -1363,7 +1602,7 @@ function authUi(){ if(confirm('Sair da sua conta?')) DA.logout(); }
   let local = null;
   try{ local = JSON.parse(localStorage.getItem('da-espelho:'+CURSO_ID+':'+uid)); }catch(e){}
   apply(mergeStates(local, nuvem));
-  renderQuizzes(); renderMts(); refreshUI(); saveState();
+  renderQuizzes(); renderMts(); mcInits(); refreshUI(); saveState();
 })();
 </script>
 </body>
